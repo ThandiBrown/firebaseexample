@@ -1,0 +1,56 @@
+
+.new-break-ideas,
+.new-todo-ideas,
+.new-items{
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+
+  border: 2px solid #ccc;
+  border-radius: 10px 0px 0px 10px;
+  /* border-style: none; */
+  border-right-style: none;
+  /* border-right-width: 3px; */
+
+  font-size: 16px;
+  height: 75px;
+  width: 250px;
+  padding: 12px 20px;
+  margin: 0;
+
+  overflow: hidden;
+  resize: none;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+
+}
+
+.textarea-div {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 30px;
+
+}
+
+
+.textarea-div input {
+  background-color: #000;
+
+  border: 2px solid #000;
+  border-radius: 0px 10px 10px 0px;
+  /* border-style: none; */
+  border-left-style: none;
+
+
+  height: 75px;
+  width: 50px;
+}
+
+.item {
+  margin-right: 35px;
+}
+
+
+@media only screen and (max-width: 600px) {}
