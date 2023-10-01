@@ -1,0 +1,1 @@
+{"date":"09/15/2023","weekday":"Friday","exercisesCompleted":["banded_joint_isolation","soft_tissue_work","dynamic_arm_movement","extensors","flexors"]}

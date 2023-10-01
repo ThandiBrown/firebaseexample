@@ -1,0 +1,1 @@
+{"date":"09/02/2023","weekday":"Monday","exercisesCompleted":["back_rows","lat_pulldown","chest_press","single_leg_glute_bridges","chest_stretches","arm_stretches","leg_stretches"]}
