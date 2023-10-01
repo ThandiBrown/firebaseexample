@@ -36,6 +36,7 @@ function readDB(subfolder, method, ...args) {
             method([taskInformation, ...args]);
             
         } else {
+            method([{}, ...args]);
             
             // alert('No data found');
             // let good = {
