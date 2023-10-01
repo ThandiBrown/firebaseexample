@@ -8,10 +8,10 @@ pull and display checkbox data based on input date changes
 
 // Show the user input date and retrieve the checkboxes from that given day
 function placeDate(dateString) {
-    console.log(77);
-    console.log(dateString);
-    console.log(getTodaysInfo(dateString));
-    console.log(getTodaysInfo(dateString)[1]);
+    #console.log(77);
+    #console.log(dateString);
+    #console.log(getTodaysInfo(dateString));
+    #console.log(getTodaysInfo(dateString)[1]);
     if(dateString){
         document.querySelector(".weekday").innerHTML = getTodaysInfo(dateString)[1];
     } else {
@@ -78,7 +78,7 @@ function retrieveSelectedCheckboxes(dateAsString) {
 
 // Loading Todays Data
 function retrieveSelectedCheckboxesForToday() {
-    console.log("retrieveSelectedCheckboxesForToday");
+    #console.log("retrieveSelectedCheckboxesForToday");
     retrieveSelectedCheckboxes(getTodaysInfo()[0]);
 }
 

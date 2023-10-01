@@ -6,8 +6,8 @@ let folderName = "exerciseInformation/"
 const db = getDatabase();
 
 function writeDB(subfolder, value) {
-    console.log("write");
-    console.log(folderName + subfolder);
+    #console.log("write");
+    #console.log(folderName + subfolder);
     set(ref(db, folderName + subfolder), value)
     .then(() => {
         // alert("data stored successfully");
@@ -19,11 +19,11 @@ function writeDB(subfolder, value) {
 }
 
 function readDB(subfolder, method, ...args) {
-    console.log("subfolder:" + JSON.stringify(subfolder));
+    #console.log("subfolder:" + JSON.stringify(subfolder));
     
     const dbref = ref(db);
     
-    console.log("read");
+    #console.log("read");
     
     return get(child(dbref, folderName + subfolder))
     .then((snapshot) => {
@@ -32,7 +32,7 @@ function readDB(subfolder, method, ...args) {
             let taskInformation = snapshot.val();
             taskInformation = JSON.parse(taskInformation.info);
             
-            console.log("File data retrieved:\n" + JSON.stringify(taskInformation));
+            #console.log("File data retrieved:\n" + JSON.stringify(taskInformation));
             method([taskInformation, ...args]);
             
         } else {

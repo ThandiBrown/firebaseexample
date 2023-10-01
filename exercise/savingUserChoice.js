@@ -17,7 +17,7 @@ function alternateDateDisplay() {
 
 function changeShowDatesValue(response) {
     let opposite = response[0]["showDates"] ? false : true;
-    console.log("opposite2:" + JSON.stringify(opposite));
+    #console.log("opposite2:" + JSON.stringify(opposite));
     let good = {
         "info":JSON.stringify({"showDates" : opposite, "original" : response[0]["original"]})
     }
@@ -27,7 +27,7 @@ function changeShowDatesValue(response) {
 
 function changeDisplayFormat(response) {
     let opposite = response[0]["original"] ? false : true;
-    console.log("opposite1:" + JSON.stringify(opposite));
+    #console.log("opposite1:" + JSON.stringify(opposite));
     let good = {
         "info":JSON.stringify({"original" : opposite, "showDates" : response[0]["showDates"]})
     }
@@ -60,7 +60,7 @@ function updateLastPerformed(response) {
 
     // create a new entry for new exercise types
     if (!(exerciseClicked in lastPerformed)) {
-        console.log("new exercise entry");
+        #console.log("new exercise entry");
         lastPerformed[exerciseClicked] = [];
     }
 
@@ -72,18 +72,18 @@ function updateLastPerformed(response) {
 
     // update last performed based on type of selection
     if (hasBeenDeselected) {
-        console.log("Removing from last performed");
+        #console.log("Removing from last performed");
         dates.splice(dates.indexOf(theDate), 1);
     }
     else if (hasBeenSelected) {
         if (dates.length < 5) {
-            console.log("Adding to last performed because lots of space");
+            #console.log("Adding to last performed because lots of space");
             dates.push(theDate);
         } else {
             dates = sortDates(dates);
             // replace with minimum date
             if (theDate > dates[0]) {
-                console.log("Adding to last performed");
+                #console.log("Adding to last performed");
                 dates[0] = theDate;
             }
         }
@@ -102,21 +102,21 @@ function updateLastPerformed(response) {
 }
 
 function updateHtmlElements(lastPerformed) {
-    console.log("affecting labels");
+    #console.log("affecting labels");
     let daysSincePerformed = calculateDaysSincePerformed(lastPerformed);
-    console.log("daysSincePerformed:" + JSON.stringify(daysSincePerformed));
+    #console.log("daysSincePerformed:" + JSON.stringify(daysSincePerformed));
     
     for (let daysSinceObj of daysSincePerformed) {
         let exerciseKey = daysSinceObj.exerciseType;
         let daysSince = daysSinceObj.days;
-        console.log("#" + exerciseKey);
+        #console.log("#" + exerciseKey);
         
         let lastPerformedElement = document.querySelector("#" + exerciseKey + " .lastPerformed");
         // acknowledges that some exercises that were previously on the page are no longer there
         if (!lastPerformedElement) {continue};
         
         let exerciseName = lastPerformedElement.innerHTML.split("(")[0].trim();
-        console.log("exerciseName:" + JSON.stringify(exerciseName));
+        #console.log("exerciseName:" + JSON.stringify(exerciseName));
 
         if (daysSince < 0) {
             lastPerformedElement.innerText = exerciseName;
@@ -168,7 +168,7 @@ function returnCheckedExercises() {
 
     for (let i = 0; i < boxes.length; i++) {
         if (boxes[i].checked) {
-            console.log(i);
+            #console.log(i);
             exercisesCompleted.push(boxes[i].name);
         }
     }
@@ -205,7 +205,7 @@ function returnDateToUse() {
     } else {
         theDate = getTodaysInfo()[0];
     }
-    console.log("Date to use:" + theDate);
+    #console.log("Date to use:" + theDate);
     return theDate;
 }
 

@@ -29,14 +29,14 @@ function loadingSettings() {
 
 function loadingPage(response) {
     let settings = response[0];
-    console.log("settings:" + JSON.stringify(settings));
+    #console.log("settings:" + JSON.stringify(settings));
     readDB("_last_performed", displayDaysSinceLastPerformed, true, settings);
     retrieveSelectedCheckboxesForToday();
     addEventListeners();
 }
 
 function displayDaysSinceLastPerformed(response) {
-    console.log("displayDaysSinceLastPerformed");
+    #console.log("displayDaysSinceLastPerformed");
     let lastPerformed = response[0];
     let loading = response[1];
     let settings = response[2];
@@ -45,7 +45,7 @@ function displayDaysSinceLastPerformed(response) {
     daysSincePerformed = sortDaysSincePerformed(daysSincePerformed);
 
     if (loading) {
-        console.log("loading");
+        #console.log("loading");
         addExerciseElementsToHtml(daysSincePerformed, settings);
     }
 }
@@ -62,13 +62,13 @@ function calculateDaysSincePerformed(lastPerformed) {
     let daysSincePerformed = [];
 
 
-    console.log("21lastPerformed");
-    console.log(lastPerformed);
+    #console.log("21lastPerformed");
+    #console.log(lastPerformed);
 
     // for every exercise type
     for (let exerciseType in lastPerformed) {
 
-        console.log("exerciseType:" + JSON.stringify(exerciseType));
+        #console.log("exerciseType:" + JSON.stringify(exerciseType));
 
         // Calculate days since performed
         // no last date saved
@@ -84,8 +84,8 @@ function calculateDaysSincePerformed(lastPerformed) {
             differenceInDays = numDaysFromToday(lastDay);
         }
 
-        console.log("differenceInDays");
-        console.log(differenceInDays);
+        #console.log("differenceInDays");
+        #console.log(differenceInDays);
 
         // Save
         daysSincePerformed.push({
@@ -119,8 +119,8 @@ function sortDaysSincePerformed(daysSincePerformed) {
     for (let i = 0; i < daysSincePerformed.length; i++) {
         daysSincePerformed[i] = { [daysSincePerformed[i]["exerciseType"]]: daysSincePerformed[i]["days"] };
     }
-    console.log("daysSincePerformed");
-    console.log(daysSincePerformed);
+    #console.log("daysSincePerformed");
+    #console.log(daysSincePerformed);
     /* 
     daysSincePerformed = [
         {"back row":1},
@@ -137,7 +137,7 @@ function addExerciseElementsToHtml(daysSincePerformed, settings) {
     let originalFormat = settings["original"];
     let shouldShowDates = settings["showDates"];
     
-    console.log("originalFormat:" + JSON.stringify(originalFormat));
+    #console.log("originalFormat:" + JSON.stringify(originalFormat));
     /* 
     daysSincePerformed = [
         {"glute bridge":32},
@@ -217,7 +217,7 @@ function originalDisplay(daysSincePerformed) {
         combined[exerciseKey] = days;
         
     }
-    console.log("combined:" + JSON.stringify(combined));
+    #console.log("combined:" + JSON.stringify(combined));
 
     // print all remaining elements as normal
     for (let exerciseKey in exerciseDict) {
@@ -289,7 +289,7 @@ function sortDates(dates) {
         return dateToNum(a) - dateToNum(b);
     });
 
-    console.log(dates);
+    #console.log(dates);
 
     return dates;
 }
