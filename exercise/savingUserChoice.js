@@ -1,5 +1,8 @@
 import { readDB, writeDB } from './data/talkToDatabase.js'
-import { calculateDaysSincePerformed  } from './loadingPage.js'
+import { 
+    calculateDaysSincePerformed,
+    sortDates
+  } from './loadingPage.js'
 
 
 /* 

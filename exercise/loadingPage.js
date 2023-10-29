@@ -385,5 +385,6 @@ function returnExercises() {
 
 
 export {
-    calculateDaysSincePerformed
+    calculateDaysSincePerformed,
+    sortDates
 }
