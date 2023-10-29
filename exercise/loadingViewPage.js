@@ -1,4 +1,6 @@
 import { readDB, writeDB } from './data/talkToDatabase.js'
+
+import { removeClickableElements } from './viewOnly.js'
 import { returnExercises } from './exerciseList.js'
 import { retrieveSelectedCheckboxesForToday } from './userInputDate.js'
 import {
@@ -155,6 +157,7 @@ function addExerciseElementsToHtml(daysSincePerformed, settings) {
         }
     }
     addEventListeners2();
+    removeClickableElements();
 }
 
 function formExerciseElements(daysSincePerformed) {
@@ -312,6 +315,8 @@ function returnExercisesAsDict() {
     }
     return exerciseDict;
 }
+
+
 
 export {
     calculateDaysSincePerformed,

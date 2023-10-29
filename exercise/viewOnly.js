@@ -2,11 +2,16 @@
 
 function removeClickableElements() {
     let clickableElements = [
-        ...document.querySelectorAll("checkbox"),
-        ...document.querySelectorAll("checkmark"),
-        ...document.querySelectorAll("inputBackground")
+        ...document.querySelectorAll("input[type=checkbox]"),
+        ...document.querySelectorAll(".checkmark"),
+        ...document.querySelectorAll(".inputBackground")
     ];
-    console.log(clickableElements);
+
+    for (let element of clickableElements) {
+        element.remove();
+    }
 }
 
-removeClickableElements();
+export {
+    removeClickableElements
+}
