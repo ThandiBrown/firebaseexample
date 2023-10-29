@@ -151,6 +151,7 @@ function addExerciseElementsToHtml(daysSincePerformed, settings) {
     let htmlElements = originalFormat ? originalDisplay(daysSincePerformed) : formExerciseElements(daysSincePerformed);
 
     exerciseInputArea.innerHTML += htmlElements;
+
     if (!shouldShowDates) {
         for (let element of document.querySelectorAll(".lastPerformed")) {
             element.style.display = 'none';
@@ -302,6 +303,7 @@ function returnExercisesAsKeys() {
     for (let i = 0; i < exercises.length; i++) {
         exercises[i] = exercises[i].replaceAll(" ", "_").toLowerCase();
     }
+
     return exercises
 }
 
