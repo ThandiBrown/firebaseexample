@@ -1,4 +1,4 @@
-import { getTodaysInfo  } from './savingUserChoice.js'
+import { getTodaysInfo } from './savingUserChoice.js'
 import { readDB, writeDB } from './data/talkToDatabase.js'
 
 /* 
@@ -12,7 +12,7 @@ function placeDate(dateString) {
     // console.log(dateString);
     // console.log(getTodaysInfo(dateString));
     // console.log(getTodaysInfo(dateString)[1]);
-    if(dateString){
+    if (dateString) {
         document.querySelector(".weekday").innerHTML = getTodaysInfo(dateString)[1];
     } else {
         document.querySelector(".weekday").innerHTML = "";
@@ -42,7 +42,7 @@ function placePreviousDate() {
         date.setDate(date.getDate() - 1);
         placeDate(dateAsString(date));
     }
-    
+
 }
 
 function placeNextDate() {
@@ -50,11 +50,11 @@ function placeNextDate() {
     if (inputDate == "") {
         inputDate = getTodaysInfo()[0];
     }
-    
+
     let date = new Date(inputDate);
     date.setDate(date.getDate() + 1);
     placeDate(dateAsString(date));
-    
+
 }
 
 // Change in Input Date
@@ -84,6 +84,7 @@ function retrieveSelectedCheckboxesForToday() {
 
 // purely decorative, checks the checkboxes
 function checkCheckboxes(response) {
+    // console.log("checkCheckboxes");
     /* 
     dayOfTheDay = {
         "date" : "09/04/2023",
@@ -92,7 +93,7 @@ function checkCheckboxes(response) {
     }
     */
     let dayOfTheDay = response[0];
-    let checkboxes = document.querySelectorAll("label input");
+    let checkmarks = document.querySelectorAll("label .checkmark");
 
     // check if file previously existed
     let isEmpty = true;
@@ -101,19 +102,21 @@ function checkCheckboxes(response) {
     // if this is a new day make sure to uncheck any checked boxes
     if (isEmpty) {
         for (let i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = false;
+            checkmarks[i].classList.remove("checked");
         }
     }
     // if you're returning to a previously edited day
     else if ('exercisesCompleted' in dayOfTheDay) {
-        
+        // console.log("returning to a previously edited day");
+
         let exercises = dayOfTheDay['exercisesCompleted'];
 
-        for (let i = 0; i < checkboxes.length; i++) {
-            if (exercises.includes(checkboxes[i].name)) {
-                checkboxes[i].checked = true;
+        for (let i = 0; i < checkmarks.length; i++) {
+
+            if (exercises.includes(checkmarks[i].dataset.exercise)) {
+                checkmarks[i].classList.add("checked");
             } else {
-                checkboxes[i].checked = false;
+                checkmarks[i].classList.remove("checked");
             }
         }
     }

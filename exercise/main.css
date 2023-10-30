@@ -1,7 +1,3 @@
-
-
-
-
 /* The container */
 .container {
 	display: block;
@@ -14,51 +10,60 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-  }
-  
-  /* Hide the browser's default checkbox */
-  .container input {
+}
+
+/* Hide the browser's default checkbox */
+.container input {
 	position: absolute;
-	opacity: 0;
+
+	top: -3px;
+	/* left: -4px; */
+	left: -4px;
 	cursor: pointer;
-	height: 0;
-	width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
+	height: 35px;
+	width: 25px;
+}
+
+/* Create a custom checkbox */
+.checkmark {
 	position: absolute;
 	top: 0;
 	left: 0;
 	height: 25px;
 	width: 25px;
 	background-color: #eee;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .container:hover input ~ .checkmark {
-	background-color: #ccc;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .container input:checked ~ .checkmark {
+}
+
+.checked {
 	background-color: #2196F3;
-  }
+	/* opacity: 0; */
+}
+
+/*   
+  // On mouse-over, add a grey background color
+.container:hover input ~ .checkmark {
+	background-color: #ccc;
+}
   
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark:after {
+  // When the checkbox is checked, add a blue background 
+.checkmark:checked ~ .checkmark {
+	background-color: #2196F3;
+}
+  
+  // Create the checkmark/indicator (hidden when not checked)
+.checkmark:after {
 	content: "";
 	position: absolute;
 	display: none;
-  }
+}
   
-  /* Show the checkmark when checked */
-  .container input:checked ~ .checkmark:after {
+  // Show the checkmark when checked 
+.container input:checked ~ .checkmark:after {
 	display: block;
-  }
+}
   
-  /* Style the checkmark/indicator */
-  .container .checkmark:after {
+  // Style the checkmark/indicator 
+.container .checkmark:after {
 	left: 9px;
 	top: 5px;
 	width: 5px;
@@ -68,18 +73,30 @@
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
-  }
-  
-  
+} */
+
+.weight-class {
+	display: inline;
+	position: absolute;
+	left: 350px;
+	top: 0px;
+	background-color: black;
+	color: whitesmoke;
+	width: 120px;
+	height: 30px;
+}
+
+
 .button {
-	background-color: #2196F3;
+	/* background-color: #2196F3; */
+	background-color: yellow;
 	border: none;
 	color: white;
 	padding: 15px 32px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
-	
+
 	margin: 4px 2px;
 	cursor: pointer;
 	font-size: 1.5rem;
@@ -91,30 +108,31 @@
 }
 
 /* previous date input*/
-input[type=text], select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: auto;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+input[type=text],
+select {
+	width: 100%;
+	padding: 12px 20px;
+	margin: auto;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
 }
 
 
 
 .inputBackground {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 8px;
-  
-  margin-top: 10%;
-  width: 100vw;
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 8px;
+
+	margin-top: 10%;
+	width: 100vw;
 }
 
-.inputBackground button{
-  margin-top: 10px;
-  margin-right: 10px;
+.inputBackground button {
+	margin-top: 10px;
+	margin-right: 10px;
 }
 
 
@@ -124,27 +142,24 @@ input[type=text], select {
 }
 
 
-.exerciseInput {
-    padding-left: 10%;
+.page {
+	padding-left: 10%;
 }
 
 .weekday {
-    margin-left: 5px;
+	margin-left: 5px;
 }
 
 @media only screen and (max-width: 600px) {
-.inputBackground {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 8px;
-  
-  margin-top: 10%;
-  width: 90vw;
-  margin: auto;
-  margin-bottom: 20%;
-}
+	.inputBackground {
+		border-radius: 5px;
+		background-color: #f2f2f2;
+		padding: 8px;
+
+		margin-top: 10%;
+		width: 90vw;
+		margin: auto;
+		margin-bottom: 20%;
+	}
 
 }
-
-
-

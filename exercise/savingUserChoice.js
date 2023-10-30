@@ -1,8 +1,8 @@
 import { readDB, writeDB } from './data/talkToDatabase.js'
-import { 
+import {
     calculateDaysSincePerformed,
     sortDates
-  } from './loadingPage.js'
+} from './loadingPage.js'
 
 
 /* 
@@ -22,33 +22,33 @@ function changeShowDatesValue(response) {
     let opposite = response[0]["showDates"] ? false : true;
     // console.log("opposite2:" + JSON.stringify(opposite));
     let good = {
-        "info":JSON.stringify({"showDates" : opposite, "original" : response[0]["original"]})
+        "info": JSON.stringify({ "showDates": opposite, "original": response[0]["original"] })
     }
     writeDB("settings", good);
-    
+
 }
 
 function changeDisplayFormat(response) {
     let opposite = response[0]["original"] ? false : true;
     // console.log("opposite1:" + JSON.stringify(opposite));
     let good = {
-        "info":JSON.stringify({"original" : opposite, "showDates" : response[0]["showDates"]})
+        "info": JSON.stringify({ "original": opposite, "showDates": response[0]["showDates"] })
     }
     writeDB("settings", good);
-    
+
 }
 
-function saveData(e) {
+function saveData(checkmark) {
 
-    let exerciseClicked = e.target.name;
-    readDB("_last_performed", updateLastPerformed, exerciseClicked);
+    readDB("_last_performed", updateLastPerformed, checkmark);
 
-    saveSelectedCheckboxesToPhp();
+    saveSelectedCheckboxesToDB();
 
 }
 
 
 function updateLastPerformed(response) {
+    console.log("updateLastPerformed:")
     // (1) update the last performed list for a given exercise
     /* 
     lastPerformed = {
@@ -57,8 +57,9 @@ function updateLastPerformed(response) {
     }
     */
     let lastPerformed = response[0];
-    let exerciseClicked = response[1];
+    let checkmark = response[1];
 
+    let exerciseClicked = checkmark.dataset.exercise;
     let theDate = returnDateToUse();
 
     // create a new entry for new exercise types
@@ -68,10 +69,15 @@ function updateLastPerformed(response) {
     }
 
     let dates = lastPerformed[exerciseClicked];
-    let exerciseElement = document.querySelector('input[name="' + exerciseClicked + '"]');
 
-    let hasBeenDeselected = !exerciseElement.checked && dates.includes(theDate);
-    let hasBeenSelected = exerciseElement.checked && !dates.includes(theDate);
+    let isChecked = checkmark.classList.contains("checked");
+    console.log("isChecked:" + JSON.stringify(isChecked));
+
+
+    let hasBeenDeselected = !isChecked && dates.includes(theDate);
+    let hasBeenSelected = isChecked && !dates.includes(theDate);
+    console.log("hasBeenSelected:" + JSON.stringify(hasBeenSelected));
+
 
     // update last performed based on type of selection
     if (hasBeenDeselected) {
@@ -96,10 +102,12 @@ function updateLastPerformed(response) {
 
     // (2) save the new last performed list
     let good = {
-        "info":JSON.stringify(lastPerformed)
+        "info": JSON.stringify(lastPerformed)
     }
+
+    console.log("good:" + JSON.stringify(good));
     writeDB("_last_performed", good);
-    
+
     // (3) displays days since this exercise was completed on HTML
     updateHtmlElements(lastPerformed);
 }
@@ -108,16 +116,16 @@ function updateHtmlElements(lastPerformed) {
     // console.log("affecting labels");
     let daysSincePerformed = calculateDaysSincePerformed(lastPerformed);
     // console.log("daysSincePerformed:" + JSON.stringify(daysSincePerformed));
-    
+
     for (let daysSinceObj of daysSincePerformed) {
         let exerciseKey = daysSinceObj.exerciseType;
         let daysSince = daysSinceObj.days;
         // console.log("#" + exerciseKey);
-        
+
         let lastPerformedElement = document.querySelector("#" + exerciseKey + " .lastPerformed");
         // acknowledges that some exercises that were previously on the page are no longer there
-        if (!lastPerformedElement) {continue};
-        
+        if (!lastPerformedElement) { continue };
+
         let exerciseName = lastPerformedElement.innerHTML.split("(")[0].trim();
         // console.log("exerciseName:" + JSON.stringify(exerciseName));
 
@@ -137,17 +145,19 @@ function updateHtmlElements(lastPerformed) {
 
 
 // whatever day it is, grabbed the selected checkboxes and save it to a file
-function saveSelectedCheckboxesToPhp() {
+function saveSelectedCheckboxesToDB() {
 
     let theDate = returnDateToUse();
-
+    console.log(30);
     let exerciseData = returnExerciseData(theDate);
-
+    console.log(32);
     let fileName = theDate.replaceAll("/", "_");
 
     let good = {
-        "info":exerciseData
+        "info": exerciseData
     }
+    console.log("good");
+    console.log(good);
     writeDB(fileName, good);
 
 }
@@ -161,18 +171,22 @@ function returnExerciseData(date) {
         "weekday": getTodaysInfo(date)[1],
         "exercisesCompleted": returnCheckedExercises(),
     }
-
+    console.log(31);
     return JSON.stringify(exerciseData)
 }
 
 function returnCheckedExercises() {
+    console.log("returnCheckedExercises");
     let exercisesCompleted = [];
-    let boxes = document.querySelectorAll("label input");
+    let checkmarks = document.querySelectorAll("label .checkmark");
 
-    for (let i = 0; i < boxes.length; i++) {
-        if (boxes[i].checked) {
-            // console.log(i);
-            exercisesCompleted.push(boxes[i].name);
+    for (let i = 0; i < checkmarks.length; i++) {
+
+        if (checkmarks[i].classList.contains("checked")) {
+            // console.log(77);
+            // console.log(boxes[i].name);
+            exercisesCompleted.push(checkmarks[i].dataset.exercise);
+            console.log(checkmarks[i].dataset.exercise);
         }
     }
 
@@ -213,7 +227,7 @@ function returnDateToUse() {
 }
 
 function formatDateForObj(dateAsString) {
-    dateAsString = dateAsString.split("/"); 
+    dateAsString = dateAsString.split("/");
     return [dateAsString[1], dateAsString[0], dateAsString[2]].join("/");
 }
 

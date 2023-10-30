@@ -20,32 +20,35 @@ pulls data from files relevant to today and sets up the page display accurately 
 window.onload = function () {
     document.querySelector('.previousDate').value = '';
 }
-
+console.log(99);
 loadingSettings();
 
 function loadingSettings() {
+    // settings and last performed are two different objects will load them separately
     readDB("settings", loadingPage);
 }
 
 function loadingPage(response) {
     let settings = response[0];
-    // console.log("settings:" + JSON.stringify(settings));
+    // settings and last performed are two different objects will load them separately
     readDB("_last_performed", displayDaysSinceLastPerformed, true, settings);
     retrieveSelectedCheckboxesForToday();
     addEventListeners();
 }
 
 function displayDaysSinceLastPerformed(response) {
-    // console.log("displayDaysSinceLastPerformed");
+
     let lastPerformed = response[0];
     let loading = response[1];
     let settings = response[2];
 
+    // an object containing a list of exercises and how long since they've been performed
     let daysSincePerformed = calculateDaysSincePerformed(lastPerformed);
+    // this list order from least number of days to greatest
     daysSincePerformed = sortDaysSincePerformed(daysSincePerformed);
 
+    // may be an unnecessary variable since this is the only time this method is called (when loading)
     if (loading) {
-        // console.log("loading");
         addExerciseElementsToHtml(daysSincePerformed, settings);
     }
 }
@@ -132,8 +135,9 @@ function sortDaysSincePerformed(daysSincePerformed) {
 }
 
 
-// Loading Page Data
+//  last big loading method
 function addExerciseElementsToHtml(daysSincePerformed, settings) {
+    // determines how the exercises should be shown
     let originalFormat = settings["original"];
     let shouldShowDates = settings["showDates"];
 
@@ -144,62 +148,48 @@ function addExerciseElementsToHtml(daysSincePerformed, settings) {
         {"back row":1},
     ]
     */
-    let exerciseInputArea = document.querySelector(".exerciseInput");
+    let exerciseInputArea = document.querySelector(".page");
 
-    let htmlElements = originalFormat ? originalDisplay(daysSincePerformed) : formExerciseElements(daysSincePerformed);
+    let htmlElements = originalFormat ? displayByExerciseOrder(daysSincePerformed) : displayByDayOrder(daysSincePerformed);
 
     exerciseInputArea.innerHTML += htmlElements;
+
     if (!shouldShowDates) {
         for (let element of document.querySelectorAll(".lastPerformed")) {
             element.style.display = 'none';
         }
     }
+
     addEventListeners2();
 }
 
-function formExerciseElements(daysSincePerformed) {
+function displayByDayOrder(daysSincePerformed) {
     let exerciseDict = returnExercisesAsDict();
     let elements = "";
 
-    // create particular elements for all the days in which you have data on when it was last performed
-    for (let i = 0; i < daysSincePerformed.length; i++) {
-        let lastPerformed = daysSincePerformed[i];
+    // prints in order of daysSincePerformed
+    for (let lastPerformed of daysSincePerformed) {
 
         let exerciseKey = Object.keys(lastPerformed)[0];
         let days = lastPerformed[exerciseKey];
-        let exerciseName = exerciseDict[exerciseKey];
 
         // it takes in consideration that something that was in the list has changed or is no longer there
         if (!(exerciseKey in exerciseDict)) { continue };
 
-        let dayDisplay;
-        if (days < 0) {
-            dayDisplay = "";
-        }
-        else if (days == 1) {
-            dayDisplay = "(" + days + "d)";
-        }
-        else if (days != 1) {
-            dayDisplay = "(" + days + "d)";
-        }
-
-        elements += "<label id=\"" + exerciseKey + "\" class=\"container\"><span class=\"lastPerformed\">" + dayDisplay + "</span>" + exerciseName + "<input type=\"checkbox\" name=\"" + exerciseKey;
-        elements += "\" ><span class=\"checkmark\"></span></label>";
+        elements += getLineWithDates(days, exerciseDict, exerciseKey);
 
         delete exerciseDict[exerciseKey];
     }
 
     // print all remaining elements as normal
     for (let exerciseKey in exerciseDict) {
-        let exerciseName = exerciseDict[exerciseKey];
-        elements += "<label id=\"" + exerciseKey + "\" class=\"container\">" + exerciseName + "<input type=\"checkbox\" name=\"" + exerciseKey + "\"><span class=\"checkmark\"></span><span class=\"lastPerformed\"></span></label>";
-
+        elements += getLine(exerciseDict, exerciseKey);
     }
     return elements
 
 }
 
-function originalDisplay(daysSincePerformed) {
+function displayByExerciseOrder(daysSincePerformed) {
     /* 
     daysSincePerformed = [
         {"glute bridge":32},
@@ -208,46 +198,62 @@ function originalDisplay(daysSincePerformed) {
     */
     let exerciseDict = returnExercisesAsDict();
     let elements = "";
-    let combined = {};
+    // turn list of objects into one large object
+    let flattened = {};
+    /*
+        {
+            "glute bridge":32,
+            "back row":1
+        }
+    */
 
     for (let lastPerformed of daysSincePerformed) {
         let exerciseKey = Object.keys(lastPerformed)[0];
         let days = lastPerformed[exerciseKey];
 
-        combined[exerciseKey] = days;
-
+        flattened[exerciseKey] = days;
     }
-    // console.log("combined:" + JSON.stringify(combined));
 
-    // print all remaining elements as normal
+    // prints in order of exerciseDict
     for (let exerciseKey in exerciseDict) {
-        let exerciseName = exerciseDict[exerciseKey];
 
-        if (exerciseKey in combined) {
-            let dayDisplay;
-            let days = combined[exerciseKey];
-
-            if (days < 0) {
-                dayDisplay = "";
-            }
-            else if (days == 1) {
-                dayDisplay = "(" + days + "d)";
-            }
-            else if (days != 1) {
-                dayDisplay = "(" + days + "d)";
-            }
-            elements += "<label id=\"" + exerciseKey + "\" class=\"container\"><span class=\"lastPerformed\">" + dayDisplay + "</span>" + exerciseName + "<input type=\"checkbox\" name=\"" + exerciseKey;
-            elements += "\" ><span class=\"checkmark\"></span></label>";
+        if (exerciseKey in flattened) {
+            let days = flattened[exerciseKey];
+            elements += getLineWithDates(days, exerciseDict, exerciseKey);
         }
         else {
-            elements += "<label id=\"" + exerciseKey + "\" class=\"container\">" + exerciseName + "<input type=\"checkbox\" name=\"" + exerciseKey + "\" ><span class=\"checkmark\"></span><span class=\"lastPerformed\"></span></label>";
+            elements += getLine(exerciseDict, exerciseKey);
         }
-
-
     }
     return elements
 }
 
+function getLine(exerciseDict, exerciseKey, dayDisplay = "") {
+    let exerciseName = exerciseDict[exerciseKey];
+    let element =
+        "<label id=\"" + exerciseKey + "\" class=\"container\">" +
+        "<span class=\"lastPerformed\">" + dayDisplay + "</span>" +
+        exerciseName +
+        // "<input type=\"checkbox\" name=\"" + exerciseKey + "\">" +
+        "<span class=\"checkmark\" data-exercise=\"" + exerciseKey + "\"></span>" +
+        "</label>";
+    return element;
+}
+
+function getLineWithDates(days, exerciseDict, exerciseKey) {
+    let dayDisplay;
+    if (days < 0) {
+        dayDisplay = "";
+    }
+    else if (days == 1) {
+        dayDisplay = "(" + days + "d)";
+    }
+    else if (days != 1) {
+        dayDisplay = "(" + days + "d)";
+    }
+
+    return getLine(exerciseDict, exerciseKey, dayDisplay);
+}
 
 function addEventListeners() {
     document.getElementById('1').addEventListener('onblur', () => restoreCheckboxesFromGivenDate());
@@ -261,8 +267,11 @@ function addEventListeners() {
 }
 
 function addEventListeners2() {
-    for (let element of document.querySelectorAll('input[type=checkbox]')) {
-        element.addEventListener('click', (e) => saveData(e));
+    for (let element of document.querySelectorAll('.checkmark')) {
+        element.addEventListener('click', function (e) {
+            e.target.classList.toggle("checked");
+            saveData(e.target);
+        });
     }
 
 }
