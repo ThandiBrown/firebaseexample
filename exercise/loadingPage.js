@@ -234,7 +234,6 @@ function getLine(exerciseDict, exerciseKey, dayDisplay = "") {
         "<label id=\"" + exerciseKey + "\" class=\"container\">" +
         "<span class=\"lastPerformed\">" + dayDisplay + "</span>" +
         exerciseName +
-        // "<input type=\"checkbox\" name=\"" + exerciseKey + "\">" +
         "<span class=\"checkmark\" data-exercise=\"" + exerciseKey + "\"></span>" +
         "</label>";
     return element;
