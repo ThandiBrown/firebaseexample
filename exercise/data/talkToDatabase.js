@@ -2,13 +2,14 @@
 import { getDatabase, set, ref, get, child, update, remove} 
 from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"
 
-let folderName = "exerciseInformation/"
+let folderName = "exerciseInformation"
 const db = getDatabase();
 
 function writeDB(subfolder, value) {
     // console.log("write");
     // console.log(folderName + subfolder);
-    set(ref(db, folderName + subfolder), value)
+    let divider = "/";
+    set(ref(db, folderName + divider + subfolder), value)
     .then(() => {
         // alert("data stored successfully");
     })
@@ -20,21 +21,28 @@ function writeDB(subfolder, value) {
 
 function readDB(subfolder, method, ...args) {
     // console.log("subfolder:" + JSON.stringify(subfolder));
+    let divider = "/";
+    if (subfolder == "") {
+        divider = "";
+    }
     
     const dbref = ref(db);
     
     // console.log("read");
     
-    return get(child(dbref, folderName + subfolder))
+    return get(child(dbref, folderName + divider + subfolder))
     .then((snapshot) => {
         if (snapshot.exists()) {
             
-            let taskInformation = snapshot.val();
-            taskInformation = JSON.parse(taskInformation.info);
-            
-            // console.log("File data retrieved:\n" + JSON.stringify(taskInformation));
-            method([taskInformation, ...args]);
-            
+            if (subfolder == "") {
+                let exerciseInformationObj = snapshot.val();
+                method([exerciseInformationObj, ...args]);
+            } else {
+                let taskInformation = snapshot.val();
+                taskInformation = JSON.parse(taskInformation.info);
+                method([taskInformation, ...args]);
+            }
+
         } else {
             method([{}, ...args]);
             

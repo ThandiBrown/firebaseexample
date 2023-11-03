@@ -105,11 +105,28 @@ function updateLastPerformed(response) {
         "info": JSON.stringify(lastPerformed)
     }
 
-    console.log("good:" + JSON.stringify(good));
     writeDB("_last_performed", good);
-
+    saveWeightClasses();
     // (3) displays days since this exercise was completed on HTML
     updateHtmlElements(lastPerformed);
+}
+
+function saveWeightClasses() {
+    let weightClassDict = {};
+    for (let element of document.querySelectorAll(".weight-class")) {
+        
+        let weightClass = element.innerText.trim();
+        if (weightClass != '') {
+            let label = element.parentNode;
+            let exerciseTag = label.getAttribute('id');
+            weightClassDict[exerciseTag] = weightClass;
+        }
+    }
+    // console.log(weightClassDict);
+    writeDB("weight_classes", {
+        "info": JSON.stringify(weightClassDict)
+    });
+    return weightClassDict
 }
 
 function updateHtmlElements(lastPerformed) {
@@ -156,8 +173,6 @@ function saveSelectedCheckboxesToDB() {
     let good = {
         "info": exerciseData
     }
-    console.log("good");
-    console.log(good);
     writeDB(fileName, good);
 
 }

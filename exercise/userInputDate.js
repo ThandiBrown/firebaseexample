@@ -101,7 +101,7 @@ function checkCheckboxes(response) {
 
     // if this is a new day make sure to uncheck any checked boxes
     if (isEmpty) {
-        for (let i = 0; i < checkboxes.length; i++) {
+        for (let i = 0; i < checkmarks.length; i++) {
             checkmarks[i].classList.remove("checked");
         }
     }

@@ -20,27 +20,41 @@ pulls data from files relevant to today and sets up the page display accurately 
 window.onload = function () {
     document.querySelector('.previousDate').value = '';
 }
-console.log(99);
+
 loadingSettings();
 
 function loadingSettings() {
-    // settings and last performed are two different objects will load them separately
-    readDB("settings", loadingPage);
+    readDB("", loadingPage);
 }
 
 function loadingPage(response) {
-    let settings = response[0];
-    // settings and last performed are two different objects will load them separately
-    readDB("_last_performed", displayDaysSinceLastPerformed, true, settings);
+    let exerciseInformationObj = response[0];
+    let settings = JSON.parse(exerciseInformationObj.settings.info);
+    let lastPerformed = JSON.parse(exerciseInformationObj._last_performed.info);
+    let weightClassDict = JSON.parse(exerciseInformationObj.weight_classes.info);
+    displayDaysSinceLastPerformed(settings, lastPerformed, true);
     retrieveSelectedCheckboxesForToday();
     addEventListeners();
+    addWeightClasses(weightClassDict);
 }
 
-function displayDaysSinceLastPerformed(response) {
+function addWeightClasses(weightClassDict) {
+    
+    for (let element of document.querySelectorAll(".weight-class")) {
+        
+        let label = element.parentNode;
+        let exerciseTag = label.getAttribute('id');
+        if (exerciseTag in weightClassDict) {
+            element.innerText = weightClassDict[exerciseTag];
+        }
+    }
+}
 
-    let lastPerformed = response[0];
-    let loading = response[1];
-    let settings = response[2];
+function displayDaysSinceLastPerformed(settings, lastPerformed, loading) {
+
+    // let lastPerformed = response[0];
+    // let loading = response[1];
+    // let settings = response[2];
 
     // an object containing a list of exercises and how long since they've been performed
     let daysSincePerformed = calculateDaysSincePerformed(lastPerformed);
@@ -235,6 +249,7 @@ function getLine(exerciseDict, exerciseKey, dayDisplay = "") {
         "<span class=\"lastPerformed\">" + dayDisplay + "</span>" +
         exerciseName +
         "<span class=\"checkmark\" data-exercise=\"" + exerciseKey + "\"></span>" +
+        "<div class=\"weight-class\" contenteditable=\"true\">" + "</div>" + 
         "</label>";
     return element;
 }
