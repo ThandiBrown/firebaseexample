@@ -128,5 +128,7 @@ select {
 		margin: auto;
 		margin-bottom: 20%;
 	}
-	
+	.weight-class {
+		left: 320px;
+	}
 }
