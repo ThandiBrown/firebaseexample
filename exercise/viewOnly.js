@@ -12,15 +12,15 @@ function removeClickableElements() {
         element.remove();
     }
 
-    let i = 0;
-    document.querySelectorAll('.container').forEach(
-        function (label) {
-            if (i < 34) {
-                label.remove();
-                i++;
-            }
-        }
-    );
+    // let i = 0;
+    // document.querySelectorAll('.container').forEach(
+    //     function (label) {
+    //         if (i < 34) {
+    //             label.remove();
+    //             i++;
+    //         }
+    //     }
+    // );
 }
 
 export {

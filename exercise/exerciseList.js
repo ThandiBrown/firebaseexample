@@ -1,42 +1,41 @@
 
 function returnExercises() {
     return [
-        "Banded Joint Isolation",
-        "Soft Tissue Work",
-        "Dynamic Arm Movement",
-
-        "ITWYs",
-        "External Rotation",
-        "Scapular Raise",
-
-        "Extensors",
-        "Flexors",
-        "Finger Bands",
+        // "Banded Joint Isolation",
+        // "Soft Tissue Work",
+        // "Dynamic Arm Movement",
 
         "Four Way Neck Lifts",
-
-        "Shoulder Shrugs",
-        "Shoulder Pinches",
-        "Back Rows",
-        "Lat Pulldown",
 
         "Front Raise",
         "Lateral Raise",
         "Posterior Raise",
 
+        "External Rotation",
+        "Scapular Raise",
+        
         "Chest Press",
-
+        
+        "Shoulder Shrugs",
+        "Shoulder Pinches",
+        // "Back Rows",
+        "ITWYs",
+        "Lat Pulldown",
+        
         "Biceps",
         "Triceps",
 
+        "Extensors",
+        "Flexors",
+        "Finger Bands",
 
-        "Straight Leg Raise",
-        "Side Leg Raise",
-        "Standing Kickbacks",
+        // "Straight Leg Raise",
+        // "Side Leg Raise",
+        // "Standing Kickbacks",
         "Diagonal Leg Raise",
         "Quad Leg Raise",
         "Clamshells",
-        "Glute Bridges",
+        // "Glute Bridges",
         "Single Leg Glute Bridges",
         "Calf Raises",
 

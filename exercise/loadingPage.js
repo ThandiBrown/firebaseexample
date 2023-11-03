@@ -13,7 +13,9 @@ import {
     placePreviousDate,
     placeNextDate,
 } from './userInputDate.js'
-
+import{
+    removeClickableElements
+} from './viewOnly.js'
 /* 
 pulls data from files relevant to today and sets up the page display accurately on the data stored
 */
@@ -36,6 +38,11 @@ function loadingPage(response) {
     retrieveSelectedCheckboxesForToday();
     addEventListeners();
     addWeightClasses(weightClassDict);
+    let viewOnly = JSON.parse(document.querySelector('#url-input').textContent);
+    if (viewOnly) {
+        removeClickableElements();
+    }
+
 }
 
 function addWeightClasses(weightClassDict) {

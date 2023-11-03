@@ -15,157 +15,32 @@
 
     <script type="module" src="userInputDate.js" defer></script>
     <script type="module" src="savingUserChoice.js" defer></script>
-    <!-- <script type="module" src="loadingViewPage.js" defer></script> -->
-    <script type="module" src="viewOnly.js" defer></script>
-
+    <script type="module" src="loadingPage.js" defer></script>
+    <script id="url-input" type="text/json">true</script>
 </head>
 
 <body>
-    <!-- <div class="page">
-        <h2>TB Daily Exercises</h2>
-    </div> -->
+
+    <!--<input type="button" name="Submit" value="Submit" id="hamburger" onclick="loadData()">-->
+
+    <!--<button 
+    class="button"
+    onclick="main()"
+    >Save</button>-->
+
     <div class="page">
         <h2> Daily Exercises</h2>
-
-        <label id="lat_pulldown" class="container">
-            <span class="lastPerformed">(57d)</span>
-            Lat Pulldown
-            <input type="checkbox" name="lat_pulldown">
-            <span class="checkmark"></span>
-            <div class="weight-class" contenteditable="true"></div>
-        </label>
-        <label id="back_rows" class="container">
-            <span class="lastPerformed">(49d)</span>Back Rows<input type="checkbox" name="back_rows">
-            <span class="checkmark"></span>
-        </label>
-        <label id="single_leg_glute_bridges" class="container">
-            <span class="lastPerformed">(45d)</span>Single Leg Glute Bridges<input type="checkbox"
-                name="single_leg_glute_bridges">
-            <span class="checkmark"></span>
-        </label>
-        <label id="straight_leg_raise" class="container">
-            <span class="lastPerformed">(45d)</span>Straight Leg Raise<input type="checkbox" name="straight_leg_raise">
-            <span class="checkmark"></span>
-        </label>
-        <label id="glute_bridges" class="container">
-            <span class="lastPerformed">(45d)</span>Glute Bridges<input type="checkbox" name="glute_bridges">
-            <span class="checkmark"></span>
-        </label>
-        <label id="soft_tissue_work" class="container">
-            <span class="lastPerformed">(44d)</span>Soft Tissue Work<input type="checkbox" name="soft_tissue_work">
-            <span class="checkmark"></span>
-        </label>
-        <label id="banded_joint_isolation" class="container">
-            <span class="lastPerformed">(33d)</span>Banded Joint Isolation<input type="checkbox"
-                name="banded_joint_isolation">
-            <span class="checkmark"></span>
-        </label>
-        <label id="shoulder_pinches" class="container">
-            <span class="lastPerformed">(32d)</span>Shoulder Pinches<input type="checkbox" name="shoulder_pinches">
-            <span class="checkmark"></span>
-        </label>
-        <label id="extensors" class="container">
-            <span class="lastPerformed">(32d)</span>Extensors<input type="checkbox" name="extensors">
-            <span class="checkmark"></span>
-        </label>
-        <label id="flexors" class="container"><span class="lastPerformed">(32d)</span>Flexors<input type="checkbox"
-                name="flexors"><span class="checkmark"></span>
-        </label>
-        <label id="finger_bands" class="container"><span class="lastPerformed">(32d)</span>Finger Bands<input
-                type="checkbox" name="finger_bands"><span class="checkmark"></span>
-        </label>
-        <label id="diagonal_leg_raise" class="container"><span class="lastPerformed">(25d)</span>Diagonal Leg
-            Raise<input type="checkbox" name="diagonal_leg_raise">
-            <span class="checkmark"></span>
-        </label>
-        <label id="external_rotation" class="container">
-            <span class="lastPerformed">(3d)</span>External Rotation<input type="checkbox" name="external_rotation">
-            <span class="checkmark"></span>
-        </label>
-        <label id="quad_leg_raise" class="container">
-            <span class="lastPerformed">(3d)</span>Quad Leg Raise<input type="checkbox" name="quad_leg_raise">
-            <span class="checkmark"></span>
-        </label>
-        <label id="chest_press" class="container">
-            <span class="lastPerformed">(0d)</span>Chest Press<input type="checkbox" name="chest_press">
-            <span class="checkmark"></span>
-        </label>
-        <label id="biceps" class="container"><span class="lastPerformed">(0d)</span>Biceps<input type="checkbox"
-                name="biceps"><span class="checkmark"></span>
-        </label>
-        <label id="chest_stretches" class="container"><span class="lastPerformed">(0d)</span>Chest Stretches<input
-                type="checkbox" name="chest_stretches"><span class="checkmark"></span>
-        </label>
-        <label id="arm_stretches" class="container"><span class="lastPerformed">(0d)</span>Arm Stretches<input
-                type="checkbox" name="arm_stretches"><span class="checkmark"></span>
-        </label>
-        <label id="leg_stretches" class="container"><span class="lastPerformed">(0d)</span>Leg Stretches<input
-                type="checkbox" name="leg_stretches"><span class="checkmark"></span>
-        </label>
-        <label id="shoulder_stretches" class="container"><span class="lastPerformed">(0d)</span>Shoulder Stretches<input
-                type="checkbox" name="shoulder_stretches">
-            <span class="checkmark"></span>
-        </label>
-        <label id="neck_stretches" class="container">
-            <span class="lastPerformed">(0d)</span>Neck Stretches<input type="checkbox" name="neck_stretches">
-            <span class="checkmark"></span>
-        </label>
-        <label id="shoulder_shrugs" class="container">
-            <span class="lastPerformed">(0d)</span>Shoulder Shrugs<input type="checkbox" name="shoulder_shrugs">
-            <span class="checkmark"></span>
-        </label>
-        <label id="triceps" class="container">
-            <span class="lastPerformed">(0d)</span>Triceps<input type="checkbox" name="triceps"><span
-                class="checkmark"></span>
-        </label>
-        <label id="front_raise" class="container"><span class="lastPerformed">(0d)</span>Front Raise<input
-                type="checkbox" name="front_raise"><span class="checkmark"></span>
-        </label>
-        <label id="lateral_raise" class="container"><span class="lastPerformed">(0d)</span>Lateral Raise<input
-                type="checkbox" name="lateral_raise"><span class="checkmark"></span>
-        </label>
-        <label id="clamshells" class="container"><span class="lastPerformed">(0d)</span>Clamshells<input type="checkbox"
-                name="clamshells"><span class="checkmark"></span>
-        </label>
-        <label id="dynamic_arm_movement" class="container"><span class="lastPerformed">(0d)</span>Dynamic Arm
-            Movement<input type="checkbox" name="dynamic_arm_movement">
-            <span class="checkmark"></span>
-        </label>
-        <label id="itwys" class="container">
-            <span class="lastPerformed">(0d)</span>ITWYs<input type="checkbox" name="itwys"><span
-                class="checkmark"></span>
-        </label>
-        <label id="four_way_neck_lifts" class="container"><span class="lastPerformed"></span>Four Way Neck Lifts<input
-                type="checkbox" name="four_way_neck_lifts"><span class="checkmark"></span>
-        </label>
-        <label id="scapular_raise" class="container"><span class="lastPerformed"></span>Scapular Raise<input
-                type="checkbox" name="scapular_raise"><span class="checkmark"></span>
-        </label>
-        <label id="side_leg_raise" class="container"><span class="lastPerformed"></span>Side Leg Raise<input
-                type="checkbox" name="side_leg_raise"><span class="checkmark"></span>
-        </label>
-        <label id="posterior_raise" class="container"><span class="lastPerformed"></span>Posterior Raise<input
-                type="checkbox" name="posterior_raise"><span class="checkmark"></span>
-        </label>
-        <label id="standing_kickbacks" class="container"><span class="lastPerformed"></span>Standing Kickbacks<input
-                type="checkbox" name="standing_kickbacks"><span class="checkmark"></span>
-        </label>
-        <label id="calf_raises" class="container"><span class="lastPerformed"></span>Calf Raises<input type="checkbox"
-                name="calf_raises"><span class="checkmark"></span>
-        </label>
     </div>
 
     <div class="inputBackground">
-        <strong>
-            <span class="weekday"></span></strong>
+        <strong><span class="weekday"></span></strong>
         <input id="1" type="text" class="previousDate">
         <button id="2">Yesterday</button>
         <button id="3">Clear</button>
-        <button id="4">
-            << /button>
-                <button id="5">></button>
-                <button id="6">Original</button>
-                <button id="7">Dates</button>
+        <button id="4"><</button>
+        <button id="5">></button>
+        <button id="6">Original</button>
+        <button id="7">Dates</button>
     </div>
 </body>
 
