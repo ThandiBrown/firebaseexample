@@ -108,7 +108,9 @@ select {
 
 
 .page {
-	padding-left: 10%;
+	width: 400px;
+	margin: auto;
+	border: 2px solid black;
 }
 
 .weekday {
@@ -126,5 +128,5 @@ select {
 		margin: auto;
 		margin-bottom: 20%;
 	}
-
+	
 }
