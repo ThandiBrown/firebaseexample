@@ -13,7 +13,7 @@ import {
     placePreviousDate,
     placeNextDate,
 } from './userInputDate.js'
-import{
+import {
     removeClickableElements
 } from './viewOnly.js'
 /* 
@@ -46,9 +46,9 @@ function loadingPage(response) {
 }
 
 function addWeightClasses(weightClassDict) {
-    
+
     for (let element of document.querySelectorAll(".weight-class")) {
-        
+
         let label = element.parentNode;
         let exerciseTag = label.getAttribute('id');
         if (exerciseTag in weightClassDict) {
@@ -58,6 +58,8 @@ function addWeightClasses(weightClassDict) {
 }
 
 function displayDaysSinceLastPerformed(settings, lastPerformed, loading) {
+    // console.log("lastPerformed")
+    // console.log(lastPerformed)
 
     // let lastPerformed = response[0];
     // let loading = response[1];
@@ -65,6 +67,8 @@ function displayDaysSinceLastPerformed(settings, lastPerformed, loading) {
 
     // an object containing a list of exercises and how long since they've been performed
     let daysSincePerformed = calculateDaysSincePerformed(lastPerformed);
+    // console.log("daysSincePerformed")
+    // console.log(daysSincePerformed)
     // this list order from least number of days to greatest
     daysSincePerformed = sortDaysSincePerformed(daysSincePerformed);
 
@@ -103,9 +107,13 @@ function calculateDaysSincePerformed(lastPerformed) {
 
             let dates = lastPerformed[exerciseType];
             dates = sortDates(dates);
+            // console.log("dates")
+            // console.log(dates)
 
             let lastDay = dates[dates.length - 1];
             differenceInDays = numDaysFromToday(lastDay);
+            // console.log("differenceInDays")
+            // console.log(differenceInDays)
         }
 
         // console.log("differenceInDays");
@@ -211,6 +219,9 @@ function displayByDayOrder(daysSincePerformed) {
 }
 
 function displayByExerciseOrder(daysSincePerformed) {
+    // console.log("daysSincePerformed")
+    // console.log(daysSincePerformed)
+
     /* 
     daysSincePerformed = [
         {"glute bridge":32},
@@ -256,7 +267,7 @@ function getLine(exerciseDict, exerciseKey, dayDisplay = "") {
         "<span class=\"lastPerformed\">" + dayDisplay + "</span>" +
         exerciseName +
         "<span class=\"checkmark\" data-exercise=\"" + exerciseKey + "\"></span>" +
-        "<div class=\"weight-class\" contenteditable=\"true\">" + "</div>" + 
+        "<div class=\"weight-class\" contenteditable=\"true\">" + "</div>" +
         "</label>";
     return element;
 }
@@ -301,10 +312,16 @@ function addEventListeners2() {
 /* Utility */
 function numDaysFromToday(lastDay) {
     lastDay = new Date(lastDay);
+
+    // console.log("lastDay:" + JSON.stringify(lastDay));
     let today = new Date(getTodaysInfo()[0]);
+    // console.log("today:" + JSON.stringify(today));
 
     let differenceInTime = today.getTime() - lastDay.getTime();
-    return differenceInTime / (1000 * 3600 * 24);
+    // console.log("differenceInTime")
+    // console.log(differenceInTime)
+    // return differenceInTime / (1000 * 3600 * 24);
+    return Math.floor(differenceInTime / (1000 * 3600 * 24));
 
 }
 

@@ -48,7 +48,7 @@ function saveData(checkmark) {
 
 
 function updateLastPerformed(response) {
-    console.log("updateLastPerformed:")
+    // console.log("updateLastPerformed:")
     // (1) update the last performed list for a given exercise
     /* 
     lastPerformed = {
@@ -71,12 +71,12 @@ function updateLastPerformed(response) {
     let dates = lastPerformed[exerciseClicked];
 
     let isChecked = checkmark.classList.contains("checked");
-    console.log("isChecked:" + JSON.stringify(isChecked));
+    // console.log("isChecked:" + JSON.stringify(isChecked));
 
 
     let hasBeenDeselected = !isChecked && dates.includes(theDate);
     let hasBeenSelected = isChecked && !dates.includes(theDate);
-    console.log("hasBeenSelected:" + JSON.stringify(hasBeenSelected));
+    // console.log("hasBeenSelected:" + JSON.stringify(hasBeenSelected));
 
 
     // update last performed based on type of selection
@@ -114,7 +114,7 @@ function updateLastPerformed(response) {
 function saveWeightClasses() {
     let weightClassDict = {};
     for (let element of document.querySelectorAll(".weight-class")) {
-        
+
         let weightClass = element.innerText.trim();
         if (weightClass != '') {
             let label = element.parentNode;
@@ -165,9 +165,9 @@ function updateHtmlElements(lastPerformed) {
 function saveSelectedCheckboxesToDB() {
 
     let theDate = returnDateToUse();
-    console.log(30);
+    // console.log(30);
     let exerciseData = returnExerciseData(theDate);
-    console.log(32);
+    // console.log(32);
     let fileName = theDate.replaceAll("/", "_");
 
     let good = {
@@ -186,12 +186,12 @@ function returnExerciseData(date) {
         "weekday": getTodaysInfo(date)[1],
         "exercisesCompleted": returnCheckedExercises(),
     }
-    console.log(31);
+    // console.log(31);
     return JSON.stringify(exerciseData)
 }
 
 function returnCheckedExercises() {
-    console.log("returnCheckedExercises");
+    // console.log("returnCheckedExercises");
     let exercisesCompleted = [];
     let checkmarks = document.querySelectorAll("label .checkmark");
 
@@ -201,7 +201,7 @@ function returnCheckedExercises() {
             // console.log(77);
             // console.log(boxes[i].name);
             exercisesCompleted.push(checkmarks[i].dataset.exercise);
-            console.log(checkmarks[i].dataset.exercise);
+            // console.log(checkmarks[i].dataset.exercise);
         }
     }
 
