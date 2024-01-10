@@ -35,7 +35,7 @@ function returnExercises() {
         "Diagonal Leg Raise",
         "Quad Leg Raise",
         "Clamshells",
-        // "Glute Bridges",
+        "Glute Bridges",
         "Single Leg Glute Bridges",
         "Calf Raises",
 
