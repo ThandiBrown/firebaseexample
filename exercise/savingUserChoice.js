@@ -60,6 +60,7 @@ function updateLastPerformed(response) {
     let checkmark = response[1];
 
     let exerciseClicked = checkmark.dataset.exercise;
+    console.log("exerciseClicked:" + JSON.stringify(exerciseClicked));
     let theDate = returnDateToUse();
 
     // create a new entry for new exercise types
@@ -69,14 +70,15 @@ function updateLastPerformed(response) {
     }
 
     let dates = lastPerformed[exerciseClicked];
+    console.log("dates:" + JSON.stringify(dates));
 
     let isChecked = checkmark.classList.contains("checked");
-    // console.log("isChecked:" + JSON.stringify(isChecked));
+    console.log("isChecked:" + JSON.stringify(isChecked));
 
 
     let hasBeenDeselected = !isChecked && dates.includes(theDate);
     let hasBeenSelected = isChecked && !dates.includes(theDate);
-    // console.log("hasBeenSelected:" + JSON.stringify(hasBeenSelected));
+    console.log("hasBeenSelected:" + JSON.stringify(hasBeenSelected));
 
 
     // update last performed based on type of selection

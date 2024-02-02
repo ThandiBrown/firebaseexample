@@ -302,6 +302,7 @@ function addEventListeners2() {
     for (let element of document.querySelectorAll('.checkmark')) {
         element.addEventListener('click', function (e) {
             e.target.classList.toggle("checked");
+            console.log(e.target.innerText + ' clicked');
             saveData(e.target);
         });
     }
