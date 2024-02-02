@@ -101,6 +101,7 @@ function updateLastPerformed(response) {
     }
 
     lastPerformed[exerciseClicked] = dates;
+    console.log("lastPerformed2:" + JSON.stringify(lastPerformed));
 
     // (2) save the new last performed list
     let good = {
