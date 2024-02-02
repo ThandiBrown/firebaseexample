@@ -93,9 +93,16 @@ function updateLastPerformed(response) {
             dates.push(theDate);
         } else {
             dates = sortDates(dates);
-            console.log("dates:" + JSON.stringify(dates));
+            console.log("dates22:" + JSON.stringify(dates));
+            console.log(theDate > dates[0]);
+            let entryDateComesAfter = false;
+            if (theDate.slice(-4) == dates[0].slice(-4) && theDate > dates[0]) {
+                entryDateComesAfter = true;
+            } else if (theDate.slice(-4) > dates[0].slice(-4)) {
+                entryDateComesAfter = true;
+            }
             // replace with minimum date
-            if (theDate > dates[0]) {
+            if (entryDateComesAfter) {
                 console.log("Adding to last performed");
                 dates[0] = theDate;
             }
