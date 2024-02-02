@@ -62,6 +62,7 @@ function updateLastPerformed(response) {
     let exerciseClicked = checkmark.dataset.exercise;
     console.log("exerciseClicked:" + JSON.stringify(exerciseClicked));
     let theDate = returnDateToUse();
+    console.log("theDate:" + JSON.stringify(theDate));
 
     // create a new entry for new exercise types
     if (!(exerciseClicked in lastPerformed)) {
@@ -83,25 +84,26 @@ function updateLastPerformed(response) {
 
     // update last performed based on type of selection
     if (hasBeenDeselected) {
-        // console.log("Removing from last performed");
+        console.log("Removing from last performed");
         dates.splice(dates.indexOf(theDate), 1);
     }
     else if (hasBeenSelected) {
         if (dates.length < 5) {
-            // console.log("Adding to last performed because lots of space");
+            console.log("Adding to last performed because lots of space");
             dates.push(theDate);
         } else {
             dates = sortDates(dates);
+            console.log("dates:" + JSON.stringify(dates));
             // replace with minimum date
             if (theDate > dates[0]) {
-                // console.log("Adding to last performed");
+                console.log("Adding to last performed");
                 dates[0] = theDate;
             }
         }
     }
 
     lastPerformed[exerciseClicked] = dates;
-    console.log("lastPerformed2:" + JSON.stringify(lastPerformed));
+    console.log("lastPerformed2:" + JSON.stringify(dates));
 
     // (2) save the new last performed list
     let good = {
@@ -135,21 +137,21 @@ function saveWeightClasses() {
 function updateHtmlElements(lastPerformed) {
     console.log("affecting labels");
     let daysSincePerformed = calculateDaysSincePerformed(lastPerformed);
-    console.log("daysSincePerformed:" + JSON.stringify(daysSincePerformed));
+    console.log("daysSincePerformed:" + JSON.stringify(daysSincePerformed['leg_stretches']));
 
     for (let daysSinceObj of daysSincePerformed) {
         let exerciseKey = daysSinceObj.exerciseType;
         let daysSince = daysSinceObj.days;
-        console.log("daysSince:" + JSON.stringify(daysSince));
-        console.log("#" + exerciseKey);
+        // console.log("daysSince:" + JSON.stringify(daysSince));
+        // console.log("#" + exerciseKey);
 
         let lastPerformedElement = document.querySelector("#" + exerciseKey + " .lastPerformed");
-        console.log("lastPerformedElement:" + JSON.stringify(lastPerformedElement));
+        // console.log("lastPerformedElement:" + JSON.stringify(lastPerformedElement));
         // acknowledges that some exercises that were previously on the page are no longer there
         if (!lastPerformedElement) { continue };
 
         let exerciseName = lastPerformedElement.innerHTML.split("(")[0].trim();
-        console.log("exerciseName:" + JSON.stringify(exerciseName));
+        // console.log("exerciseName:" + JSON.stringify(exerciseName));
 
         if (daysSince < 0) {
             lastPerformedElement.innerText = exerciseName;
@@ -160,10 +162,6 @@ function updateHtmlElements(lastPerformed) {
         else if (daysSince != 1) {
             lastPerformedElement.innerText = exerciseName + " (" + daysSince + "d)";
         }
-        
-        
-        
-        console.log(lastPerformedElement.innerText);
 
     }
 
