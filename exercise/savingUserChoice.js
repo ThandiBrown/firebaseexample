@@ -132,21 +132,23 @@ function saveWeightClasses() {
 }
 
 function updateHtmlElements(lastPerformed) {
-    // console.log("affecting labels");
+    console.log("affecting labels");
     let daysSincePerformed = calculateDaysSincePerformed(lastPerformed);
-    // console.log("daysSincePerformed:" + JSON.stringify(daysSincePerformed));
+    console.log("daysSincePerformed:" + JSON.stringify(daysSincePerformed));
 
     for (let daysSinceObj of daysSincePerformed) {
         let exerciseKey = daysSinceObj.exerciseType;
         let daysSince = daysSinceObj.days;
-        // console.log("#" + exerciseKey);
+        console.log("daysSince:" + JSON.stringify(daysSince));
+        console.log("#" + exerciseKey);
 
         let lastPerformedElement = document.querySelector("#" + exerciseKey + " .lastPerformed");
+        console.log("lastPerformedElement:" + JSON.stringify(lastPerformedElement));
         // acknowledges that some exercises that were previously on the page are no longer there
         if (!lastPerformedElement) { continue };
 
         let exerciseName = lastPerformedElement.innerHTML.split("(")[0].trim();
-        // console.log("exerciseName:" + JSON.stringify(exerciseName));
+        console.log("exerciseName:" + JSON.stringify(exerciseName));
 
         if (daysSince < 0) {
             lastPerformedElement.innerText = exerciseName;
@@ -157,6 +159,10 @@ function updateHtmlElements(lastPerformed) {
         else if (daysSince != 1) {
             lastPerformedElement.innerText = exerciseName + " (" + daysSince + "d)";
         }
+        
+        
+        
+        console.log(lastPerformedElement.innerText);
 
     }
 
