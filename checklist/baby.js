@@ -10,6 +10,8 @@ function loadingSettings() {
 }
 
 function loadingPage(response) {
-    console.log("response:" + JSON.stringify(response));
+    console.log("response")
+    console.log(response)
+    console.log(JSON.parse(response.info));
 
 }
