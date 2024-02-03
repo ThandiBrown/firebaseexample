@@ -16,9 +16,9 @@ import { readDB, writeDB } from './data/talkToDatabase.js'
 
 // }
 
-function go() {
+function go(startPoint = 'd') {
+    clearPlayPage();
     let familyDataDB = familyData();
-    let startPoint = 'd';
     
     if (startPoint in familyDataDB) {
         let boxes = '';
@@ -28,35 +28,51 @@ function go() {
             }
             document.querySelector(".play-page").innerHTML += returnDisplayRow(boxes);
         }
-        // siblings
-        if (familyDataDB[startPoint].parents.length > 0) {
-            let boxes = returnPersonBox(startPoint);
-            for (let parent of familyDataDB[startPoint].parents) {
-                for (let sibling of familyDataDB[parent].children) {
-                    if (sibling == startPoint) continue;
-                    boxes += returnPersonBox(sibling);
+        
+        if (familyDataDB[startPoint]) {
+            let boxes = returnPersonBox(startPoint, true);
+            // siblings
+            if (familyDataDB[startPoint].parents.length > 0) {
+                
+                for (let parent of familyDataDB[startPoint].parents) {
+                    for (let sibling of familyDataDB[parent].children) {
+                        if (sibling == startPoint) continue;
+                        boxes += returnPersonBox(sibling);
+                    }
                 }
             }
             document.querySelector(".play-page").innerHTML += returnDisplayRow(boxes);
         }
+        
         if (familyDataDB[startPoint].children.length > 0) {
             let boxes = '';
             for (let child of familyDataDB[startPoint].children) {
                 boxes += returnPersonBox(child);
             }
             document.querySelector(".play-page").innerHTML += returnDisplayRow(boxes);
-            
         }
-        
     }
+    addEventListeners();
 }
 
 function returnDisplayRow(boxes) {
     return '<div class="display-row flex-container row-style">' + boxes + '</div>'
 }
 
-function returnPersonBox(personInfo) {
-    return '<div class="person-box">' + personInfo + '</div>'
+function returnPersonBox(personInfo, highlight=false) {
+    let highlightClass = '';
+    if (highlight) highlightClass = ' current-person'
+    return '<div class="person-box' + highlightClass + '">' + personInfo + '</div>'
 }
 
-// go();
+function addEventListeners() {
+    for (let element of document.querySelectorAll('.person-box')) {
+        element.addEventListener('click', (e) => go(e.target.innerText));
+    }
+}
+
+function clearPlayPage() {
+    document.querySelector(".play-page").innerHTML = '';
+}
+
+go();
