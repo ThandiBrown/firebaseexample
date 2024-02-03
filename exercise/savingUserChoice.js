@@ -144,7 +144,6 @@ function saveWeightClasses() {
 function updateHtmlElements(lastPerformed) {
     console.log("affecting labels");
     let daysSincePerformed = calculateDaysSincePerformed(lastPerformed);
-    console.log("daysSincePerformed:" + JSON.stringify(daysSincePerformed['leg_stretches']));
 
     for (let daysSinceObj of daysSincePerformed) {
         let exerciseKey = daysSinceObj.exerciseType;
