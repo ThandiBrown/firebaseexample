@@ -5,9 +5,9 @@ import { getDatabase, set, ref, get, child, update, remove }
 let folderName = "checklistInformation"
 const db = getDatabase();
 
-function writeDB(subfolder, value) {
-    // console.log("write");
-    // console.log(folderName + subfolder);
+function writeDB(value, subfolder='') {
+    console.log("write");
+    console.log(folderName + subfolder);
     let divider = "/";
     set(ref(db, folderName + divider + subfolder), value)
         .then(() => {
@@ -30,21 +30,21 @@ function readDB(subfolder, method, ...args) {
 
     // console.log("read");
 
+    console.log(folderName + divider + subfolder);
     return get(child(dbref, folderName + divider + subfolder))
         .then((snapshot) => {
             if (snapshot.exists()) {
 
-                if (subfolder == "") {
-                    let informationObj = snapshot.val();
-                    method([informationObj, ...args]);
-                } else {
-                    // let taskInformation = snapshot.val();
-                    // taskInformation = JSON.parse(taskInformation.info);
-                    // method([taskInformation, ...args]);
-                }
+                let taskInformation = snapshot.val();
+                
+                taskInformation = JSON.parse(taskInformation.info);
+                
+                method([taskInformation, ...args]);
 
             } else {
-                method([{}, ...args]);
+                method([{
+                    agenda:[]
+                }, ...args]);
 
                 // alert('No data found');
                 // let good = {
