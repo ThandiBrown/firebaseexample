@@ -9,7 +9,6 @@ window.onload = function () {
 }
 
 function addAgendaItems(agenda=null, startup = false) {
-    //console.log("previousItems:" + JSON.stringify(previousItems));
 
     let section = document.querySelector(".the-agenda");
 

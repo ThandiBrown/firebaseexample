@@ -6,8 +6,8 @@ let folderName = "checklistInformation"
 const db = getDatabase();
 
 function writeDB(value, subfolder='') {
-    console.log("write");
-    console.log(folderName + subfolder);
+    // console.log("write");
+    // console.log(folderName + subfolder);
     let divider = "/";
     set(ref(db, folderName + divider + subfolder), value)
         .then(() => {
@@ -20,7 +20,6 @@ function writeDB(value, subfolder='') {
 }
 
 function readDB(subfolder, method, ...args) {
-    // console.log("subfolder:" + JSON.stringify(subfolder));
     let divider = "/";
     if (subfolder == "") {
         divider = "";
@@ -30,7 +29,7 @@ function readDB(subfolder, method, ...args) {
 
     // console.log("read");
 
-    console.log(folderName + divider + subfolder);
+    // console.log(folderName + divider + subfolder);
     return get(child(dbref, folderName + divider + subfolder))
         .then((snapshot) => {
             if (snapshot.exists()) {

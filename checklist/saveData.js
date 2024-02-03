@@ -36,7 +36,6 @@ function sendToDB() {
         c += 1;
     }
 
-    console.log("sending: " + JSON.stringify(sending));
 
     let date = new Date();
     var dd = String(date.getDate()).padStart(2, '0');
@@ -44,6 +43,7 @@ function sendToDB() {
     var yyyy = date.getFullYear();
 
     date = mm + '/' + dd + '/' + yyyy;
+    
     writeDB({ 'info': JSON.stringify(sending) }, date.replaceAll("/", "_"));
 }
 
@@ -57,26 +57,35 @@ function loadingPage() {
     var yyyy = date.getFullYear();
 
     date = mm + '/' + dd + '/' + yyyy;
+    
 
     readDB(date.replaceAll("/", "_"), loadData);
 }
 
 function loadData(response) {
-    /*let sending = {"break":[["One",true]],"todos":[["Two",false],["hamburger",true]],"shopping":[["Gold Bond",false],["hand soap",false]]}*/
     
+    /*let sending = {"break":[["One",true]],"todos":[["Two",false],["hamburger",true]],"shopping":[["Gold Bond",false],["hand soap",false]]}*/
+
+    let itemsHandled = [];
     let agendaList = [];
     let activeAgenda = returnAgenda();
-    
+
 
     // function(taskInformation.list, true);
     // addAgendaItems(agendaList, true);
     for (let value of response[0].agenda) {
-        
         if (activeAgenda.includes(value[0])) {
             agendaList.push(value);
+            itemsHandled.push(value[0]);
         }
     }
-    
+
+    for (let item of activeAgenda) {
+        if (!itemsHandled.includes(item)) {
+            agendaList.push([item, false]);
+        }
+    }
+
     addAgendaItems(agendaList, true);
 
     addEventListeners();
