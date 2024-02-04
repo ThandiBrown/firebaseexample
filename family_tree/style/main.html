@@ -5,16 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Name</title>
+    <base href="/">
     <link rel="shortcut icon" href="#">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
     </script>
 
-    <link rel="stylesheet" href="i.css">
-    <script type="module" src="data/foundation.js" defer></script>
+    <link rel="stylesheet" href="style/i.css">
+    
     <script type="module" src="data/talkToDatabase.js" defer></script>
 
-    <script type="module" src="masterControl.js" defer></script>
-    <script type="module" src="baby.js" defer></script>
+    
+    <script type="module" src="load.js" defer></script>
+    <script type="module" src="assignment.js" defer></script>
+    <script type="module" src="components.js" defer></script>
+    <script type="module" src="util.js" defer></script>
     
 </head>
 
@@ -27,7 +31,7 @@
                 <div class="person-input flex centered" contenteditable="true"></div>
                 <div class="person-input-btns">
                     <button class="submit">Submit</button>
-                 option   <button class="cancel">Cancel</button>
+                    <button class="cancel">Cancel</button>
                 </div>
 
             </div>

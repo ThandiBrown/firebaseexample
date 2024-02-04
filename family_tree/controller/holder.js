@@ -1,4 +1,4 @@
-function formObject() {
+function executeAssignment() {
     let parentOf = [
         'a, b',
         'a, c',
@@ -17,11 +17,11 @@ function formObject() {
         'k, p',
         'l, q',
     ];
-    
+
     let familyTree = {};
     for (let relationship of parentOf) {
         let [parent, child] = relationship.split(', ');
-        
+
         if (parent in familyTree && !(child in familyTree[parent].children)) {
             familyTree[parent].children.push(child);
         } else {
@@ -30,7 +30,7 @@ function formObject() {
                 children: [child]
             };
         }
-        
+
         if (child in familyTree && !(parent in familyTree[parent].parents)) {
             familyTree[child].parents.push(parent);
         } else {
@@ -40,6 +40,25 @@ function formObject() {
             };
         }
     }
-    
+
     console.log(familyTree);
 }
+
+
+
+import { readDB, writeDB } from './data/talkToDatabase.js'
+
+
+
+
+// function loadingSettings() {
+
+//     // writeDB({'info':JSON.stringify({})});
+//     readDB("", loadingPage);
+// }
+
+// function loadingPage(response) {
+//     console.log("response")
+//     console.log(response[0])
+
+// }
