@@ -1,6 +1,6 @@
 // import { familyData } from './stats.js'
 
-function familyData() {
+function familyData1() {
   return {
     "a": {
       "parents": [],
@@ -139,5 +139,5 @@ function familyData() {
 
 
 export {
-  familyData
+  familyData1
 }
