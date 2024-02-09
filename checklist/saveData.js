@@ -69,23 +69,25 @@ function loadData(response) {
     let itemsHandled = [];
     let agendaList = [];
     let activeAgenda = returnAgenda();
+    let unAddedItems = '';
 
-
-    // function(taskInformation.list, true);
-    // addAgendaItems(agendaList, true);
+    
     for (let value of response[0].agenda) {
-        if (activeAgenda.includes(value[0])) {
-            agendaList.push(value);
-            itemsHandled.push(value[0]);
+        if (!activeAgenda.includes(value[0])) {
+            unAddedItems += value[0] + '\n';
         }
+        
+        agendaList.push(value);
+        itemsHandled.push(value[0]);
     }
-
+    
     for (let item of activeAgenda) {
         if (!itemsHandled.includes(item)) {
             agendaList.push([item, false]);
         }
     }
 
+    console.log(unAddedItems);
     addAgendaItems(agendaList, true);
 
     addEventListeners();
