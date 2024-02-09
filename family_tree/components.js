@@ -29,16 +29,11 @@ function returnPersonBox(personInfo, highlight = false) {
     return '<div class="person-box' + highlightClass + '">' + personInfo + '</div>';
 }
 
-function personBoxEventListeners() {
-    for (let element of document.querySelectorAll('.person-box')) {
-        element.addEventListener('click', (e) => displayTreeView(e.target.innerText, e.target));
-        element.addEventListener('click', (e) => oneSelectionPerGroup(e.target));
-    }
-}
+
+
 
 export {
     addStyle,
     returnDisplayRow,
-    returnPersonBox,
-    personBoxEventListeners
+    returnPersonBox
 }

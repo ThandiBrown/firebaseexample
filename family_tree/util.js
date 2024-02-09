@@ -1,7 +1,4 @@
 
-import {
-    returnPersonBox
-} from './components.js'
 import { originalFamilyData } from './data/stats.js'
 
 function dataCheck() {
@@ -20,29 +17,85 @@ function dataCheck() {
 function resetData(familyTree = true, inWaiting = true) {
     if (inWaiting) {
         const numbers = [
-            " zt5T1Ks1",
-            " lWVxM8fb",
-            " W3Ln0V1T",
-            " mBubQ6mD",
-            " VMiL17k1",
-            " BHDeQSjI",
-            " bzfg3vCk",
-            " pe90IhWN",
-            " OTaPIjQb",
-            " WsZGno6l",
-            " aBfUuu6A",
-            " 72vLr7W6",
-            " p2VjwnYo"
+            "zt5T1Ks1",
+            "lWVxM8fb",
+            "W3Ln0V1T",
+            "mBubQ6mD",
+            "VMiL17k1",
+            "BHDeQSjI",
+            "bzfg3vCk",
+            "pe90IhWN",
+            "OTaPIjQb",
+            "WsZGno6l",
+            "aBfUuu6A",
+            "Wayne",
+            "Thandiwe"
         ]
-        localStorage.setItem("familyDataInWaiting", JSON.stringify(numbers));
+        let names = [
+            'Vernando Brown, Senior',
+            // 'Dorothy Mae Jackson Brown',
+
+
+            'Celia Washington Brown Grier',
+            'Jeffrey Dwayne Grier',
+            '*Jakeem Demar Grier',
+            'Jennifer Denise Grier',
+            'Vernando Washington Brown, Junior',
+
+            'Alfredia Brown Hampton',
+            'Freda Genelle Hampton',
+            '*Jasmine Danielle Mathis',
+            '*Ronnie Ricardo Jackson',
+
+            'Eldridge Devour Washington Brown',
+            'Telisha Dionne Brown Edwards',
+            'Tamyka La’Shon Stephens Davis',
+            '*Gregory Marquie Stephens',
+            '**Gregory Kaden Stephens',
+            '**Braylen Samuel Stephens',
+            '**Shaleah Diamond McKenzie Stephens',
+            '**Tobias Taylor Daniels',
+            '*Teilsha Shanee’ Stephens',
+            'Tellis Shareem Stephens',
+            '*Montazah Tellique Stephens',
+            '*Tellis S. Stephens, Jr.',
+
+            'Wayne Brown',
+            'Chinue Ayanna Brown',
+            'Thandiwe Anika Brown',
+
+
+            'Carlton Chevene Brown',
+            'Shameckala Shawn Clay',
+            '*Aaliyah Carman Clay',
+            '*Briana Claudia Exantus',
+            '*Joshua Carlton Exantus',
+            '*Leila Elizabeth Exantus',
+            'James Lamar Brown, Senior+-',
+            'Teisha Shantrell Brown',
+            'Alexis Nicole Brown',
+            'James Lamar Brown, Junior',
+        ].reverse()
+        localStorage.setItem("familyDataInWaiting", JSON.stringify(names));
+        // localStorage.setItem("familyDataInWaiting", JSON.stringify(numbers));
     }
 
     if (familyTree) {
         localStorage.setItem("familyDataOld", localStorage.getItem("familyData"));
-        localStorage.setItem("familyData", JSON.stringify(originalFamilyData()));
+        localStorage.setItem("familyData", JSON.stringify(
+            {
+                'Dorothy Mae Jackson Brown': {
+                    "parents": [],
+                    "children": []
+                }
+            }
+        ));
+        // localStorage.setItem("familyData", JSON.stringify(originalFamilyData()));
     }
 
 }
+// resetData();
+
 
 function generateString(length = 8) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -56,21 +109,12 @@ function generateString(length = 8) {
 }
 
 
-
 function clearPlayPage() {
     for (let element of document.querySelectorAll(".row-style")) {
         element.remove();
     }
 }
 
-function toggleNewPersonPopUp() {
-    // New Person transparent pop-up
-    document.querySelector(".add-person").classList.toggle('hidden');
-}
-
-function addPersonToWaitingArea(personInfo) {
-    document.querySelector(".add-person-btn").insertAdjacentHTML('afterend', returnPersonBox(personInfo));
-}
 
 function fromSameSection(pickedElement, selectedElement) {
     for (let section of ['nav-sidebar', 'row-style', 'relation-matching']) {
@@ -89,6 +133,19 @@ function removeFromWaitingArea(inWaitingElement) {
     familyDataInWaiting.splice(familyDataInWaiting.indexOf(personName), 1);
     localStorage.setItem("familyDataInWaiting", JSON.stringify(familyDataInWaiting));
     inWaitingElement.remove();
+}
+
+function addPersonToWaitingData(personData) {
+    let familyDataInWaiting = JSON.parse(localStorage.getItem("familyDataInWaiting"));
+
+    if (personData.constructor === Array) {
+        for (let personName of personData) {
+            familyDataInWaiting.push(personName);
+        }
+    } else {
+        familyDataInWaiting.push(personName);
+    }
+    localStorage.setItem("familyDataInWaiting", JSON.stringify(familyDataInWaiting));
 }
 
 function relationMatchingText(inTreeName = 'Thandi', inWaitingName = 'Wayne') {
@@ -111,10 +168,9 @@ export {
     resetData,
     generateString,
     clearPlayPage,
-    toggleNewPersonPopUp,
-    addPersonToWaitingArea,
     fromSameSection,
     removeFromWaitingArea,
     relationMatchingText,
-    assignmentReqMet
+    assignmentReqMet,
+    addPersonToWaitingData
 }

@@ -1,3 +1,9 @@
+
+import {
+    submitNewPerson,
+    toggleNewPersonPopUp,
+    addPersonToWaitingArea
+} from './newPerson.js'
 import {
     toggleAssignmentFeature,
     oneSelectionPerGroup,
@@ -6,44 +12,36 @@ import {
 import {
     addStyle,
     returnDisplayRow,
-    returnPersonBox,
-    personBoxEventListeners
+    returnPersonBox
 } from './components.js'
 import {
-    clearPlayPage,
-    toggleNewPersonPopUp,
-    addPersonToWaitingArea
+    clearPlayPage
 } from './util.js'
 
 loadPage();
 
 function loadPage() {
-    addToWaitingArea();
-    displayTreeView('d');
+    setUpWaitingArea();
+    displayTreeView('Dorothy Mae Jackson Brown');
     setUpEventListeners();
 }
 
 
-function addToWaitingArea() {
+function setUpWaitingArea() {
     for (let person of JSON.parse(localStorage.getItem("familyDataInWaiting"))) {
         addPersonToWaitingArea(person);
     }
+    personBoxELs('.nav-sidebar .person-box');
 }
 
 function setUpEventListeners() {
     // 'Assign' button in waiting area
-    document.querySelector(".assign-btn").addEventListener('click', (e) => toggleAssignmentFeature(e.target));
+    document.querySelector(".assign-btn").addEventListener('click', (e) => toggleAssignmentFeature(e.target, true));
     // " + " button in waiting area
     document.querySelector(".add-person-btn").addEventListener('click', toggleNewPersonPopUp);
 
     // "submit" button in new person pop-up
-    document.querySelector(".submit").addEventListener('click', function () {
-        let personInfo = document.querySelector(".person-input").innerText.trim();
-        if (personInfo != '') {
-            addPersonToWaitingArea(personInfo);
-            toggleNewPersonPopUp();
-        }
-    });
+    document.querySelector(".submit").addEventListener('click', submitNewPerson);
     // "cancel" button in new person pop-up
     document.querySelector(".cancel").addEventListener('click', toggleNewPersonPopUp);
 
@@ -54,15 +52,20 @@ function setUpEventListeners() {
 }
 
 
-function displayTreeView(startPoint = 'd', element = null) {
+function displayTreeView(startPoint = 'd', element = null, assignmentAllowed=false) {
+    console.log(33);
+    console.log(assignmentAllowed);
+    console.log((!assignmentAllowed && document.querySelector(".assign-btn").classList.contains('selected')));
+    console.log((element != null && element.parentNode.classList.contains('nav-sidebar')));
     if (
-        document.querySelector(".assign-btn").classList.contains('selected') ||
+        (!assignmentAllowed && document.querySelector(".assign-btn").classList.contains('selected')) ||
         (element != null && element.parentNode.classList.contains('nav-sidebar'))
     ) {
+        console.log('Assignment selection is on, so do not update display');
         return;
     }
     clearPlayPage();
-    // let familyDataDB = familyData1();
+
     let familyDataDB = JSON.parse(localStorage.getItem("familyData"));
 
 
@@ -99,14 +102,21 @@ function displayTreeView(startPoint = 'd', element = null) {
         }
         document.querySelector(".relation-matching").insertAdjacentHTML('beforebegin', returnDisplayRow(boxes));
     }
-    addStyle();
-    personBoxEventListeners();
 
+    addStyle();
+    personBoxELs('.row-style .person-box');
+}
+
+function personBoxELs(boxType) {
+    for (let element of document.querySelectorAll(boxType)) {
+        element.addEventListener('click', (e) => displayTreeView(e.target.innerText, e.target));
+        element.addEventListener('click', (e) => oneSelectionPerGroup(e.target));
+    }
 }
 
 export {
     loadPage,
-    addToWaitingArea,
+    setUpWaitingArea,
     setUpEventListeners,
     displayTreeView
 }

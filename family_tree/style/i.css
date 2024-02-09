@@ -53,6 +53,10 @@
 }
 
 .person-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
     max-width: 200px;
     min-width: 200px;
     max-height: 100px;
@@ -160,7 +164,7 @@
     align-items: center;
     background-color: black;
     max-width: 1248px;
-    height: 97vh;
+    height: 95vh;
 
     padding: 20px;
 

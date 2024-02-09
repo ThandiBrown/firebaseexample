@@ -1,4 +1,3 @@
-
 import {
     fromSameSection,
     removeFromWaitingArea,
@@ -8,33 +7,38 @@ import {
 import {
     displayTreeView
 } from './load.js'
+import {
+    submitNewPerson,
+    toggleNewPersonPopUp,
+    addPersonToWaitingArea
+} from './newPerson.js'
 
 
+function toggleAssignmentFeature(assignButton = document.querySelector(".assign-btn"), toggleAssignmentButton = false) {
 
-
-
-
-
-
-
-
-function toggleAssignmentFeature(assignButton = document.querySelector(".assign-btn")) {
-
-    assignButton.classList.toggle('selected');
-    document.querySelector(".relation-matching").classList.toggle('hidden');
-
-    if (!assignButton.classList.contains('selected')) {
-        for (let selectElement of document.querySelectorAll(".selected")) {
-            selectElement.classList.remove('selected');
-        }
-        for (let selectElement of document.querySelectorAll(".person-box-selected")) {
-            selectElement.classList.remove('person-box-selected');
-        }
+    
+    if (toggleAssignmentButton) {
+        assignButton.classList.toggle('selected');
+        document.querySelector(".relation-matching").classList.toggle('hidden');
     }
+    
+
+    // if (!assignButton.classList.contains('selected') || 0) {
+    for (let selectElement of document.querySelectorAll(".selected")) {
+        if (selectElement == assignButton) continue;
+        selectElement.classList.remove('selected');
+    }
+    for (let selectElement of document.querySelectorAll(".person-box-selected")) {
+        selectElement.classList.remove('person-box-selected');
+    }
+    // }
 }
 
 function oneSelectionPerGroup(element, selectionClass = 'person-box-selected') {
-    if (!document.querySelector(".assign-btn").classList.contains('selected')) return;
+    if (!document.querySelector(".assign-btn").classList.contains('selected')) {
+        console.log('Assignment selection is not on, so do not run oneSelectionPerGroup');
+        return;
+    }
 
     let selection = document.querySelectorAll("." + selectionClass);
     element.classList.add(selectionClass);
@@ -56,6 +60,7 @@ function oneSelectionPerGroup(element, selectionClass = 'person-box-selected') {
     }
 }
 
+
 function executeAssignment() {
 
     if (!assignmentReqMet()) return;
@@ -64,8 +69,8 @@ function executeAssignment() {
     let familyData = JSON.parse(localStorage.getItem("familyData"));
     let relationTextElem = document.querySelector(".relation-matching p");
 
-    parent = 'parent' == relationshipSelected ? relationTextElem.dataset.nameOne : relationTextElem.dataset.nameTwo;
-    child = 'parent' == relationshipSelected ? relationTextElem.dataset.nameTwo : relationTextElem.dataset.nameOne;
+    let parent = 'parent' == relationshipSelected ? relationTextElem.dataset.nameOne : relationTextElem.dataset.nameTwo;
+    let child = 'parent' == relationshipSelected ? relationTextElem.dataset.nameTwo : relationTextElem.dataset.nameOne;
 
     if (parent in familyData && !(child in familyData[parent].children)) {
         familyData[parent].children.push(child);
@@ -91,11 +96,17 @@ function executeAssignment() {
     removeFromWaitingArea(inWaitingElement);
 
     toggleAssignmentFeature();
-    displayTreeView(document.querySelector(".current-person").innerText);
+    console.log(55);
+    displayTreeView(document.querySelector(".current-person").innerText, null, true);
 }
+
+
 
 export {
     toggleAssignmentFeature,
     oneSelectionPerGroup,
-    executeAssignment
+    executeAssignment,
+    submitNewPerson,
+    toggleNewPersonPopUp,
+    addPersonToWaitingArea
 }

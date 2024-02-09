@@ -1,5 +1,12 @@
 // import { originalFamilyData } from './stats.js'
 
+// a = {
+//   'Dorothy Mae Jackson Brown':{
+//     "parents": [],
+//     "children": []
+//   }
+// }
+
 function originalFamilyData() {
   return {
     "a": {
