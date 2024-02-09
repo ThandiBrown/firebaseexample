@@ -15,7 +15,6 @@ function addNewBreakItems(previousItems = null, startup = false) {
 
     if (previousItems) {
         section.innerHTML += createListItem(previousItems);
-        addButtonEventListeners(sectionName);
     } else {
         let submission = document.querySelector(".new-break-ideas").value.split("\n");
         // console.log("11submission:" + JSON.stringify(submission));
@@ -23,10 +22,9 @@ function addNewBreakItems(previousItems = null, startup = false) {
             submission[i] = [submission[i], false];
         }
         section.innerHTML += createListItem(submission);
-        addButtonEventListeners(sectionName);
     }
 
-    // addEventListeners();
+    addButtonEventListeners(sectionName);
     document.querySelector('.new-break-ideas').value = '';
     if (!startup) sendToDB();
     
@@ -40,7 +38,6 @@ function addNewToDos(previousItems = null, startup = false) {
 
     if (previousItems) {
         section.innerHTML += createListItem(previousItems);
-        addButtonEventListeners(sectionName);
     } else {
         let submission = document.querySelector(".new-todo-ideas").value.split("\n");
         // console.log("22submission:" + JSON.stringify(submission));
@@ -48,10 +45,9 @@ function addNewToDos(previousItems = null, startup = false) {
             submission[i] = [submission[i], false];
         }
         section.innerHTML += createListItem(submission);
-        addButtonEventListeners(sectionName);
     }
 
-    // addEventListeners();
+    addButtonEventListeners(sectionName);
     document.querySelector('.new-todo-ideas').value = '';
     if (!startup) sendToDB();
 }
@@ -64,7 +60,6 @@ function addNewShoppingItems(previousItems = null, startup = false) {
 
     if (previousItems) {
         section.innerHTML += createListItem(previousItems);
-        addButtonEventListeners(sectionName);
     } else {
         let submission = document.querySelector(".new-items").value.split("\n");
         // console.log("33submission:" + JSON.stringify(submission));
@@ -72,11 +67,10 @@ function addNewShoppingItems(previousItems = null, startup = false) {
             submission[i] = [submission[i], false];
         }
         section.innerHTML += createListItem(submission);
-        addButtonEventListeners(sectionName);
     }
     
 
-    // addEventListeners();
+    addButtonEventListeners(sectionName);
     document.querySelector('.new-items').value = '';
     if (!startup) sendToDB();
 
