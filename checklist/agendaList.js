@@ -1,17 +1,17 @@
 
 function returnAgenda() {
     return [
-        '*Morning routine*',
+        '(Morning routine)',
         'Morning Hygiene',
         'Morning Water',
         'Morning Body Warm Up',
         'Hot Tea',
         'Hot Broth',
         
-        '*Midday routine*',
+        '(Midday routine)',
         'Work out and eat healthy',
         
-        '*Night routine*',
+        '(Night routine)',
         'Wash dishes',
         'Prep for next day: meals, clothes, room, schedule, tasks to complete and when',
         'Clean up room',
