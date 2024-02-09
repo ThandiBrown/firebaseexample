@@ -5,10 +5,12 @@ let recentlyDeletedParent;
 let checkedStatus;
 
 function removeListItem(e) {
+    console.log(e.target);
     let listItem = e.target.parentNode;
     let parent = e.target.parentNode.parentNode;
-    e.target.parentNode.parentNode.removeChild(listItem);
-    setRecentlyDeleted(parent, listItem)
+    console.log(parent);
+    listItem.remove();
+    setRecentlyDeleted(parent, listItem);
     // no need to add sendToDB(); here because it is attached to the input and is triggered anyway
 }
 
