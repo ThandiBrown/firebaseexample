@@ -31,8 +31,7 @@ function readDB(method, ...args) {
             let taskInformation = snapshot.val();
             taskInformation = JSON.parse(taskInformation.info);
             
-            console.log(55);
-            console.log("File data retrieved:\n" + JSON.stringify(taskInformation));
+            // console.log("File data retrieved:\n" + JSON.stringify(taskInformation));
             method([taskInformation, ...args]);
             
         } else {

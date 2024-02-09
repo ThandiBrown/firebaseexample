@@ -52,10 +52,20 @@ function loadingPage() {
 function loadData(response) {
     /*let sending = {"break":[["One",true]],"todos":[["Two",false],["hamburger",true]],"shopping":[["Gold Bond",false],["hand soap",false]]}*/
     let taskInformation = response[0]
-    addNewBreakItems(taskInformation.break, true);
+    // let listItems = '';
+    // for (const [key, listOfItems] of Object.entries(taskInformation)) {
+    //     for (let itemStatus of listOfItems) {
+    //         listItems += itemStatus[0] + '\n';
+    //     }
+    // }
+    // console.log(listItems);
+    
+    
     addNewToDos(taskInformation.todos, true);
     addNewShoppingItems(taskInformation.shopping, true);
+    addNewBreakItems(taskInformation.break, true);
     addEventListeners();
+    
     
 }
 

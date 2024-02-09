@@ -60,7 +60,6 @@ function addNewShoppingItems(previousItems = null, startup = false) {
         section.innerHTML += createListItem(previousItems);
     } else {
         let submission = document.querySelector(".new-items").value.split("\n");
-        console.log("submission:" + JSON.stringify(submission));
         for (let i = 0; i < submission.length; i++) {
             submission[i] = [submission[i], false];
         }
@@ -75,8 +74,7 @@ function addNewShoppingItems(previousItems = null, startup = false) {
 }
 
 function createListItem(submission) {
-    console.log(99);
-    console.log(submission);
+    
     let elements = "";
     for (let itemDetails of submission) {
         if (itemDetails[0].trim() == "") { continue };
