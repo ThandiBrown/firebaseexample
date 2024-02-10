@@ -33,6 +33,7 @@ function readDB(subfolder, method, ...args) {
     return get(child(dbref, folderName + divider + subfolder))
         .then((snapshot) => {
             if (snapshot.exists()) {
+                console.log(88);
 
                 let taskInformation = snapshot.val();
                 
@@ -41,6 +42,7 @@ function readDB(subfolder, method, ...args) {
                 method([taskInformation, ...args]);
 
             } else {
+                console.log(77);
                 method([{
                     agenda:[]
                 }, ...args]);

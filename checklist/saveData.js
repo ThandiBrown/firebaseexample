@@ -43,8 +43,10 @@ function sendToDB() {
     var yyyy = date.getFullYear();
 
     date = mm + '/' + dd + '/' + yyyy;
-    
+
+    console.log("sending:" + JSON.stringify(sending));
     writeDB({ 'info': JSON.stringify(sending) }, date.replaceAll("/", "_"));
+
 }
 
 function loadingPage() {
@@ -57,37 +59,58 @@ function loadingPage() {
     var yyyy = date.getFullYear();
 
     date = mm + '/' + dd + '/' + yyyy;
-    
+
 
     readDB(date.replaceAll("/", "_"), loadData);
 }
 
-function loadData(response) {
-    
+function loadData(website) {
+
     /*let sending = {"break":[["One",true]],"todos":[["Two",false],["hamburger",true]],"shopping":[["Gold Bond",false],["hand soap",false]]}*/
+
+    console.log('DB Agenda');
+    console.log(website[0].agenda);
 
     let itemsHandled = [];
     let agendaList = [];
     let activeAgenda = returnAgenda();
+    let existingItems = '';
+    let addedItems = '';
     let unAddedItems = '';
 
-    
-    for (let value of response[0].agenda) {
-        if (!activeAgenda.includes(value[0])) {
-            unAddedItems += value[0] + '\n';
-        }
-        
-        agendaList.push(value);
-        itemsHandled.push(value[0]);
+    let siteTasksAsDict = {};
+
+    // change datatype to dictionary for easy lookup
+    for (let [task, selectedValue] of website[0].agenda) {
+        siteTasksAsDict[task] = selectedValue;
     }
-    
-    for (let item of activeAgenda) {
-        if (!itemsHandled.includes(item)) {
-            agendaList.push([item, false]);
+
+    // going in order of the activeAgenda
+    for (let task of activeAgenda) {
+        if (task in siteTasksAsDict) {
+            agendaList.push([task, siteTasksAsDict[task]]);
+            existingItems += task + '\n';
+        }
+        // catches new additions to the activeAgenda
+        else {
+            agendaList.push([task, false]);
+            addedItems += task + '\n';
+        }
+        itemsHandled.push(task);
+    }
+
+    // catches new addition to the website agenda
+    for (let [task, selectedValue] of Object.entries(siteTasksAsDict)) {
+        if (!itemsHandled.includes(task)) {
+            agendaList.push([task, selectedValue]);
+            unAddedItems += task + '\n';
         }
     }
 
-    console.log(unAddedItems);
+    console.log("existingItems:" + existingItems);
+    console.log("addedItems:" + addedItems);
+    console.log("unAddedItems:" + unAddedItems);
+    // return ;
     addAgendaItems(agendaList, true);
 
     addEventListeners();
