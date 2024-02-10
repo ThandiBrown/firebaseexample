@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
     
-    <link rel="stylesheet" href="i.css">
     <link rel="stylesheet" href="checkmark.css">
     <link rel="stylesheet" href="delete.css">
     <link rel="stylesheet" href="textarea.css">
@@ -19,6 +18,7 @@
     <script type="module" src="delete.js" defer></script>
     <script type="module" src="textarea.js" defer></script>
     <script type="module" src="agendaList.js" defer></script>
+    <script type="module" src="upcomingData.js" defer></script>
     <script type="module" src="saveData.js" defer></script>
 
 
@@ -30,20 +30,15 @@
     <div class="program">
         <h2>Upcoming</h2>
         <div class="upcoming-section">
-            <label class="container">            
-            <p class="item">One</p>
-            <input class="checkbox" type="checkbox">
-            <span class="checkmark"></span>
-            <span class="delete" onclick="removeListItem(event)">X</span>
-        </label>
+            <!-- <label class="container">
+                <p class="item">Spain Trip</p>
+                <span class="remaining-days">72 days</span>
+                <div class="progress-bar">
+                    <div class="progress">25%</div>
+                </div>
+            </label> -->
         </div>
 
-        <div class="textarea-div">
-            <textarea class="new-upcoming-items"></textarea>
-        </div>
-        <div class="textarea-div">
-            <input id="2" type="button" name="action" />
-        </div>
         <h2>Daily</h2>
         <div class="the-agenda">
             <!-- <label class="container">            

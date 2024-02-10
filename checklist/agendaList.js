@@ -1,4 +1,5 @@
 
+
 function returnAgenda() {
     return [
         '*Morning routine*',
@@ -32,7 +33,17 @@ function returnAgenda() {
     ];
 }
 
+function upcomingAgenda() {
+    // new Date(year, month, day)
+    return [
+        ['Spain Trip', '2024/01/24', '2024/04/19'],
+        ['In Spain', '2024/04/20', '2024/05/02'],
+        ['New Apartment', '2024/01/06', '2024/04/01'],
+    ];
+}
+
 
 export {
-    returnAgenda
+    returnAgenda,
+    upcomingAgenda
 }

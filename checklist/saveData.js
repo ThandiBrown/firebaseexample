@@ -2,10 +2,10 @@
 import { readDB, writeDB } from './data/talkToDatabase.js'
 import { getRecentlyDeleted } from './delete.js'
 import { returnAgenda } from './agendaList.js'
-import {
-    addAgendaItems
-} from './textarea.js'
+import { addAgendaItems } from './textarea.js'
+import { numOfDays } from './upcomingData.js'
 
+numOfDays();
 loadingPage();
 
 
@@ -37,31 +37,32 @@ function sendToDB() {
     }
 
 
+    let date = getDateTag();
+
+    console.log("sending:" + JSON.stringify(sending));
+    writeDB({ 'info': JSON.stringify(sending) }, date);
+
+}
+
+function getDateTag() {
     let date = new Date();
     var dd = String(date.getDate()).padStart(2, '0');
     var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = date.getFullYear();
 
     date = mm + '/' + dd + '/' + yyyy;
-
-    console.log("sending:" + JSON.stringify(sending));
-    writeDB({ 'info': JSON.stringify(sending) }, date.replaceAll("/", "_"));
-
+    date = date.replaceAll("/", "_");
+    return date;
 }
 
 function loadingPage() {
     // writeDB({'info':JSON.stringify({
     //     agenda: []
     // })});
-    let date = new Date();
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
+    
+    let date = getDateTag();
 
-    date = mm + '/' + dd + '/' + yyyy;
-
-
-    readDB(date.replaceAll("/", "_"), loadData);
+    readDB(date, loadData);
 }
 
 function loadData(website) {
