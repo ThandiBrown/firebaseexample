@@ -38,7 +38,7 @@ function upcomingAgenda() {
     return [
         ['Spain Trip', '2024/01/24', '2024/04/19'],
         ['In Spain', '2024/04/20', '2024/05/02'],
-        ['New Apartment', '2024/01/06', '2024/04/01'],
+        ['New Apartment', '2024/01/06', '2024/03/20'],
     ];
 }
 
