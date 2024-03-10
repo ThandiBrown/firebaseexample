@@ -10,17 +10,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebas
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCt5E7wCHIyhjJH_X6sYHYTQazkqgvrf8c",
-  authDomain: "chatapp-bce24.firebaseapp.com",
-  projectId: "chatapp-bce24",
-  storageBucket: "chatapp-bce24.appspot.com",
-  messagingSenderId: "128044238435",
-  appId: "1:128044238435:web:32493c2367afdf733a9a56",
-  measurementId: "G-P74SQZ7CKC",
-  databaseURL: "https://chatapp-bce24-default-rtdb.firebaseio.com/"
-};
-// Initialize Firebase
-initializeApp(firebaseConfig);
+    apiKey: "AIzaSyB_VetYgcatX096x78XWbWycpqnoxDPnTU",
+    authDomain: "thandihome-5cd92.firebaseapp.com",
+    databaseURL: "https://thandihome-5cd92-default-rtdb.firebaseio.com",
+    projectId: "thandihome-5cd92",
+    storageBucket: "thandihome-5cd92.appspot.com",
+    messagingSenderId: "45814184020",
+    appId: "1:45814184020:web:e2644a5720b5f8254055c1"
+  };
+
+  // Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 
 let folderName = "newFolder"
