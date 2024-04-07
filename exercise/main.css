@@ -43,7 +43,6 @@
 	position: absolute;
 	left: 290px;
 	top: 0px;
-	background-color: black;
 	color: whitesmoke;
 	width: 80px;
 	height: 30px;
@@ -51,6 +50,21 @@
 	text-align: center;
 }
 
+.standard {
+	background-color: black;
+}
+
+.easy {
+	background-color: darkred;
+}
+
+.gym {
+	background-color: rgb(118, 117, 117);
+}
+
+.night {
+	background-color: darkblue;
+}
 
 .button {
 	/* background-color: #2196F3; */

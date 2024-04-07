@@ -262,14 +262,29 @@ function displayByExerciseOrder(daysSincePerformed) {
 
 function getLine(exerciseDict, exerciseKey, dayDisplay = "") {
     let exerciseName = exerciseDict[exerciseKey];
+    let weightClassColor = determineWeightClassColor( exerciseName )
+    
     let element =
         "<label id=\"" + exerciseKey + "\" class=\"container\">" +
         "<span class=\"lastPerformed\">" + dayDisplay + "</span>" +
         exerciseName +
         "<span class=\"checkmark\" data-exercise=\"" + exerciseKey + "\"></span>" +
-        "<div class=\"weight-class\" contenteditable=\"true\">" + "</div>" +
+        "<div class=\"weight-class " + weightClassColor + "\" contenteditable=\"true\">" + "</div>" +
         "</label>";
     return element;
+}
+
+function determineWeightClassColor(exerciseName) {
+    if (["External Rotation","Shoulder Shrugs","Shoulder Pinches","Diagonal Leg Raise","Quad Leg Raise","Clamshells","Glute Bridges","Single Leg Glute Bridges","Calf Raises","Chest Stretches","Leg Stretches",].includes(exerciseName)) {
+        return 'easy'
+    } else if (["Front Raise","Lateral Raise","Posterior Raise","Scapular Raise","Chest Press","ITWYs","Lat Pulldown","Biceps","Triceps",].includes(exerciseName)) {
+        return 'gym'
+    } else if (["Four Way Neck Lifts","Extensors","Flexors","Finger Bands","Neck Stretches","Shoulder Stretches","Arm Stretches",].includes(exerciseName)) {
+        return 'night'
+    }
+    else {
+        return 'standard'
+    }
 }
 
 function getLineWithDates(days, exerciseDict, exerciseKey) {
