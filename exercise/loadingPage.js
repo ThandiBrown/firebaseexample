@@ -275,11 +275,19 @@ function getLine(exerciseDict, exerciseKey, dayDisplay = "") {
 }
 
 function determineWeightClassColor(exerciseName) {
-    if (["External Rotation","Shoulder Shrugs","Shoulder Pinches","Diagonal Leg Raise","Quad Leg Raise","Clamshells","Glute Bridges","Single Leg Glute Bridges","Calf Raises","Chest Stretches","Leg Stretches",].includes(exerciseName)) {
+    if ([
+        "Quad Sets","Scapular Raise","Shoulder Pinches","Planks","Core Lifts", "Side Leg Raises","Quad Sets","Clamshells","Calf Raises",
+        
+        "Diagonal Leg Raise","Quad Leg Raise","Glute Bridges","Single Leg Glute Bridges","Chest Stretches","Leg Stretches",].includes(exerciseName)) {
         return 'easy'
-    } else if (["Front Raise","Lateral Raise","Posterior Raise","Scapular Raise","Chest Press","ITWYs","Lat Pulldown","Biceps","Triceps",].includes(exerciseName)) {
+    } else if ([
+        "Biceps","Triceps","External Rotation","Shoulder Shrugs","Weighted Hip Thrust", "Outer Thigh Machine","Inner Quad Machine","Hamstring Curl",
+        
+        "Front Raise","Lateral Raise","Posterior Raise","Scapular Raise","Chest Press","ITWYs","Lat Pulldown",].includes(exerciseName)) {
         return 'gym'
-    } else if (["Four Way Neck Lifts","Extensors","Flexors","Finger Bands","Neck Stretches","Shoulder Stretches","Arm Stretches",].includes(exerciseName)) {
+    } else if ([
+        "Hand Exercises",
+        "Four Way Neck Lifts","Extensors","Flexors","Finger Bands","Neck Stretches","Shoulder Stretches","Arm Stretches",].includes(exerciseName)) {
         return 'night'
     }
     else {
