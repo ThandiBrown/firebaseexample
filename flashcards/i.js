@@ -82,7 +82,7 @@ function randomProblem() {
 
 function displayCard(flashcard) {
     
-    for (let value of ['title', 'hint', 'note', 'code code', 'problem']) {
+    for (let value of ['title center', 'hint', 'note', 'code code', 'problem']) {
         if (flashcard[value.split(' ')[0]]) {
             document.querySelector("." + value).innerHTML = flashcard[value.split(' ')[0]].replace(/\n/g, '<br>');
         }
