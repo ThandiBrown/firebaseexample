@@ -1,0 +1,46 @@
+
+
+.flash-card {
+    border: 2px solid black;
+    border-radius: 5px;
+    /* height:500px; */
+}
+
+.flash-card  >  * {
+    padding: 10px;
+}
+
+.title {
+    background-color: black;
+    color: whitesmoke;
+}
+
+.hint {
+    background-color: rgb(184, 244, 184);
+}
+
+.note {
+    background-color: lightblue;
+}
+
+.code {
+    white-space: pre;
+    background-color: black;
+    color: whitesmoke;
+}
+
+.problem {
+    white-space: pre;
+}
+
+
+
+
+
+
+
+
+
+
+
+
