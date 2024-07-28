@@ -19,6 +19,7 @@ def ensure_keys(dict_list):
 				value[key] = None        
 
 del flashcard_data['0']
+
 ensure_keys(flashcard_data)
 
 

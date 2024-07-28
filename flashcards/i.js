@@ -4,7 +4,7 @@ import { RandomNumberGenerator } from './randomTracker.js';
 
 
 
-let i = 1;
+let i = 10;
 
 let flashCardData = fc_data();
 let problemNumbers = Object.keys(flashCardData);
@@ -16,8 +16,8 @@ loadingPage('');
 
 function loadingSettings() {
     
-    // writeDB({'info':JSON.stringify(fc_data())});
-    // readDB("", loadingPage);
+    writeDB({'info':JSON.stringify(fc_data())});
+    readDB("", loadingPage);
 }
 
 function loadingPage(response) {
@@ -26,9 +26,10 @@ function loadingPage(response) {
     // console.log("response");
     // console.log(fc_data);
     // console.log(fc_data['115'].name);
-    addEventListeners();
     // console.log(problemNumbers[i]);
     // displayCard(fc_data[problemNumbers[i]]);
+    
+    addEventListeners();
     displayCard(flashCardData[problemNumbers[i]]);
 }
 
