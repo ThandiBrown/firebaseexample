@@ -1205,7 +1205,744 @@ class Solution:
 """
 },
 
-'0':{
+'17':{
+'tag':
+['hash'],
+'title':
+""" 
+Anagram Groups
+""",
+'hint':
+""" 
+
+""",
+'note':
+""" 
+Lesson: ord can be used
+the normal solution would be O(m*n*log(n)) solution in which we sort all of the strings and save that as the key, counting frequency
+the solution is O(m*n) in which M is the number of strings and N is the average length of each string
+""",
+'problem': 
+"""
+
+Given an array of strings strs, group all anagrams together into sublists. You may return the output in any order.
+
+An anagram is a string that contains the exact same characters as another string, but the order of the characters can be different.
+
+Example 1:
+
+Input: strs = ["act","pots","tops","cat","stop","hat"]
+
+Output: [["hat"],["act", "cat"],["stop", "pots", "tops"]]
+
+Example 2:
+
+Input: strs = ["x"]
+
+Output: [["x"]]
+
+Example 3:
+
+Input: strs = [""]
+
+Output: [[""]]
+
+Constraints:
+
+    1 <= strs.length <= 1000.
+    0 <= strs[i].length <= 100
+    strs[i] is made up of lowercase English letters.
+
+
+""",
+"code":
+""" 
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        ans = defaultdict(list)
+
+        for s in strs:
+            # 26 for a - z
+            count = [0] * 26
+            for char in s:
+                # returns the ASCII value
+                count[ord(char) - ord("a")] += 1
+            
+            # cannot save a list as a key, so convert it to tuple
+            ans[tuple(count)].append(s)
+        
+        return ans.values()
+
+"""
+},
+
+'18':{
+'tag':
+['hash'],
+'title':
+""" 
+Top K Elements in List
+""",
+'hint':
+""" 
+user frequency hash map and frequency array
+""",
+'note':
+""" 
+save the frequency in hash map
+then save each number in a list under an index (of a new array) that represents its frequency
+loop backwards through the list because that will cause us to see numbers with the highest frequency first ( at the highest indices first) and then loop through each list of numbers at that index until you reach "k" top elements
+
+Lesson: when you have a fixed frequency/set of numbers/when your result is going to be within the fixative numbers, and you have a changing variable such as the amount of numbers you need to return in this case, you can use the indices of an array as a way to store results in a sorted manner. If were looking at frequency and our array is six length, we know that we cannot have a frequency over six. therefore we can make a new array of a length of six/seven(1-indexed) and use its indices as a way to store frequency and a sorted manner
+""",
+'problem': 
+"""
+
+Given an integer array nums and an integer k, return the k most frequent elements within the array.
+
+The test cases are generated such that the answer is always unique.
+
+You may return the output in any order.
+
+Example 1:
+
+Input: nums = [1,2,2,3,3,3], k = 2
+
+Output: [2,3]
+
+Example 2:
+
+Input: nums = [7,7], k = 1
+
+Output: [7]
+
+Constraints:
+
+    1 <= nums.length <= 10^4.
+    -1000 <= nums[i] <= 1000
+    1 <= k <= number of distinct elements in nums.
+
+
+""",
+"code":
+""" 
+# Bucket Sort
+
+class Solution:
+	def topKFrequent(self, nums, top_num):
+		freq_hash = {}
+		freq_arr = [[] for i in range(len(nums) + 1)]
+
+		for num in nums:
+			freq_hash[num] = 1 + freq_hash.get(num, 0)
+				
+		for num, freq in freq_hash.items():
+			freq_arr[freq].append(num)
+
+		res = []
+		for i in range(len(freq_arr) - 1, 0, -1):
+			for num in freq_arr[i]:
+				res.append(num)
+				if len(res) == top_num:
+					return res
+
+
+Solution().topKFrequent([1,2,2,2,2,4,4], 2)
+
+Example: topKFrequent([1, 2, 2, 2, 2, 4, 4], 2)
+count = {1: 1, 2: 4, 4: 2}
+freq = [[], [1], [4], [], [2], [], [], []]
+if len([2]) == 2: (X)
+if len([2, 4]) == 2:
+    return [2, 4]
+
+"""
+},
+
+'19':{
+'tag':
+[''],
+'title':
+""" 
+String Encode and Decode
+""",
+'hint':
+""" 
+
+""",
+'note':
+""" 
+join the string with the length of the string plus a '#'
+this will work because even if there are more numbers and #s, the initial one will cover the length:
+['1#', 'good', 'ha2#ppy'] ---> 2#1#4#good7#ha2#ppy
+when decoding we will look at the *first* number-hash combination: 2# therefore regardless with the next two characters say, we know that the part of the original string:
+2# ---> {1#}
+4# ---> {good}
+7# ---> {ha2#ppy}
+
+Lesson: the number was what really is allowing us to skip over the characters/cause the decoding
+the hashes just so that we know where the number actually stops so that we don't confuse '271' if we mean '2#71'
+""",
+'problem': 
+"""
+
+Design an algorithm to encode a list of strings to a single string. The encoded string is then decoded back to the original list of strings.
+
+Please implement encode and decode
+
+Example 1:
+
+Input: ["neet","code","love","you"]
+
+Output:["neet","code","love","you"]
+
+Example 2:
+
+Input: ["we","say",":","yes"]
+
+Output: ["we","say",":","yes"]
+
+Constraints:
+
+    0 <= strs.length < 100
+    0 <= strs[i].length < 200
+    strs[i] contains only UTF-8 characters.
+
+""",
+"code":
+""" 
+class Solution:
+	
+	def encode(self, strs: List[str]) -> str:
+		res = ""
+		for string in strs:
+			res += str(len(string)) + "#" + string
+		return res
+
+	def decode(self, string: str) -> List[str]:
+		res = []
+		i = 0
+		
+		while i < len(string):
+			j = i
+			while string[j] != '#':
+				j += 1
+			length = int(string[i:j])
+			# j is pointing to the '#', so j + 1 will point to the string after
+			i = j + 1
+			# j is moved after the string, pointing at the next number-# combo
+			j = i + length
+			# capture the string
+			res.append(string[i:j])
+			# move i to the start of the next combo
+			i = j
+			
+		return res
+
+"""
+},
+
+'20':{
+'tag':
+['hash'],
+'title':
+""" 
+Valid Sudoku
+""",
+'hint':
+""" 
+three hashmaps
+""",
+'note':
+""" 
+you're basically going to have a hashmap for the rows
+rows[0] = [1, 2, 7, 8] ---> represents the values in the first row of the sudoku board
+when you see a coordinate (r, c), get its value (board[r][c]), check the row and col hashmaps to see if that value already exists
+board[0][3] = 6
+rows[0] = [1, 2, 7, 8]
+col[3] = [3, 5, 9]
+
+is 6 already in rows[0]? ---> No
+is 6 already in col[3]? ---> No
+update these hashmaps and continue the search
+
+in order to check the 3 x 3 grid in the sudoku, will have another hashmap representing that area
+we know that (0, 1, 2), (3, 4, 5), (6, 7, 8) all produce the same quotient with integer division by three so that's how we segment out an area
+we know that coordinate (2, 5) points to the same box as (0, 4) because when they integer divide, it will all point to box (0, 1) which is the second box in the first row
+
+Lesson: the trick here is mostly getting creative in trying to find out how the coordinates in each box can be grouped together/related to each other.in this case it was that they all share the same quotients when they were divided by three
+""",
+'problem': 
+"""
+
+You are given a a 9 x 9 Sudoku board board. A Sudoku board is valid if the following rules are followed:
+
+    Each row must contain the digits 1-9 without duplicates.
+    Each column must contain the digits 1-9 without duplicates.
+    Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without duplicates.
+
+Return true if the Sudoku board is valid, otherwise return false
+
+Note: A board does not need to be full or be solvable to be valid.
+<a href="https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/0be40c5d-2d18-42b8-261b-13ca50de4100/public" target="_blank">Graphic</a>
+
+Example 1:
+
+Input: board = 
+[["1","2",".",".","3",".",".",".","."],
+ ["4",".",".","5",".",".",".",".","."],
+ [".","9","8",".",".",".",".",".","3"],
+ ["5",".",".",".","6",".",".",".","4"],
+ [".",".",".","8",".","3",".",".","5"],
+ ["7",".",".",".","2",".",".",".","6"],
+ [".",".",".",".",".",".","2",".","."],
+ [".",".",".","4","1","9",".",".","8"],
+ [".",".",".",".","8",".",".","7","9"]]
+
+Output: true
+
+Example 2:
+
+Input: board = 
+[["1","2",".",".","3",".",".",".","."],
+ ["4",".",".","5",".",".",".",".","."],
+ [".","9","1",".",".",".",".",".","3"],
+ ["5",".",".",".","6",".",".",".","4"],
+ [".",".",".","8",".","3",".",".","5"],
+ ["7",".",".",".","2",".",".",".","6"],
+ [".",".",".",".",".",".","2",".","."],
+ [".",".",".","4","1","9",".",".","8"],
+ [".",".",".",".","8",".",".","7","9"]]
+
+Output: false
+
+Explanation: There are two 1's in the top-left 3x3 sub-box.
+
+Constraints:
+
+    board.length == 9
+    board[i].length == 9
+    board[i][j] is a digit 1-9 or '.'.
+
+
+""",
+"code":
+""" 
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        cols = defaultdict(set)
+        rows = defaultdict(set)
+        squares = defaultdict(set)  # key = (r /3, c /3)
+
+        for r in range(9):
+            for c in range(9):
+                if board[r][c] == ".":
+                    continue
+                if (
+                    board[r][c] in rows[r]
+                    or board[r][c] in cols[c]
+                    or board[r][c] in squares[(r // 3, c // 3)]
+                ):
+                    return False
+                cols[c].add(board[r][c])
+                rows[r].add(board[r][c])
+                squares[(r // 3, c // 3)].add(board[r][c])
+
+        return True
+
+"""
+},
+
+'21':{
+'tag':
+['hash'],
+'title':
+""" 
+Longest Consecutive Sequence
+""",
+'hint':
+""" 
+sequences do not have to be contiguous
+it's about finding the minimum
+""",
+'note':
+""" 
+this problem uses a creative way to find the minimum at each point in the array
+nums = [2,20,4,10,3,4,5] (turn into a set to remove duplicates)
+in nums, '2, 20, 10' are all the minimums of their own sequence
+we know that 2 as a minimum of a sequence for example because there is no (n - 1) ---> (2 - 1) ---> 1 in the list. because there is no 19 and list we know that 20 would be a minimum of its own sequence
+so once we find a minimum, we simply check if it's value  + 1,  + 2,  + 3... etc exist in the list, all the while counting the length
+once we have 2, we check it 3 is present then we check in 4 is present until we don't find the next value
+save the length that this current point
+""",
+'problem': 
+"""
+
+Given an array of integers nums, return the length of the longest consecutive sequence of elements.
+
+A consecutive sequence is a sequence of elements in which each element is exactly 1 greater than the previous element.
+
+You must write an algorithm that runs in O(n) time.
+
+Example 1:
+
+Input: nums = [2,20,4,10,3,4,5]
+
+Output: 4
+
+Explanation: The longest consecutive sequence is [2, 3, 4, 5].
+
+Example 2:
+
+Input: nums = [0,3,2,5,4,6,1,1]
+
+Output: 7
+
+Constraints:
+
+    0 <= nums.length <= 1000
+    -10^9 <= nums[i] <= 10^9
+
+
+""",
+"code":
+""" 
+class Solution:
+    def longestConsecutive(self, nums):
+        numSet = set(nums)
+        longest = 0
+
+        for num in numSet:
+            # check if this is the start of the sequence
+            # you know this is the start of a sequence if there is not a number directly 1 less than it
+            if (num - 1) not in numSet:
+                length = 1
+                # when you have found the start of a sequence, keep checking the next number to see how long the sequence ss
+                while (num + length) in numSet:
+                    length += 1
+                longest = max(length, longest)
+            # if it is not the start of a sequence keep iterating forward
+        return longest
+
+"""
+},
+
+'22':{
+'tag':
+['two_pointer'],
+'title':
+""" 
+Is Palindrome
+""",
+'hint':
+""" 
+
+""",
+'note':
+""" 
+loop over non-alphaNum characters
+""",
+'problem': 
+"""
+
+Given a string s, return true if it is a palindrome, otherwise return false.
+
+A palindrome is a string that reads the same forward and backward. It is also case-insensitive and ignores all non-alphanumeric characters.
+
+Example 1:
+
+Input: s = "Was it a car or a cat I saw?"
+
+Output: true
+
+Explanation: After considering only alphanumerical characters we have "wasitacaroracatisaw", which is a palindrome.
+
+Example 2:
+
+Input: s = "tab a cat"
+
+Output: false
+
+Explanation: "tabacat" is not a palindrome.
+
+Constraints:
+
+    1 <= s.length <= 1000
+    s is made up of only printable ASCII characters.
+
+
+""",
+"code":
+""" 
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        l, r = 0, len(s) - 1
+
+        while l < r:
+            while l < r and not self.alphaNum(s[l]):
+                l += 1
+            while r > l and not self.alphaNum(s[r]):
+                r -= 1
+            if s[l].lower() != s[r].lower():
+                return False
+            l, r = l + 1, r - 1
+        return True
+    
+    def alphaNum(self, c):
+        return (ord('A') <= ord(c) <= ord('Z') or 
+                ord('a') <= ord(c) <= ord('z') or 
+                ord('0') <= ord(c) <= ord('9'))
+
+"""
+},
+
+'23':{
+'tag':
+['two_pointer'],
+'title':
+""" 
+Two Integer Sum II
+""",
+'hint':
+""" 
+
+""",
+'note':
+""" 
+
+""",
+'problem': 
+"""
+
+Given an array of integers numbers that is sorted in non-decreasing order.
+
+Return the indices (1-indexed) of two numbers, [index1, index2], such that they add up to a given target number target and index1 < index2. Note that index1 and index2 cannot be equal, therefore you may not use the same element twice.
+
+There will always be exactly one valid solution.
+
+Your solution must use O(1)O(1) additional space.
+
+Example 1:
+
+Input: numbers = [1,2,3,4], target = 3
+
+Output: [1,2]
+
+Explanation:
+The sum of 1 and 2 is 3. Since we are assuming a 1-indexed array, index1 = 1, index2 = 2. We return [1, 2].
+
+Constraints:
+
+    2 <= numbers.length <= 1000
+    -1000 <= numbers[i] <= 1000
+    -1000 <= target <= 1000
+
+
+""",
+"code":
+""" 
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        l, r = 0, len(numbers) - 1
+
+        while l < r:
+            curSum = numbers[l] + numbers[r]
+
+            if curSum > target:
+                r -= 1
+            elif curSum < target:
+                l += 1
+            else:
+                return [l + 1, r + 1]
+
+"""
+},
+
+'24':{
+'tag':
+['26', 'two_pointer'],
+'title':
+""" 
+Remove Duplicates from Sorted Array
+""",
+'hint':
+""" 
+
+""",
+'note':
+""" 
+[0,0,1,1,1,1,2,3,3]
+each time you detect a number change, that means you have found a new unique number
+0 ---> 1, 1 ---> 2, we just save each time we see the new number
+the problem already lets us know that sorted so we know all the numbers will be next to each other
+
+Lesson: this mostly has to do with how you should look at sorted lists when it comes to duplicates
+""",
+'problem': 
+"""
+Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
+
+Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
+
+    Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
+    Return k.
+
+Custom Judge:
+
+The judge will test your solution with the following code:
+
+int[] nums = [...]; // Input array
+int[] expectedNums = [...]; // The expected answer with correct length
+
+int k = removeDuplicates(nums); // Calls your implementation
+
+assert k == expectedNums.length;
+for (int i = 0; i < k; i++) {
+    assert nums[i] == expectedNums[i];
+}
+
+If all assertions pass, then your solution will be accepted.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+Example 2:
+
+Input: nums = [0,0,1,1,1,2,2,3,3,4]
+Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+ 
+
+Constraints:
+
+    1 <= nums.length <= 3 * 104
+    -100 <= nums[i] <= 100
+    nums is sorted in non-decreasing or
+""",
+"code":
+""" 
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        next_elem = 1
+        for i in range(1, len(nums)):
+            # if there is a change in number
+            if nums[i] != nums[i - 1]:
+                nums[next_elem] = nums[i]
+                next_elem += 1
+        return next_elem
+"""
+},
+
+'25':{
+'tag':
+['80', 'two_pointer'],
+'title':
+""" 
+Remove Duplicates from Sorted Array II
+""",
+'hint':
+""" 
+think of the problem as shifting down numbers of the array
+""",
+'note':
+""" 
+any list 0-2 elements won't have more than the allowed number of duplicates, so it's automatically valid
+the best way to think of this problem is that were truly shifting down elements of the array
+we're moreso just determining which elements to shift down
+if we've seen the same element more than twice, we don't need to continue shifting that number
+Lesson: consider all edge cases and scenarios
+""",
+'problem': 
+"""
+Given an integer array nums sorted in non-decreasing order, remove some duplicates in-place such that each unique element appears at most twice. The relative order of the elements should be kept the same.
+
+Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.
+
+Return k after placing the final result in the first k slots of nums.
+
+Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.
+
+Custom Judge:
+
+The judge will test your solution with the following code:
+
+int[] nums = [...]; // Input array
+int[] expectedNums = [...]; // The expected answer with correct length
+
+int k = removeDuplicates(nums); // Calls your implementation
+
+assert k == expectedNums.length;
+for (int i = 0; i < k; i++) {
+    assert nums[i] == expectedNums[i];
+}
+
+If all assertions pass, then your solution will be accepted.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,1,2,2,3]
+Output: 5, nums = [1,1,2,2,3,_]
+Explanation: Your function should return k = 5, with the first five elements of nums being 1, 1, 2, 2 and 3 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+Example 2:
+
+Input: nums = [0,0,1,1,1,1,2,3,3]
+Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+Explanation: Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+ 
+
+Constraints:
+
+    1 <= nums.length <= 3 * 104
+    -104 <= nums[i] <= 104
+    nums is sorted in non-decreasing order.
+
+
+""",
+"code":
+""" 
+class Solution:
+	def removeDuplicates(self, nums):
+	   
+		if len(nums) <= 2: 
+			return len(nums)
+		
+		count = 1
+		next = 1
+		
+		for i in range(1, len(nums)):
+			if nums[i] == nums[i - 1]:
+				count += 1
+			else:
+				# we've seen a new number
+                count = 1
+				
+			# shifting down elements if we haven't seen them more than twice
+            if count <= 2:
+				nums[next] = nums[i]
+				next += 1
+
+		return next
+
+# Solution().removeDuplicates([1,1,1,2,2,3])
+Solution().removeDuplicates([0,0,0,1,1,1,1,2,3,3, 4])
+"""
+},
+
+'26':{
 'tag':
 [''],
 'title':
@@ -1222,11 +1959,59 @@ class Solution:
 """,
 'problem': 
 """
+Max Water Container
+
+You are given an integer array heights where heights[i] represents the height of the ithith bar.
+
+You may choose any two bars to form a container. Return the maximum amount of water a container can store.
+
+Example 1:
+<a href="https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/77f004c6-e773-4e63-7b99-a2309303c700/public" target="_blank">Graphic</a>
+
+Input: height = [1,7,2,5,4,7,3,6]
+
+Output: 36
+
+Example 2:
+
+Input: height = [2,2,2]
+
+Output: 4
+
+Constraints:
+
+    2 <= height.length <= 1000
+    0 <= height[i] <= 1000
 
 """,
 "code":
 """ 
+class Solution:
+    def maxArea(self, heights: List[int]) -> int:
+        l, r = 0, len(heights) - 1
+        res = 0
+        previous = 0
 
+        while l < r:
+            current_minimum = min(heights[l], heights[r])
+
+            # you only need to calculate a new area if you have a new, increased minimum
+            # because every other bar would just be less distance with an even lower/equal minimum
+            if current_minimum > previous or l == 0:
+                res = max(res, current_minimum * (r - l))
+                previous = current_minimum
+            
+            if heights[l] < heights[r]:
+                l += 1
+            
+            # if the two bars are equal doesn't matter whether you move left or right
+            # because the area will only be greater than those two equal bars, if there are
+            # two bars that are both greater than those equal bars, and based on the algorithm
+            # no matter which way you move, if that's the case, you will find both bars
+            elif heights[r] <= heights[l]:
+                r -= 1
+            
+        return res
 """
 },
 

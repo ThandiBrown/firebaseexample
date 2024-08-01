@@ -15,8 +15,10 @@ def ensure_keys(dict_list):
 	for _, value in dict_list.items():
 		# Ensure all required keys are present
 		for key in required_keys:
-			if key not in value:
+			if key not in value or (key in value and value[key].strip() == ''):
 				value[key] = None        
+			elif key in value:
+				value[key] = value[key].strip()
 
 del flashcard_data['0']
 
