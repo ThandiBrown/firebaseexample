@@ -36,10 +36,10 @@ function returnAgenda() {
 function upcomingAgenda() {
     // new Date(year, month, day)
     return [
-        ['Spain Trip', '2024/01/24', '2024/04/19'],
-        ['In Spain', '2024/04/20', '2024/05/02'],
-        ['New Apartment', '2024/01/06', '2024/03/20'],
-        ['Hair Twisted', '2024/02/26', '2024/05/26'],
+        // ['Spain Trip', '2024/01/24', '2024/04/19'],
+        // ['In Spain', '2024/04/20', '2024/05/02'],
+        // ['New Apartment', '2024/01/06', '2024/03/20'],
+        // ['Hair Twisted', '2024/02/26', '2024/05/26'],
     ];
 }
 

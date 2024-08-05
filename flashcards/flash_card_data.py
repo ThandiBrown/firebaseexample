@@ -1944,14 +1944,14 @@ Solution().removeDuplicates([0,0,0,1,1,1,1,2,3,3, 4])
 
 '26':{
 'tag':
-[''],
+['two_pointer'],
 'title':
 """ 
-
+Max Water Container / Container With Most Water
 """,
 'hint':
 """ 
-
+only the minimum matters
 """,
 'note':
 """ 
@@ -1959,7 +1959,6 @@ Solution().removeDuplicates([0,0,0,1,1,1,1,2,3,3, 4])
 """,
 'problem': 
 """
-Max Water Container
 
 You are given an integer array heights where heights[i] represents the height of the ithith bar.
 
@@ -2015,7 +2014,219 @@ class Solution:
 """
 },
 
+'27':{
+'tag':
+['two_pointer'],
+'title':
+""" 
+Trapping Rain Water
+""",
+'hint':
+""" 
+you will oscillate between evaluating the left and right values
+""",
+'note':
+""" 
+you are iterating through the array trying to determine how much water can sit on top of a particular bar
+in order to determine this you need to know your left and right boundaries
+your bar does not have a left boundary if there is no left value that is greater than it
+Once you have determined your left and right boundary, then you can know how much water sits on top of your bar once you subtract the height of your bar from the minimum boundary, whether it be your left or right
+In fact, since the minimum boundaries the only one that matters (doesn't matter how tall your maximum boundary is , as your minimum boundary sets how high the water can go )
+Therefore we often only really need to know the minimum boundary to our bar
+we will go back and forth between evaluating bars from the right and left depending on whether the minimum boundary is to the left or right
+if the minimum/lower boundary is to the left we will  be evaluating bars on the left, if at any point the minimum boundary is comming from the right, we will start evaluating bars from the right
+We want to keep track of the highest bar to the left and the right at any point in time (because these are boundaries). Still, between these two bars one will be lower than the other (or equal)
+""",
+'problem': 
+"""
 
+You are given an array non-negative integers heights which represent an elevation map. Each value heights[i] represents the height of a bar, which has a width of 1.
+
+Return the maximum area of water that can be trapped between the bars.
+
+Example 1:
+<a href="https://imagedelivery.net/CLfkmk9Wzy8_9HRyug4EVA/0c25cb81-1095-4382-fff2-6ef77c1fd100/public" target="_blank">Graphic</a>
+
+Input: height = [0,2,0,3,1,0,1,3,2,1]
+
+Output: 9
+
+Constraints:
+
+    1 <= height.length <= 1000
+    0 <= height[i] <= 1000
+
+
+""",
+"code":
+""" 
+class Solution:
+    def trap(self, height):
+        if not height:
+            return 0
+
+        l = 0
+        r = len(height) - 1
+        
+        leftMax = height[l]
+        rightMax = height[r]
+        res = 0
+        
+        while l < r:
+            
+            if leftMax < rightMax:
+                l += 1
+                leftMax = max(leftMax, height[l])
+                res += leftMax - height[l]
+            
+            else:
+                r -= 1
+                rightMax = max(rightMax, height[r])
+                res += rightMax - height[r]
+        
+        return res
+
+Solution().trap([0,1,0,2,1,0,1,3,2,1,2,1])
+"""
+},
+
+'28':{
+'tag':
+['two_pointer'],
+'title':
+""" 
+Three Integer Sum
+""",
+'hint':
+""" 
+must be zero-sum, two_pointer, O(n^2) solution
+""",
+'note':
+""" 
+you will sort the array
+you will pick a number as the start number ( the start number will change at the start of each loop )
+you will look at every other number after that point to try to find two numbers that will cause a sum of zero, using two pointers
+[-1,0,1,2,-1,-4] ---> [-4, -1, -1, 0, 1, 2]
+so -4 would be our first number (of the potential three sum) and then the left pointer would point at -1, the right pointer would point at -2
+if the sum is too large that we move down the right pointer, if the sum is too small then we move the left pointer
+skip over duplicates
+""",
+'problem': 
+"""
+FIND TRIPLETS WHERE SUM IS EQUAL TO ZERO
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] where nums[i] + nums[j] + nums[k] == 0, and the indices i, j and k are all distinct.
+
+The output should not contain any duplicate triplets. You may return the output and the triplets in any order.
+
+Example 1:
+
+Input: nums = [-1,0,1,2,-1,-4]
+
+Output: [[-1,-1,2],[-1,0,1]]
+
+Explanation:
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+
+Example 2:
+
+Input: nums = [0,1,1]
+
+Output: []
+
+Explanation: The only possible triplet does not sum up to 0.
+
+Example 3:
+
+Input: nums = [0,0,0]
+
+Output: [[0,0,0]]
+
+Explanation: The only possible triplet sums up to 0.
+
+Constraints:
+
+    3 <= nums.length <= 1000
+    -10^5 <= nums[i] <= 10^5
+
+
+""",
+"code":
+""" 
+class Solution:
+    def threeSum(self, nums):
+        res = []
+        # sorted array
+        nums.sort()
+
+        # picking the first of the three numbers
+        for idx, num in enumerate(nums):
+            # if your first value is not negative then you won't find any sum the equals zero with the remaining left and right pointers
+            if num > 0:
+                break
+
+            # skip over duplicate values
+            if idx > 0 and num == nums[idx - 1]:
+                continue
+
+            # picking the second and third of the three numbers
+            l = idx + 1
+            r = len(nums) - 1
+            
+            while l < r:
+                threeSum = num + nums[l] + nums[r]
+                
+                # if the sum is too large
+                if threeSum > 0:
+                    r -= 1
+                # if the sum is to small
+                elif threeSum < 0:
+                    l += 1
+                
+                else:
+                    res.append([num, nums[l], nums[r]])
+                    # We must move both values. If the numbers we have are -1, -1, 2
+                    # the only way you would be able to move just one pointer and still get a 
+                    # valid sum is if you come up with another identical set -1, -1, 2 and we 
+                    # don't want to include duplicate solutions
+                    l += 1
+                    r -= 1
+                    
+                    # # skip over duplicate values
+                    while nums[l] == nums[l - 1] and l < r:
+                        l += 1
+                        
+        return res
+
+"""
+},
+
+'29':{
+'tag':
+[''],
+'title':
+""" 
+
+""",
+'hint':
+""" 
+
+""",
+'note':
+""" 
+
+""",
+'problem': 
+"""
+
+""",
+"code":
+""" 
+
+"""
+},
 
 
 '0':{
