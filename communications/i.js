@@ -366,6 +366,7 @@ function loadingPage(response) {
         questionDiv.appendChild(buttonDiv);
         questionnaireDiv.appendChild(questionDiv);
     });
+    scrollToLastSelected();
 }
 
 
@@ -394,3 +395,13 @@ function toggleAnswer(answers, questionIndex, answer, selectedButton) {
     console.log(`Question ${questionIndex + 1}: ${answer}`);
 }
 
+function scrollToLastSelected() {
+    const selectedElements = document.querySelectorAll('.selected');
+    if (selectedElements.length > 0) {
+        console.log(4);
+        const lastSelectedElement = selectedElements[selectedElements.length - 1];
+        lastSelectedElement.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Call the function to scroll to the last selected element
