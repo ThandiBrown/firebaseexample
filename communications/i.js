@@ -322,9 +322,9 @@ function loadingSettings() {
 
 function loadingPage(response) {
     // console.log("response")
-    // console.log(response[0]) 
+    console.log(response[0]) 
     let answers = response[0];
-    
+    // return 
     const questionnaireDiv = document.getElementById("questionnaire");
     
 
@@ -396,11 +396,11 @@ function toggleAnswer(answers, questionIndex, answer, selectedButton) {
 }
 
 function scrollToLastSelected() {
-    const selectedElements = document.querySelectorAll('.selected');
+    const selectedElements = document.querySelectorAll('div:not(:has(button.selected))');
     if (selectedElements.length > 0) {
-        console.log(4);
-        const lastSelectedElement = selectedElements[selectedElements.length - 1];
-        lastSelectedElement.scrollIntoView({ behavior: 'smooth' });
+        const firstElement = selectedElements[0];
+        // const lastSelectedElement = selectedElements[selectedElements.length - 1];
+        firstElement.scrollIntoView({ behavior: 'smooth' });
     }
 }
 
