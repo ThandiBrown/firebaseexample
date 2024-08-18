@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="i.css">
+    <link rel="stylesheet" href="checkmark.css">
+    <link rel="stylesheet" href="delete.css">
+    <link rel="stylesheet" href="textarea.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script type="module" src="data/foundation.js" defer></script>
+    <script type="module" src="data/talkToDatabase.js" defer></script>
+
+    <script type="module" src="delete.js" defer></script>
+    <script type="module" src="textarea.js" defer></script>
+    <script type="module" src="saveData.js" defer></script>
+
+
+
+    <title>Stats Tasks</title>
+</head>
+
+<body>
+    <p><a style="text-decoration: none;font-size: 18px;" href="../homepage.html">Tasks</a></p>
+    <div class="program">
+        
+
+        <h2>Todos</h2>
+        <div class="to-dos">
+            <!-- <label class="container">
+            <p class="item">Two</p>
+            <input class="checkbox" type="checkbox">
+            <span class="checkmark"></span>
+            <span class="delete" onclick="removeListItem(event)">X</span>
+        </label> -->
+        </div>
+
+        <div class="textarea-div">
+            <textarea class="new-todo-ideas"></textarea>
+        </div>
+        <div class="textarea-div">
+            <input id="2" type="button" name="action" />
+        </div>
+
+        <h2>Shopping</h2>
+        <div class="shopping"></div>
+
+        <div class="textarea-div">
+            <textarea class="new-items"></textarea>
+        </div>
+        <div class="textarea-div">
+            <input id="3" type="button" name="action" />
+        </div>
+        
+        <h2>Food Items</h2>
+        <div class="on-break">
+            <!-- <label class="container">            
+            <p class="item">One</p>
+            <input class="checkbox" type="checkbox">
+            <span class="checkmark"></span>
+            <span class="delete" onclick="removeListItem(event)">X</span>
+        </label> -->
+        </div>
+
+        <div class="textarea-div">
+            <textarea class="new-break-ideas"></textarea>
+        </div>
+        <div class="textarea-div">
+            <input id="1" type="button" name="action" />
+        </div>
+
+        <div>
+            
+        </div>
+        <button id="4" class="button">Undo</button>
+        
+        
+    </div>
+
+</body>
+
+</html>

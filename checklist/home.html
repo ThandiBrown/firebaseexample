@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    
+    <link rel="stylesheet" href="checkmark.css">
+    <link rel="stylesheet" href="delete.css">
+    <link rel="stylesheet" href="textarea.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script type="module" src="data/foundation.js" defer></script>
+    
+    <script type="module" src="data/talkToDatabase.js" defer></script>
+
+    <script type="module" src="delete.js" defer></script>
+    <script type="module" src="textarea.js" defer></script>
+    <script type="module" src="agendaList.js" defer></script>
+    <script type="module" src="upcomingData.js" defer></script>
+    <script type="module" src="saveData.js" defer></script>
+
+
+
+    <title>Stats Checklist</title>
+</head>
+
+<body>
+    <p><a style="text-decoration: none;font-size: 18px;" href="../homepage.html">Tasks</a></p>
+    <div class="program">
+        <h2>Upcoming</h2>
+        <div class="upcoming-section">
+            <!-- <label class="container">
+                <p class="item">Spain Trip</p>
+                <span class="remaining-days">72 days</span>
+                <div class="progress-bar">
+                    <div class="progress">25%</div>
+                </div>
+            </label> -->
+        </div>
+
+        <h2>Daily</h2>
+        <div class="the-agenda">
+            <!-- <label class="container">            
+            <p class="item">One</p>
+            <input class="checkbox" type="checkbox">
+            <span class="checkmark"></span>
+            <span class="delete" onclick="removeListItem(event)">X</span>
+        </label> -->
+        </div>
+
+        <div class="textarea-div">
+            <textarea class="new-agenda-items"></textarea>
+        </div>
+        <div class="textarea-div">
+            <input id="1" type="button" name="action" />
+        </div>
+        <button id="4" class="button">Undo</button>
+    </div>
+
+</body>
+
+</html>
