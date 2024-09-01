@@ -1,0 +1,36 @@
+.list-categories * {
+    /* outline: 2px solid black; */
+}
+
+.list-categories {
+    /* outline: 2px solid black; */
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 250px;
+}
+
+.list-category {
+    border-radius: 25px;
+    width: 90%;
+    height: 100px;
+    padding-top: 10px;
+    padding-left: 30px;
+    border: 2px solid black;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrolling::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrolling {
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;  
+    /* Firefox */
+    /* scrollbar-width: thin; */
+    /* Thin scrollbar */
+}

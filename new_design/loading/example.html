@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Scrollbar</title>
+  <style>
+    .container {
+      width: 300px;
+      height: 100px;
+      /* Set the height of the container */
+      overflow-y: scroll;
+      /* Enable vertical scrolling */
+      border: 1px solid #ccc;
+      /* Optional: border for visual reference */
+      border-radius: 8px;
+      /* Optional: rounded corners */
+      background-color: #f9f9f9;
+      /* Optional: background color */
+    }
+
+    /* Custom scrollbar for WebKit browsers */
+    .container::-webkit-scrollbar {
+      width: 12px;
+      /* Width of the scrollbar */
+    }
+
+    .container::-webkit-scrollbar-track {
+      background: #eee;
+      /* Track (progress bar) color */
+      border-radius: 8px;
+      /* Rounded corners on the track */
+    }
+
+    .container::-webkit-scrollbar-thumb {
+      background: #888;
+      /* Color of the scroll thumb (draggable part) */
+      border-radius: 8px;
+      /* Rounded corners on the thumb */
+    }
+
+    .container::-webkit-scrollbar-thumb:hover {
+      background: #555;
+      /* Color of the thumb when hovered */
+    }
+
+    /* Example content to enable scrolling */
+    .boxMain {
+      height: 200px;
+      /* Height greater than the container to force scrolling */
+      background: linear-gradient(45deg, #f06, transparent);
+      /* Example content */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="boxMain">
+      <!-- Content that makes the container scrollable -->
+    </div>
+  </div>
+</body>
+
+</html>

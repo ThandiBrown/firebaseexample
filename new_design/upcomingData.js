@@ -40,7 +40,7 @@ function eventIsActive(startDate, endDate) {
 
 function numOfDays() {
     let upcoming = upcomingAgenda();
-    let upcomingSection = document.querySelector(".upcoming .content");
+    let upcomingSection = document.querySelector(".upcoming .boxMain");
     for (let [eventName, startDate, endDate] of upcoming) {
         if (eventIsActive(startDate, endDate)) {
             let timeSpan = getDifferenceBwDays(endDate, startDate);
@@ -52,7 +52,7 @@ function numOfDays() {
             if (percentageTimePassed > 10) {
                 percentageText = percentageTimePassed.toString() + '%';
             }
-            
+
 
             let element = `
             <div class="flexible timer">            
@@ -86,7 +86,7 @@ function upcomingAgenda() {
         // ['Spain Trip', '2024/01/24', '2024/04/19'],
         // ['In Spain', '2024/04/20', '2024/05/02'],
         // ['New Apartment', '2024/01/06', '2024/03/20'],
-        
+
         ['New Orleans Trip', '2024/8/31', '2024/11/21'],
         // ['Christmas', '2024/01/01', '2024/12/25'],
         ['End of the Year', '2024/01/01', '2024/12/31'],

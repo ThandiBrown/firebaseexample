@@ -2,7 +2,8 @@
 
 
 function formCalendar(calendarType) {
-    let calendar = document.querySelector(calendarType);
+    let calendarArea = document.querySelector('.calendar-area');
+    let calendar = `<div class="flexible ${calendarType} calendar">`;
 
     let amountAnswered = 16;
     let weekElement = '';
@@ -31,10 +32,9 @@ function formCalendar(calendarType) {
         
         weekElement += `</div>`;
     }
-    
-    calendar.innerHTML += weekElement;
-    calendar.scrollTop = calendar.scrollHeight;
-        
+    calendar += `</div>`
+    calendarArea.innerHTML += calendar;
+
 }
 
 // Function to generate a list of random boolean values
@@ -48,11 +48,13 @@ function generateRandomBooleans(count) {
     }
     
     return booleans;
-  }
+}
   
-
-formCalendar(".exercise");
-formCalendar(".eating");
+// formCalendar("exercise");
+// formCalendar("eating");
+export {
+    formCalendar
+}
 
 
 

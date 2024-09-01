@@ -2,62 +2,57 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
-    
-    <link rel="stylesheet" href="i.css">
-    <link rel="stylesheet" href="checkbox.css">
-    <link rel="stylesheet" href="calendar.css">
-    <!-- <link rel="stylesheet" href="checkmark.css">
-    <link rel="stylesheet" href="delete.css">
-    <link rel="stylesheet" href="textarea.css"> -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="calendar.css">
+  <link rel="stylesheet" href="listCategories.css">
 
-    <!-- <script type="module" src="data/foundation.js" defer></script>
-    
-    <script type="module" src="data/talkToDatabase.js" defer></script>
-
-    <script type="module" src="delete.js" defer></script>
-    <script type="module" src="textarea.js" defer></script>
-    <script type="module" src="agendaList.js" defer></script>
-    <script type="module" src="upcomingData.js" defer></script>
-    <script type="module" src="saveData.js" defer></script> -->
-    
-    <script type="module" src="calendar.js" defer></script>
-    <script type="module" src="upcomingData.js" defer></script>
-    <script type="module" src="i.js" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 
+  <script type="module" src="calendar.js" defer></script>
+  <script type="module" src="upcomingData.js" defer></script>
+  <script type="module" src="listCategories.js" defer></script>
+  <script type="module" src="home.js" defer></script>
 
-    <title></title>
+  <title></title>
 </head>
 
 <body>
   <!-- <div class="playground"></div> -->
   <div class="page flexible">
-    <div class="flexible pillar upcoming">
-      <h1>Upcoming</h1>
-      <div class="content"></div>
+    <!-- Upcoming -->
+    <div class="flexible boxSection upcoming">
+      <h1 class="boxTitle">Upcoming</h1>
+      <div class="boxMain"></div>
     </div>
-    <div class="flexible pillar upkeep">
-      <h1>Upkeep</h1>
-      <div class="flexible calendar-area">
-        <div class="flexible exercise calendar"></div>
-        <div class="flexible eating calendar"></div>
-      </div>
-      <div class="content">
-      </div>
-      <div class="submit-to-list flexible">
-        <textarea class="submit-text-area" id=""></textarea>
-        <button class="submit-button"></button>
+
+    <!-- Upkeep -->
+    <div class="flexible boxSection upkeep">
+      <h1 class="boxTitle">Upkeep</h1>
+      <div class="boxMain">
+        <div class="flexible calendar-area">
+        </div>
+        
+        <div class="flexible list-categories">
+          <div class="list-category conditional scrolling">
+            Conditional
+          </div>
+          <div class="list-category backlog scrolling">
+            Backlog
+          </div>
+        </div>
+      
       </div>
     </div>
-    
-    <div class="flexible pillar upkeep">
-      <h1>Title</h1>
-      <div class="content">
+
+    <!-- Extra -->
+    <div class="flexible boxSection upkeep">
+      <h1 class="boxTitle">Title</h1>
+      <div class="boxMain">
         <div class="flexible list-item">
           <div class="check"></div>
           <div class="list-value">Empty
@@ -69,17 +64,17 @@
           <div class="list-value">One</div>
           <div class="delete-line"></div>
         </div>
-        
+
       </div>
       <div class="submit-to-list flexible">
         <textarea class="submit-text-area" id=""></textarea>
         <button class="submit-button"></button>
       </div>
     </div>
-    <div class="flexible pillar relationship"></div>
-    <div class="flexible pillar entertainment"></div>
-    <div class="flexible pillar labor"></div>
-  </div> 
+    <div class="flexible boxSection relationship"></div>
+    <div class="flexible boxSection entertainment"></div>
+    <div class="flexible boxSection labor"></div>
+  </div>
 
 </body>
 
