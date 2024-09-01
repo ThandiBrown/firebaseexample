@@ -35,9 +35,14 @@ function eventIsActive(startDate, endDate) {
 }
 
 function displayUpcomingEvents() {
-    let upcoming = upcomingAgenda();
-    let upcomingSection = document.querySelector(".upcoming .boxMain");
-    for (let [eventName, startDate, endDate] of upcoming) {
+    let upcomingSection = `
+    <div class="flexible boxSection upcoming">
+        <h1 class="boxTitle">Upcoming</h1>
+        <div class="boxMain">
+    `;
+    let upcomingEvents = upcomingAgenda();
+    let page = document.querySelector(".page");
+    for (let [eventName, startDate, endDate] of upcomingEvents) {
         if (eventIsActive(startDate, endDate)) {
             let timeSpan = getDifferenceBwDays(endDate, startDate);
             let remainingTimeSpan = getDifferenceBwDays(endDate);
@@ -69,10 +74,11 @@ function displayUpcomingEvents() {
             </div>
             `;
 
-            upcomingSection.innerHTML += element;
-
+            upcomingSection += element;
         }
     }
+    upcomingSection += '</div></div>';
+    page.innerHTML = upcomingSection + page.innerHTML;
     return;
 }
 

@@ -1,14 +1,17 @@
 import { formCalendar } from './calendar.js'
-import { taskCategories, conditionalTopics, getClassName } from './listCategories.js'
+import {
+    taskCategories, conditionalTopics, getClassName,
+    getListItem, getConditionalListItem
+} from './listCategories.js'
 import { displayUpcomingEvents } from './upcoming.js'
 
 
 main();
 function main() {
-    displayUpcomingEvents();
-    formCalendar('eating');
-    formCalendar('exercise');
-    
+    // displayUpcomingEvents();
+    // formCalendar('eating');
+    // formCalendar('exercise');
+
 
     taskCategories('Time Sensitive');
 
@@ -23,7 +26,8 @@ function addEventListeners() {
     // console.log(boxSections);
     const todayBoxes = document.querySelectorAll('.today');
     const calendars = document.querySelectorAll('.calendar');
-    const bubbles = document.querySelectorAll('.bubble');
+    const conditionalBubbles = document.querySelectorAll('.conditional-topics > .bubble');
+    const categoryBubbles = document.querySelectorAll('.category-names > .bubble');
 
 
     boxSections.forEach(boxSection => {
@@ -36,22 +40,7 @@ function addEventListeners() {
         if (boxMain && textarea && submitButton) {
             // boxSection.innerHTML += submissionTextArea();
 
-            submitButton.addEventListener('click', function () {
-                // Loop through each textarea and print its name attribute
-                let submission = textarea.value.trim();
-                if (submission) {
-                    let newContent = '';
-                    submission = submission.split("\n");
-                    for (let line of submission) {
-                        newContent += newListItem(line);
-                    }
-                    boxMain.innerHTML += newContent;
-                    textarea.value = '';
-                    addListItemEventListeners(listItems);
-                }
-
-            });
-
+            submitButton.addEventListener('click', () => submitItem(textarea, listItems));
 
         }
         addListItemEventListeners(listItems);
@@ -68,13 +57,22 @@ function addEventListeners() {
         calendar.scrollTop = calendar.scrollHeight;
     }
 
-    bubbles.forEach(bubble => {
+    conditionalBubbles.forEach(bubble => {
         bubble.addEventListener('click', function () {
             for (let listItem of document.querySelectorAll('.' + getClassName(bubble.innerText))) {
                 listItem.classList.toggle('hidden');
             }
             bubble.classList.toggle('filter-selected');
             toggleConditional();
+        });
+    });
+    categoryBubbles.forEach(bubble => {
+        bubble.addEventListener('click', function () {
+            for (let element of document.querySelectorAll(".category-selected")) {
+                if (bubble != element)
+                    element.classList.remove('category-selected');
+            }
+            bubble.classList.toggle('category-selected');
         });
     });
 
@@ -112,7 +110,67 @@ function addListItemEventListeners(listItems) {
     }
 }
 
+function submitItem(textarea, listItems) {
+    let categorySelected = document.querySelector(".category-selected");
+    if (!categorySelected) categorySelected = 'backlog';
 
+    let category = getClassName(categorySelected.innerText);
+    let listCategoryMainSection = document.querySelector("." + category + " > .main");
+
+    let conditionalTopics = document.querySelector(".conditional-topics");
+
+    // Loop through each textarea and print its name attribute
+    let submission = textarea.value.trim();
+    if (!submission) return;
+
+    let items = '';
+    submission = submission.split("\n");
+    for (let line of submission) {
+        if (!line) continue;
+        if (category == 'conditional') {
+            let parts = line.split('-');
+            if (parts.length == 2) {
+                line = parts[0];
+                let tag = getClassName(parts[1].trim());
+                // if new conditional
+                if (!getTags().includes(tag)) {
+                    conditionalTopics.insertAdjacentHTML('beforeend', `<div class="flexible bubble">${tag}</div>`);
+                    addConditionalBubbleEventListener(conditionalTopics.lastChild);
+                } else {
+                    console.log('seen it:' + tag);
+                }
+                items += getConditionalListItem(line, tag);
+            }
+
+        } else {
+            items += getListItem(line);
+        }
+    }
+
+    listCategoryMainSection.innerHTML += items;
+
+    // textarea.value = '';
+    // addListItemEventListeners(listItems);
+
+}
+
+function addConditionalBubbleEventListener(bubble) {
+    bubble.addEventListener('click', function () {
+        for (let listItem of document.querySelectorAll('.' + getClassName(bubble.innerText))) {
+            listItem.classList.toggle('hidden');
+        }
+        bubble.classList.toggle('filter-selected');
+        toggleConditional();
+    });
+}
+
+function getTags() {
+    const elements = document.querySelectorAll(`.conditional-topics > .bubble`);
+
+    const innerTextSet = Array.from(elements).map(element => getClassName(element.innerText.trim()));
+
+    return innerTextSet;
+}
 
 function newListItem(lineContent) {
     let listElement = `

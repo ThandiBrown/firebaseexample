@@ -69,6 +69,7 @@ let upkeepTask = [
 
 function taskCategories(category, useTagWrapper = false) {
 
+    let categoryNames = document.querySelector(".category-names");
     let categoryContainer = document.querySelector(".list-categories");
     let items = '';
     const conditionals = new Set();
@@ -90,7 +91,7 @@ function taskCategories(category, useTagWrapper = false) {
     } else {
         categoryContainer.innerHTML += getListCategory(category, items);
     }
-
+    categoryNames.innerHTML += `<div class="flexible bubble ">${category}</div>`;
 }
 
 function getConditionalListItem(task, classValue) {
@@ -151,12 +152,14 @@ function tagWrapper(div, tags) {
 }
 
 function getClassName(value) {
-    return value.toLowerCase().replace(/ /g, '-').replace(/[^a-zA-Z0-9]/g, '')
+    return value.toLowerCase().replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, '')
 }
 
 
 export {
     taskCategories,
     conditionalTopics,
-    getClassName
+    getClassName,
+    getListItem,
+    getConditionalListItem
 }
