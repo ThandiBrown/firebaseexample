@@ -34,7 +34,7 @@
 }
 
 .eating {
-    scrollbar-color: hsl(120, 73%, 30%) lightgreen;
+    scrollbar-color: hsl(120, 73%, 30%) hsl(120, 73%, 88%);
     /* Thumb color and track color */
 }
 
@@ -73,7 +73,7 @@
 }
 
 .eating .fulfilled {
-    background-color: lightgreen;
+    background-color: hsl(120, 73%, 88%);
 }
 
 .upcoming-days {

@@ -67,49 +67,96 @@ let upkeepTask = [
     },
 ];
 
-function taskCategories(category) {
+function taskCategories(category, useTagWrapper = false) {
 
     let categoryContainer = document.querySelector(".list-categories");
     let items = '';
     const conditionals = new Set();
     for (let task of upkeepTask) {
         if (category == 'Conditional' && task.conditional) {
-            items += getListContainer(task.title);
+            items += getConditionalListItem(task.title, task.conditional);
             conditionals.add(task.conditional);
         } else if (category == 'Backlog' && Object.keys(task).length === 1) {
-            items += getListContainer(task.title);
+            items += getListItem(task.title);
         } else if (category == 'Time Sensitive' && task.tag && task.tag == 'time sensitive') {
-            items += getListContainer(task.title);
+            items += getListItem(task.title);
         }
 
     }
-    categoryContainer.innerHTML += getListCategory(category, items);
+    if (useTagWrapper) {
+        categoryContainer.innerHTML += tagWrapper(
+            getListCategory(category, items), conditionalTopics(conditionals)
+        );
+    } else {
+        categoryContainer.innerHTML += getListCategory(category, items);
+    }
 
 }
 
-function getListContainer(task) {
-    let listContainer = `
-    <div class="flexible list-item2">
-        <div class="check2"></div>
-        <div class="flexible list-value2">${task}
+function getConditionalListItem(task, classValue) {
+    let listItem = `
+    <div class="flexible list-item hidden ${getClassName(classValue)}">
+        <div class="check"></div>
+        <div class="flexible list-value">${task}
         </div>
-        <div class="delete-line2"></div>
+        <div class="delete-line"></div>
     </div>
     `;
-    return listContainer;
+    return listItem;
+}
+
+function getListItem(task) {
+    let listItem = `
+    <div class="flexible list-item">
+        <div class="check"></div>
+        <div class="flexible list-value">${task}
+        </div>
+        <div class="delete-line"></div>
+    </div>
+    `;
+    return listItem;
 }
 
 function getListCategory(category, container) {
     let listCategory = `
-    <div class="list-category ${category.toLowerCase()} scrolling">
+    <div class="list-category ${getClassName(category)} scrolling">
         <div class="title">${category}</div>
-        ${container}
+        <div class="main">
+            ${container}
+        </div>
     </div>
     `;
     return listCategory
 }
 
+function conditionalTopics(topics) {
+    let bubbles = '';
+    for (let topic of topics) {
+        bubbles += `<div class="flexible bubble">${topic}</div>`;
+    }
+
+    let conditionalTopics = `
+    <div class="flexible conditional-topics">
+        ${bubbles}
+    </div>
+    `;
+    return conditionalTopics;
+}
+
+function tagWrapper(div, tags) {
+    let wrapper = `
+    <div class="flexible wrapper">${div}${tags}</div>
+    `;
+    return wrapper;
+}
+
+function getClassName(value) {
+    return value.toLowerCase().replace(/ /g, '-').replace(/[^a-zA-Z0-9]/g, '')
+}
+
 
 export {
-    taskCategories
+    taskCategories,
+    conditionalTopics,
+    getClassName
 }
