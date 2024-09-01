@@ -5,11 +5,12 @@
 }
 
 body * {
-    outline: 2px solid black;
+    /* outline: 2px solid black; */
 }
 
 .playground {
     height: 30vh;
+    border: 2px solid purple;
 }
 
 .flexible {
@@ -109,4 +110,56 @@ body * {
 .submit-button {
     width: 10%;
     height: 100%;
+}
+
+/* new content line */
+.list-item2 * {
+    /* outline: 2px solid black; */
+}
+
+.list-item2 {
+    /* outline: 2px solid black; */
+    margin-bottom: 0.2rem;
+    /* background-color: lavender; */
+    width: 100%;
+    /* height: 30px; */
+    gap: 0.2rem;
+}
+
+
+.check2 {
+    /* background-color: #dfdede; */
+    border: 3px solid #eee;
+    /* width: 5%;
+    max-width: 30px; */
+    width: 30px;
+}
+
+.checked2 {
+    background-color: lightblue;
+}
+
+.list-value2 {
+    /* background-color: whitesmoke; */
+    border: 3px solid lightblue;
+    width: 100%;
+    padding-left: 10px;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.delete-line2 {
+    /* background-color: pink; */
+    border: 3px solid #000b7d;
+    width: 30px;
+    /* width: 5%;
+    max-width: 30px; */
+    padding-top: 5px;
+    text-align: center;
+}
+
+.check2, .list-value2, .delete-line2 {
+    border-width: 3px;
+    border-radius: 4px;
+    height: 25px;
 }

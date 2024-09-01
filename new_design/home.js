@@ -1,24 +1,38 @@
+import { formCalendar } from './calendar.js'
+import { taskCategories } from './listCategories.js'
+import { displayUpcomingEvents } from './upcoming.js'
 
 
-// addEventListeners();
+main();
+function main() {
+    // displayUpcomingEvents();
+    formCalendar('exercise');
+    // formCalendar('eating');
+    taskCategories('Time Sensitive');
+    taskCategories('Conditional');
+    taskCategories('Backlog');
+    // addEventListeners();
+}
 
 function addEventListeners() {
     // Select all textarea elements
     const boxSections = document.querySelectorAll('.boxSection');
-    const days = document.querySelectorAll('.today');
+    const todayBoxes = document.querySelectorAll('.today');
+    const calendars = document.querySelectorAll('.calendar');
 
-    // Loop through each textarea and print its name attribute
+
     boxSections.forEach(boxSection => {
-        boxSection.innerHTML += submissionTextArea();
+
         const content = boxSection.querySelector('.boxMain');
-        
         const textarea = boxSection.querySelector('.submit-text-area');
         const submitButton = boxSection.querySelector('.submit-button');
         const listItems = boxSection.querySelectorAll('.list-item');
 
         if (content && textarea && submitButton) {
-            submitButton.addEventListener('click', function () {
+            boxSection.innerHTML += submissionTextArea();
 
+            submitButton.addEventListener('click', function () {
+                // Loop through each textarea and print its name attribute
                 let submission = textarea.value.trim();
                 if (submission) {
                     let newContent = '';
@@ -34,18 +48,20 @@ function addEventListeners() {
             });
 
             addListItemEventListeners(listItems, content);
-
         }
 
     });
 
-    days.forEach(day => {
-        day.addEventListener('click', function () {
-            day.classList.toggle('fulfilled');
+    todayBoxes.forEach(todayBox => {
+        todayBox.addEventListener('click', function () {
+            todayBox.classList.toggle('fulfilled');
         });
     });
 
-    // calendar.scrollTop = calendar.scrollHeight;
+    for (let calendar of calendars) {
+        calendar.scrollTop = calendar.scrollHeight;
+    }
+
 }
 
 

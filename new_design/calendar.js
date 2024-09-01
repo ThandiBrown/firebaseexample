@@ -32,9 +32,9 @@ function formCalendar(calendarType) {
         
         weekElement += `</div>`;
     }
-    calendar += `</div>`
+    calendar += weekElement + `</div>`
     calendarArea.innerHTML += calendar;
-
+    
 }
 
 // Function to generate a list of random boolean values

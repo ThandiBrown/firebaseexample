@@ -1,11 +1,11 @@
 .upkeep {
-    border: 2px solid goldenrod;
+    border: 3px solid lightblue;
 
 }
 
-.upkeep>h1 {
-    border-bottom: 2px solid goldenrod;
-    color: goldenrod
+.upkeep > h1 {
+    border-bottom: 3px solid lightblue;
+    color: lightblue
 }
 
 

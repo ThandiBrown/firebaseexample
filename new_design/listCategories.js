@@ -67,24 +67,49 @@ let upkeepTask = [
     },
 ];
 
-function play(tasks) {
-    let conditional = document.querySelector(".conditional");
-    let backlog = document.querySelector(".backlog");
-    let conditionalContent = '';
-    let backlogContent = '';
+function taskCategories(category) {
+
+    let categoryContainer = document.querySelector(".list-categories");
+    let items = '';
     const conditionals = new Set();
-    for (let task of tasks) {
-        if (task.conditional) {
-            conditionalContent += '<br>' + task.title;
+    for (let task of upkeepTask) {
+        if (category == 'Conditional' && task.conditional) {
+            items += getListContainer(task.title);
             conditionals.add(task.conditional);
-        } else {
-            backlogContent += '<br>' + task.title;
+        } else if (category == 'Backlog' && Object.keys(task).length === 1) {
+            items += getListContainer(task.title);
+        } else if (category == 'Time Sensitive' && task.tag && task.tag == 'time sensitive') {
+            items += getListContainer(task.title);
         }
 
     }
-    conditional.innerHTML += conditionalContent;
-    backlog.innerHTML += backlogContent;
+    categoryContainer.innerHTML += getListCategory(category, items);
 
 }
 
-// play(upkeepTask);
+function getListContainer(task) {
+    let listContainer = `
+    <div class="flexible list-item2">
+        <div class="check2"></div>
+        <div class="flexible list-value2">${task}
+        </div>
+        <div class="delete-line2"></div>
+    </div>
+    `;
+    return listContainer;
+}
+
+function getListCategory(category, container) {
+    let listCategory = `
+    <div class="list-category ${category.toLowerCase()} scrolling">
+        <div class="title">${category}</div>
+        ${container}
+    </div>
+    `;
+    return listCategory
+}
+
+
+export {
+    taskCategories
+}
