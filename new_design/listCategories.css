@@ -54,7 +54,7 @@
 }
 
 .list-category>.main {
-    padding: 10px 30px 10px 30px;
+    padding: 10px 10px;
 }
 
 .conditional {
@@ -108,7 +108,9 @@
     /* background-color: hsl(195, 53%, 89%); */
     background-color: hsl(0, 0%, 96%);
     width: 100%;
+    padding: 2px 0px;
     padding-left: 10px;
+    
     /* justify-content: center; */
     align-items: center;
 

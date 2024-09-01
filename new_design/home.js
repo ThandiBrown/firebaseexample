@@ -28,7 +28,7 @@ function addEventListeners() {
 
     boxSections.forEach(boxSection => {
 
-        const boxMain = boxSection.querySelector('.boxMain .main');
+        const boxMain = boxSection.querySelector('.boxMain');
         const textarea = boxSection.querySelector('.submit-text-area');
         const submitButton = boxSection.querySelector('.submit-button');
         const listItems = boxSection.querySelectorAll('.list-item');
@@ -47,14 +47,14 @@ function addEventListeners() {
                     }
                     boxMain.innerHTML += newContent;
                     textarea.value = '';
-                    addListItemEventListeners(listItems, boxMain);
+                    addListItemEventListeners(listItems);
                 }
 
             });
 
 
         }
-        addListItemEventListeners(listItems, boxMain);
+        addListItemEventListeners(listItems);
 
     });
 
@@ -96,7 +96,7 @@ function toggleConditional() {
 }
 
 
-function addListItemEventListeners(listItems, boxMain) {
+function addListItemEventListeners(listItems) {
 
     for (let listItem of listItems) {
         const checkButton = listItem.querySelector('.check');
@@ -106,7 +106,7 @@ function addListItemEventListeners(listItems, boxMain) {
         });
         deleteButton.addEventListener('click', function () {
             if (listItem.classList.contains('checked')) {
-                boxMain.removeChild(listItem);
+                listItem.remove();
             }
         });
     }
