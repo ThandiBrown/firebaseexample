@@ -60,14 +60,18 @@ body * {
 .submission-area {
     /* outline: 2px solid red; */
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
-.submission-area > .list-filters{
+.submission-area>.condition-filters {
     /* width: 100%; */
 }
 
 .list-submission {
     height: 60px;
+    width: 90%;
     /* padding: 10px; */
     /* gap: 1px; */
     border: 2px solid #ccc;
@@ -79,7 +83,7 @@ body * {
 }
 
 .submit-text-area {
-    width: 90%;
+    width: 100%;
     padding: 5px;
     resize: none;
     outline: none;

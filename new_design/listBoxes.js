@@ -67,6 +67,25 @@ let upkeepTask = [
     },
 ];
 
+function organizeUpkeepTasks() {
+    let listDictionary = {
+        'conditional':[],
+        'backlog':[],
+        'time-sensitive':[],
+    };
+    for (let task of upkeepTask) {
+        if (task.conditional) {
+            listDictionary['conditional'].push(task);
+        } else 
+        if (Object.keys(task).length === 1) {
+            listDictionary['backlog'].push(task);
+        } else if (task.tag && task.tag == 'time sensitive') {
+            listDictionary['time-sensitive'].push(task);
+        }
+    }
+    return listDictionary
+}
+
 function taskCategories(category, addListFilters = false) {
 
     let listBoxes = document.querySelector(".list-boxes");
@@ -101,9 +120,9 @@ function taskCategories(category, addListFilters = false) {
 
 function getConditionalListItem(task, classValue, hide = true) {
     console.log("hide:" + JSON.stringify(hide));
-    if (hide) 
+    if (hide)
         hide = 'hidden';
-    else 
+    else
         hide = '';
     let listItem = `
     <div class="flexible list-item ${hide} ${getClassName(classValue)}">
@@ -148,7 +167,7 @@ function getListFilters(filters) {
     }
 
     let getListFilters = `
-    <div class="flexible list-filters">
+    <div class="flexible condition-filters">
         ${bubbles}
     </div>
     `;
@@ -172,5 +191,6 @@ export {
     getListFilters,
     getClassName,
     getListItem,
-    getConditionalListItem
+    getConditionalListItem,
+    organizeUpkeepTasks
 }
