@@ -7,15 +7,15 @@ function formCalendar(calendarType) {
 
     let amountAnswered = 16;
     let weekElement = '';
-    for (let i = 0; i < Math.ceil(amountAnswered/7); i++) {
+    for (let i = 0; i < Math.ceil(amountAnswered / 7); i++) {
         weekElement += `<div class="flexible day-row">`;
-        
+
         const randomBooleans = generateRandomBooleans(7);
         for (let j = 0; j < randomBooleans.length; j++) {
-            
+
             let fulfilled = randomBooleans[j];
             let dayCount = i * 7 + j + 1;
-            
+
             if (dayCount > amountAnswered) {
                 weekElement += `<div class="day upcoming-days"></div>`;
             }
@@ -29,31 +29,39 @@ function formCalendar(calendarType) {
                 weekElement += `<div class="day fulfilled"></div>`;
             }
         }
-        
+
         weekElement += `</div>`;
     }
     calendar += weekElement + `</div>`
     calendarArea.innerHTML += calendar;
-    
+
+}
+
+function scrollCalendars() {
+    const calendars = document.querySelectorAll('.calendar');
+    for (let calendar of calendars) {
+        calendar.scrollTop = calendar.scrollHeight;
+    }
 }
 
 // Function to generate a list of random boolean values
 function generateRandomBooleans(count) {
     const booleans = [];
-    
+
     for (let i = 0; i < count; i++) {
-      // Generate a random boolean value
-      const randomBoolean = Math.random() > 0.5;
-      booleans.push(randomBoolean);
+        // Generate a random boolean value
+        const randomBoolean = Math.random() > 0.5;
+        booleans.push(randomBoolean);
     }
-    
+
     return booleans;
 }
-  
+
 // formCalendar("exercise");
 // formCalendar("eating");
 export {
-    formCalendar
+    formCalendar,
+    scrollCalendars
 }
 
 

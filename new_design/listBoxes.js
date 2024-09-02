@@ -67,36 +67,46 @@ let upkeepTask = [
     },
 ];
 
-function taskCategories(category, useTagWrapper = false) {
+function taskCategories(category, addListFilters = false) {
 
-    let categoryNames = document.querySelector(".category-names");
-    let categoryContainer = document.querySelector(".list-categories");
-    let items = '';
+    let listBoxes = document.querySelector(".list-boxes");
+    let listTitles = document.querySelector(".list-titles");
+
+    let listItems = '';
     const conditionals = new Set();
+
+    // create list Items
     for (let task of upkeepTask) {
         if (category == 'Conditional' && task.conditional) {
-            items += getConditionalListItem(task.title, task.conditional);
+            listItems += getConditionalListItem(task.title, task.conditional);
             conditionals.add(task.conditional);
         } else if (category == 'Backlog' && Object.keys(task).length === 1) {
-            items += getListItem(task.title);
+            listItems += getListItem(task.title);
         } else if (category == 'Time Sensitive' && task.tag && task.tag == 'time sensitive') {
-            items += getListItem(task.title);
+            listItems += getListItem(task.title);
         }
+    }
 
-    }
-    if (useTagWrapper) {
-        categoryContainer.innerHTML += tagWrapper(
-            getListCategory(category, items), conditionalTopics(conditionals)
-        );
+    // add the new list to HTML
+    if (addListFilters) {
+        listBoxes.innerHTML += wrapInListFilters(getListBox(category, listItems), conditionals);
+        listTitles.insertAdjacentHTML('afterend', getListFilters(conditionals));
     } else {
-        categoryContainer.innerHTML += getListCategory(category, items);
+        listBoxes.innerHTML += getListBox(category, listItems);
     }
-    categoryNames.innerHTML += `<div class="flexible bubble ">${category}</div>`;
+
+    // add new list title to the list of buttons
+    listTitles.innerHTML += `<div class="flexible bubble">${category}</div>`;
 }
 
-function getConditionalListItem(task, classValue) {
+function getConditionalListItem(task, classValue, hide = true) {
+    console.log("hide:" + JSON.stringify(hide));
+    if (hide) 
+        hide = 'hidden';
+    else 
+        hide = '';
     let listItem = `
-    <div class="flexible list-item hidden ${getClassName(classValue)}">
+    <div class="flexible list-item ${hide} ${getClassName(classValue)}">
         <div class="check"></div>
         <div class="flexible list-value">${task}
         </div>
@@ -118,35 +128,36 @@ function getListItem(task) {
     return listItem;
 }
 
-function getListCategory(category, container) {
-    let listCategory = `
-    <div class="list-category ${getClassName(category)} scrolling">
+function getListBox(category, container) {
+    let listBox = `
+    <div class="list-box ${getClassName(category)} scrolling">
         <div class="title">${category}</div>
-        <div class="main">
+        <div class="listBoxMain">
             ${container}
         </div>
     </div>
     `;
-    return listCategory
+    return listBox
 }
 
-function conditionalTopics(topics) {
+function getListFilters(filters) {
+    // the lightblue holder containing all of the conditional bubbles
     let bubbles = '';
-    for (let topic of topics) {
-        bubbles += `<div class="flexible bubble">${topic}</div>`;
+    for (let filter of filters) {
+        bubbles += `<div class="flexible bubble">${filter}</div>`;
     }
 
-    let conditionalTopics = `
-    <div class="flexible conditional-topics">
+    let getListFilters = `
+    <div class="flexible list-filters">
         ${bubbles}
     </div>
     `;
-    return conditionalTopics;
+    return getListFilters;
 }
 
-function tagWrapper(div, tags) {
+function wrapInListFilters(element, conditionals) {
     let wrapper = `
-    <div class="flexible wrapper">${div}${tags}</div>
+    <div class="flexible wrapper">${element}${getListFilters(conditionals)}</div>
     `;
     return wrapper;
 }
@@ -158,7 +169,7 @@ function getClassName(value) {
 
 export {
     taskCategories,
-    conditionalTopics,
+    getListFilters,
     getClassName,
     getListItem,
     getConditionalListItem

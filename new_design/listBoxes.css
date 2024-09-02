@@ -1,8 +1,8 @@
-.list-categories * {
+.list-boxes * {
     /* outline: 2px solid black; */
 }
 
-.list-categories {
+.list-boxes {
     /* outline: 2px solid black; */
     /* margin-top: 20px; */
     flex-direction: column;
@@ -12,7 +12,7 @@
     gap: 1rem;
 }
 
-.list-category {
+.list-box {
     border-radius: 10px;
     width: 90%;
     height: 150px;
@@ -38,7 +38,7 @@
     /* Thin scrollbar */
 }
 
-.list-category>.title {
+.list-box>.title {
     font-size: 18px;
     margin-bottom: 3px;
     border-bottom: 4px solid lightblue;
@@ -48,12 +48,12 @@
     padding-left: 35px;
 }
 
-.list-category,
-.list-category>.title {
+.list-box,
+.list-box>.title {
     border-width: 3px;
 }
 
-.list-category>.main {
+.list-box>.listBoxMain {
     padding: 10px 10px;
 }
 
@@ -61,7 +61,7 @@
     height: 100%;
 }
 
-.conditional>.main {
+.conditional>.listBoxMain {
     /* padding: 0; */
 }
 
@@ -110,7 +110,7 @@
     width: 100%;
     padding: 2px 0px;
     padding-left: 10px;
-    
+
     /* justify-content: center; */
     align-items: center;
 
@@ -135,13 +135,13 @@
     min-height: 25px;
 }
 
-.conditional-topics * {
+.list-filters * {
     /* outline: 2px solid black; */
 }
 
-.conditional-topics {
+.list-filters {
     /* outline: 2px solid red; */
-    width: 90%;
+    width: 100%;
     padding: 10px;
     /* min-height: 50px; */
     gap: 0.4rem;
@@ -173,7 +173,7 @@
 
 }
 
-.wrapper>.list-category {
+.wrapper>.list-box {
     width: 100%;
 }
 
