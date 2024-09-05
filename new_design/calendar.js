@@ -1,8 +1,7 @@
 
 
 
-function formCalendar(calendarType) {
-    let calendarArea = document.querySelector('.calendar-area');
+function getCalendar(calendarType) {
     let calendar = `<div class="flexible ${calendarType} calendar">`;
 
     let amountAnswered = 16;
@@ -33,8 +32,7 @@ function formCalendar(calendarType) {
         weekElement += `</div>`;
     }
     calendar += weekElement + `</div>`
-    calendarArea.innerHTML += calendar;
-
+    return calendar
 }
 
 function scrollCalendars() {
@@ -57,10 +55,10 @@ function generateRandomBooleans(count) {
     return booleans;
 }
 
-// formCalendar("exercise");
-// formCalendar("eating");
+// getCalendar("exercise");
+// getCalendar("eating");
 export {
-    formCalendar,
+    getCalendar,
     scrollCalendars
 }
 

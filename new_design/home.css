@@ -28,12 +28,36 @@ body * {
     align-items: center;
 }
 
-.boxSection {
+.pillar {
+    border: 3px solid black;
     border-radius: 10px;
     width: 90%;
     min-height: 20vh;
     flex-direction: column;
     margin-bottom: 30px;
+}
+
+.pillar>h1 {
+    border-bottom: 3px solid black;
+    color: black;
+}
+
+.upkeep {
+    border: 3px solid lightblue;
+}
+
+.upkeep>h1 {
+    border-bottom: 3px solid lightblue;
+    color: hsl(195, 53%, 60%);
+}
+
+.entertainment {
+    border: 3px solid rgb(107, 0, 139);
+}
+
+.entertainment > h1 {
+    border-bottom: 3px solid  rgb(107, 0, 139);;
+    color:  rgb(107, 0, 139);
 }
 
 .boxTitle {

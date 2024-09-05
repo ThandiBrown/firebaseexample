@@ -36,7 +36,7 @@ function eventIsActive(startDate, endDate) {
 
 function displayUpcomingEvents() {
     let upcomingSection = `
-    <div class="flexible boxSection upcoming">
+    <div class="flexible pillar upcoming">
         <h1 class="boxTitle">Upcoming</h1>
         <div class="boxMain">
     `;
