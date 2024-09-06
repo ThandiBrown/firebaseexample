@@ -1,7 +1,8 @@
 import {
     getClassName,
     printIfTrue
-} from './listBoxes.js'
+} from './component_helper.js'
+import { getCalendar } from './calendar.js'
 
 function getPillar(title, data) {
     console.log("getPillar");
@@ -17,15 +18,16 @@ function getPillar(title, data) {
 
 function getContent(data) {
     console.log("getContent");
+    let output = { 'listContent': '', 'tags': [] };
 
     let content = '';
-    if (data.calendar)
+    if (data.calendars)
         content += getCalendarArea(data.calendars);
 
     if (data.lists)
-        content += getLists(data.lists);
+        content += getLists(data.lists, output);
 
-    content += getSubmissionArea(Object.keys(data.lists));
+    content += getSubmissionArea(Object.keys(data.lists), output.tags);
     return content
 }
 
@@ -41,69 +43,87 @@ function getCalendarArea(calendars) {
     `
 }
 
-function getLists(lists) {
+function getLists(lists, output) {
     console.log("getLists");
 
-    let listContent = '';
+
     for (let [title, listData] of Object.entries(lists)) {
-        listContent += getList(title, listData);
+        getList(title, listData, output);
     }
     return `
-    <div class="flexible list-boxes">
-        ${listContent}
+    <div class="flexible listboxes">
+        ${output.listContent}
     </div>
     `;
 
 }
 
-function getList(title, tasks, wrapper = false, filters = []) {
-    let titleClass = getClassName(title);
 
-    return `
-    ${printIfTrue('<div class="flexible wrapper">', wrapper)}
-    <div class="list-box ${titleClass} scrolling">
-        <div class="title">${title}</div>
-        <div class="listBoxMain ${printIfTrue('hidden', wrapper)}">
-            ${printIfTrue(
-        () => tasks.map(task => getListItem(task.title, getClassName(task.conditional))).join(''),
-        wrapper && tasks
-    )}
-            ${printIfTrue(
-        () => tasks.map(task => getListItem(task.title)).join(''),
-        !wrapper && tasks
-    )}
+function getList(listTitle, tasks = [], output = {}) {
+    // console.log("tasks:" + JSON.stringify(tasks));
+    let tags = new Set();
+    let listContent = '';
+    let titleClass = getClassName(listTitle);
+    // get list items
+    for (let task of tasks) {
+        if (task.tag) {
+            tags.add(task.tag);
+        }
+        listContent += getListItem(task);
+    }
+    tags = [...tags];
+
+    let hasTags = tags.length > 0;
+
+    let listElement = `<div class="listbox scrolling">
+        <div class="title">${listTitle}</div>
+        <div class="listbox-main">
+            ${listContent}
         </div>
+    </div>`;
+
+    listElement = `
+    <div class="flexible wrapper ${titleClass}">
+        ${listElement}    
+        ${printIfTrue(() => getListTagArea(tags), hasTags)}
     </div>
-    ${printIfTrue(
-        () => getSubmissionConditionFilters(filters) + '</div>',
-        wrapper)}
     `;
+    if (Object.keys(output).length) {
+        output.tags = output.tags.concat(tags);
+        output.listContent += listElement;
+    }
+    
+    return listElement;
 }
 
+function getListItem(task, isHidden = true) {
+    let hiddenValue = printIfTrue('hidden', isHidden)
+    let tag = task.tag ? `${hiddenValue} ${getClassName(task.tag)}` : '';
 
-function getListItem(task, conditional = null) {
     return `
-    <div class="flexible list-item ${printIfTrue('hidden ' + conditional, conditional)}">
+    <div class="flexible list-item ${tag}">
         <div class="check"></div>
-        <div class="flexible list-value">${task}
+        <div class="flexible list-value">${task.title}
         </div>
         <div class="delete-line"></div>
     </div>
     `;
 }
 
-function getSubmissionConditionFilters(filters) {
+function getListTagArea(filters) {
+    // console.log("filters:" + JSON.stringify(filters));
     return `
-    <div class="flexible condition-filters">
-        ${filters.map(filter => `<div class="flexible bubble">${filter}</div>`).join('')}
+    <div class="flexible list-tag-area">
+        ${filters.map(filter => `<div class="flexible tag">${filter}</div>`).join('')}
     </div>
     `;
 }
 
-function getSubmissionTitleFilters(titles) {
+function getSubmissionTagArea(filters) {
+    // console.log("filters:" + JSON.stringify(filters));
     return `
-    <div class="flexible list-titles">
-        ${titles.map(title => `<div class="flexible bubble">${title}</div>`).join('')}
+    <div class="flexible submission-tag-area">
+        ${filters.map(filter => getTag(filter)).join('')}
     </div>
     `;
 }
@@ -116,17 +136,35 @@ function getSubmissionArea(listTitles = null, filters = null) {
           <button class="submit-button"></button>
         </div>
         ${printIfTrue(
-        () => getSubmissionTitleFilters(listTitles), listTitles
+        () => getSubmissionTitleArea(listTitles), listTitles
     )}
+        ${getSubmissionGeneralArea()}
         ${printIfTrue(
-        () => getSubmissionConditionFilters(filters), filters
+        () => getSubmissionTagArea(filters), filters
     )}
     </div>
     `;
 }
 
-function getBubble(tagName) {
-    return `<div class="flexible bubble">${tagName}</div>`
+function getSubmissionTitleArea(titles) {
+    return `
+    <div class="flexible submission-title-area">
+        ${titles.map(title => getTag(title)).join('')}
+    </div>
+    `;
+}
+
+function getSubmissionGeneralArea() {
+    let titles = ['New List', 'Delete List'];
+    return `
+    <div class="flexible submission-general-area">
+        ${titles.map(title => getTag(title)).join('')}
+    </div>
+    `;
+}
+
+function getTag(tagName) {
+    return `<div class="flexible tag">${tagName}</div>`
 }
 
 export {
@@ -136,8 +174,8 @@ export {
     getLists,
     getList,
     getListItem,
-    getSubmissionConditionFilters,
-    getSubmissionTitleFilters,
+    getSubmissionTagArea,
+    getSubmissionTitleArea,
     getSubmissionArea,
-    getBubble
+    getTag
 }

@@ -25,15 +25,103 @@ function genSentences(numberOfSentences) {
     return sentences
 }
 
-let data = {
-    'Entertainment': {
-        'lists': {
-            'Hobbies to Try': genSentences(5),
-            'Things to Watch': genSentences(5),
-            'Foods to Make': genSentences(5)
+
+let data = [
+    {
+        'pillarName':'Upkeep',
+        'pillarData': {
+            'goals': [
+                'Build muscle and endurance',
+                'Maintain a healthy diet',
+                'Be proficient in tech interview questions'
+            ],
+            'calendars': ['exercise', 'eating'],
+            'lists': {
+                "Time Sensitive": [
+                    {
+                        "title": "Christmas flight",
+                        "tag": "phone"
+                    },
+                    {
+                        "title": "Create bsw health account",
+                        "tag": "phone"
+                    }
+                ],
+                "Conditional": [
+                    {
+                        "title": "Truist/CD/MMA",
+                        // "tag": "car"
+                    },
+                    {
+                        "title": "Ask company to mail w2 to chinue address",
+                        // "tag": "work hours"
+                    },
+                    {
+                        "title": "Pop and swap lens",
+                        "tag": "work hours"
+                    },
+                    {
+                        "title": "Work transcript",
+                        "tag": "work hours"
+                    },
+                    {
+                        "title": "Amazon returns",
+                        "tag": "car"
+                    },
+                    {
+                        "title": "Makeup with chinue",
+                        "tag": "Chinue's House"
+                    }
+                ],
+                "Backlog": [
+                    {
+                        "title": "All new emails"
+                    },
+                    {
+                        "title": "Tsa precheck"
+                    },
+                    {
+                        "title": "Find happypages site"
+                    },
+                    {
+                        "title": "Determine non tech things"
+                    },
+                    {
+                        "title": "Chinue advice on stainless pans"
+                    },
+                    {
+                        "title": "300 questions social program"
+                    },
+                    {
+                        "title": "Figure out how to recover dragon if hard reset"
+                    },
+                    {
+                        "title": "V2 (Notes Section?/relationships) - gift list"
+                    },
+                    {
+                        "title": "How to save computer if destroyed"
+                    },
+                    {
+                        "title": "Mayfair witches"
+                    },
+                    {
+                        "title": "Amc, stars, showtime, apple shows"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        'pillarName':'Entertainment',
+        'pillarData': {
+            'lists': {
+                'Hobbies to Try': genSentences(5),
+                'Things to Watch': genSentences(5),
+                'Foods to Make': genSentences(5)
+            }
         }
     }
-};
+];
 
 function getData() {
     return data

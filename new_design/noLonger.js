@@ -1,8 +1,8 @@
 
 function taskCategories(category, addListFilters = false) {
 
-    let listBoxes = document.querySelector(".list-boxes");
-    let listTitles = document.querySelector(".list-titles");
+    let listBoxes = document.querySelector(".listboxes");
+    let listTitles = document.querySelector(".submission-title-area");
 
     let listItems = '';
     const conditionals = new Set();
@@ -28,7 +28,7 @@ function taskCategories(category, addListFilters = false) {
     }
 
     // add new list title to the list of buttons
-    listTitles.innerHTML += `<div class="flexible bubble">${category}</div>`;
+    listTitles.innerHTML += `<div class="flexible tag">${category}</div>`;
 }
 
 function getConditionalListItem(task, classValue, hide = true) {
@@ -62,9 +62,9 @@ function getListItem(task) {
 
 function getListBox(category, container) {
     let listBox = `
-    <div class="list-box ${getClassName(category)} scrolling">
+    <div class="listbox ${getClassName(category)} scrolling">
         <div class="title">${category}</div>
-        <div class="listBoxMain">
+        <div class="listbox-main">
             ${container}
         </div>
     </div>
@@ -73,15 +73,15 @@ function getListBox(category, container) {
 }
 
 function getListFilters(filters) {
-    // the lightblue holder containing all of the conditional bubbles
-    let bubbles = '';
+    // the lightblue holder containing all of the conditional tags
+    let tags = '';
     for (let filter of filters) {
-        bubbles += `<div class="flexible bubble">${filter}</div>`;
+        tags += `<div class="flexible tag">${filter}</div>`;
     }
 
     let getListFilters = `
-    <div class="flexible condition-filters">
-        ${bubbles}
+    <div class="flexible list-tag-area">
+        ${tags}
     </div>
     `;
     return getListFilters;
