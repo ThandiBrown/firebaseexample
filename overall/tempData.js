@@ -27,7 +27,8 @@ function genSentences(numberOfSentences) {
 
 
 let data = {
-    'Upkeep':{
+    // 'Garden': {},
+    'Upkeep': {
         'goals': [
             'Build muscle and endurance',
             'Maintain a healthy diet',

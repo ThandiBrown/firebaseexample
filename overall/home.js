@@ -1,17 +1,55 @@
 import { getData } from './tempData.js'
-import {
-    createPillar,
-    createList
-} from './component.js'
+import * as actions from './actions.js'
+import * as e from './eventListeners.js'
+import * as c from './component.js'
 
-
+/* 
+NEXT:
+make the collapse function
+add the submit area
+*/
 loadPage();
 function loadPage() {
     for (let [pillarName, pillarData] of Object.entries(getData())) {
-        let pillarElement = createPillar(pillarName);
-        console.log(pillarElement);
-        for (let [listName, listData] of Object.entries(pillarData.lists)) {
-            let listElement = createList(pillarElement, listName);
+        let pillarElement = c.createPillar(pillarName);
+        let allLists = [];
+        let allPillarConditions = [];
+
+        if (pillarData.lists) {
+            for (let [listName, listItems] of Object.entries(pillarData.lists)) {
+                let listElement = c.createList(pillarElement, listName);
+
+                let tags = [];
+                for (let listItem of listItems) {
+                    let listItemElement = c.createListItem(listElement, listItem.title, listItem.tag);
+                    e.listItemListeners(listItemElement);
+                    if (listItem.tag && !tags.includes(listItem.tag)) tags.push(listItem.tag);
+                }
+
+                for (let tagName of tags) {
+                    let tagElement = c.createListCondition(listElement, tagName);
+                    e.listConditionListener(listElement, tagElement);
+                    allPillarConditions.push(tagName);
+                }
+
+                allLists.push(listName);
+                e.collapselistItemArea(listElement);
+                actions.collapseListConditionAreas(listElement);
+            }
         }
+
+        let submitArea = c.createSubmitArea(pillarElement);
+        
+        for (let listName of allLists) {
+            let listTag = c.createSubmitList(submitArea, listName);
+            e.submitListListener(pillarElement, listTag);
+        }
+        
+        for (let condition of allPillarConditions) {
+            let conditionTag = c.createSubmitCondition(submitArea, condition);
+            e.submitConditionListener(conditionTag);
+        }
+
     }
 }
+

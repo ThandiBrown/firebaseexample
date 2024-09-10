@@ -13,6 +13,7 @@ function printIfTrue(statement, condition, returnValue = '') {
 function append(element, newElement) {
     element.insertAdjacentHTML('beforeend', newElement);
 }
+
 function appendAndRetrieve(element, newElement) {
     element.insertAdjacentHTML('beforeend', newElement);
     return element.lastElementChild;
