@@ -12,6 +12,10 @@ function getListArea(parent) {
     return parent.querySelector(".list-area");
 }
 
+function getListElement(parent, listTitle) {
+    return parent.querySelector("." + getClassName(listTitle));
+}
+
 function getListItemArea(parent) {
     // the area that contains all list items within a list
     return parent.querySelector(".list-item-area");
@@ -66,13 +70,27 @@ function getSubmitListArea(parent) {
     return parent.querySelector(".submit-list-area");
 }
 
+function getSubmitGeneralArea(parent) {
+    return parent.querySelector(".submit-general-area");
+}
+
 function getSubmitConditionArea(parent) {
     return parent.querySelector(".submit-condition-area");
 }
 
+function getSubmitListSelected(parent) {
+    return parent.querySelector(".submit-list-selected");
+}
+
+function getSubmitConditionSelected(parent) {
+    return parent.querySelector(".submit-condition-selected");
+}
+
+
 export {
     getPage,
     getListArea,
+    getListElement,
     getListItemArea,
     getListTitle,
     getCheckButton,
@@ -83,6 +101,9 @@ export {
     getPillarMain,
     getTextArea,
     getSubmitButton,
+    getSubmitListArea,
     getSubmitConditionArea,
-    getSubmitListArea
+    getSubmitListSelected,
+    getSubmitConditionSelected,
+    getSubmitGeneralArea
 }

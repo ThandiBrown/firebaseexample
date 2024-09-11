@@ -258,14 +258,17 @@ body * {
     margin-top: 10px;
 }
 
-.submit-list-tag {
+.submit-list-tag,
+.submit-general-tag 
+{
     border-radius: 5px;
     padding: 2px 5px;
     border-color: #ccc;
     color: hsl(0, 0%, 60%);
 }
 
-.submit-list-selected {
+.submit-list-selected
+{
     background-color: hsl(0, 0%, 70%);
     border-color: hsl(0, 0%, 70%);
     color: white;

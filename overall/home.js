@@ -39,16 +39,23 @@ function loadPage() {
         }
 
         let submitArea = c.createSubmitArea(pillarElement);
-        
+
         for (let listName of allLists) {
             let listTag = c.createSubmitList(submitArea, listName);
             e.submitListListener(pillarElement, listTag);
         }
-        
+
+        for (let genName of ['New List', 'Delete List']) {
+            let genTag = c.createSubmitGeneral(submitArea, genName);
+            e.submitListListener(pillarElement, genTag);
+        }
+
         for (let condition of allPillarConditions) {
             let conditionTag = c.createSubmitCondition(submitArea, condition);
-            e.submitConditionListener(conditionTag);
+            e.submitConditionListener(pillarElement, conditionTag);
         }
+
+        e.submitListener(pillarElement);
 
     }
 }

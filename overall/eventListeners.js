@@ -1,3 +1,4 @@
+import * as c from './component.js';
 import * as _ from './data.js';
 import * as actions from './actions.js'
 
@@ -42,8 +43,51 @@ function submitListener(pillar) {
         let textArea = _.getTextArea(pillar);
         let userText = textArea.value.trim();
         if (!userText) return;
+
+        let listSelected = _.getSubmitListSelected(pillar);
+        if (!listSelected) return;
+
+        let conditionSelected = _.getSubmitConditionSelected(pillar);
+
+        let listElement = _.getListElement(pillar, listSelected.innerText);
+
         // parse user submit
         // add submit to the list
+        for (let line of userText.split('\n')) {
+
+            if (conditionSelected) {
+                conditionSelected = conditionSelected.innerText
+            } else {
+                // if a condition wasn't selected, check if one was written
+                line = line.split('-');
+                if (line.length > 1) {
+                    conditionSelected = line.pop().trim();
+                    line = line.join(' - ');
+                } else {
+                    conditionSelected = '';
+                    line = line[0];
+                }
+            }
+
+            listItemListeners(
+                c.createListItem(listElement, line, conditionSelected, Boolean(conditionSelected))
+            );
+
+            if (conditionSelected) {
+                console.log(11);
+                listConditionListener(
+                    listElement,
+                    c.createListCondition(listElement, conditionSelected)
+                );
+
+                submitConditionListener(
+                    c.createSubmitCondition(pillar, conditionSelected)
+                );
+            }
+        }
+
+        collapselistItemArea(listElement);
+
     });
 
 }
@@ -60,7 +104,12 @@ function submitListListener(pillar, listTag) {
     });
 }
 
-function submitConditionListener(conditionTag) {
+function submitConditionListener(pillar, conditionTag) {
+    // only allows one category to be selected at a time
+    for (let element of pillar.querySelectorAll(".submit-condition-selected")) {
+        if (conditionTag != element)
+            element.classList.remove('submit-condition-selected');
+    }
     conditionTag.addEventListener('click', () => conditionTag.classList.toggle('submit-condition-selected'));
 }
 
