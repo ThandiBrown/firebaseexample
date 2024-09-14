@@ -70,6 +70,15 @@ function getSubmitListArea(parent) {
     return parent.querySelector(".submit-list-area");
 }
 
+function getSubmitListTag(parent, tagName) {
+    let tags = parent.querySelectorAll(".submit-list-tag");
+    for (let tag of tags) {
+        if (tag.innerText == tagName) 
+            return tag;
+    }
+    return null
+}
+
 function getSubmitGeneralArea(parent) {
     return parent.querySelector(".submit-general-area");
 }
@@ -102,6 +111,7 @@ export {
     getTextArea,
     getSubmitButton,
     getSubmitListArea,
+    getSubmitListTag,
     getSubmitConditionArea,
     getSubmitListSelected,
     getSubmitConditionSelected,

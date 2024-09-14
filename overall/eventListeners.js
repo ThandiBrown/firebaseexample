@@ -2,11 +2,15 @@ import * as c from './component.js';
 import * as _ from './data.js';
 import * as actions from './actions.js'
 
-function listItemListeners(listItem) {
+function listItemListeners(listElement, listItem) {
     _.getCheckButton(listItem).addEventListener('click', () => listItem.classList.toggle('checked'));
 
     _.getDeleteButton(listItem).addEventListener('click', function () {
-        if (listItem.classList.contains('checked')) listItem.remove();
+        if (listItem.classList.contains('checked')) {
+            listItem.remove();
+            actions.collapselistItemArea(listElement);
+            actions.collapseListConditionAreas(listElement);
+        }
     });
 }
 
@@ -22,19 +26,6 @@ function listConditionListener(listElement, tagElem) {
     });
 }
 
-function collapselistItemArea(listElement) {
-    let listItemArea = _.getListItemArea(listElement);
-    let listTitle = _.getListTitle(listElement);
-    if (
-        _.getListItems(listItemArea, 'hidden').length == _.getListItems(listItemArea).length
-    ) {
-        listItemArea.classList.add('hidden');
-        listTitle.style.borderWidth = '0px';
-    } else {
-        listItemArea.classList.remove('hidden');
-        listTitle.style.borderWidth = '3px';
-    }
-}
 
 function submitListener(pillar) {
     // assign listener
@@ -49,7 +40,27 @@ function submitListener(pillar) {
 
         let conditionSelected = _.getSubmitConditionSelected(pillar);
 
-        let listElement = _.getListElement(pillar, listSelected.innerText);
+        let buttonText = listSelected.innerText;
+        
+        resetValues(textArea, listSelected, conditionSelected);
+
+        if (buttonText == 'New List') {
+            newListRequest(pillar, userText);
+            return;
+        } else if (buttonText == 'Delete List') {
+            deleteListRequest(pillar, userText);
+            return;
+        }
+
+        let listElement = _.getListElement(pillar, buttonText);
+
+        /* 
+        NEXT: start writing logic for general buttons
+        consider creating an object on a new JavaScript page
+        That can be written to for new data entered, such as a new list being stored
+        or a new list item
+        consider breaking this method down into new functions ---> or starting a new function now with this change
+        */
 
         // parse user submit
         // add submit to the list
@@ -70,11 +81,11 @@ function submitListener(pillar) {
             }
 
             listItemListeners(
+                listElement,
                 c.createListItem(listElement, line, conditionSelected, Boolean(conditionSelected))
             );
 
             if (conditionSelected) {
-                console.log(11);
                 listConditionListener(
                     listElement,
                     c.createListCondition(listElement, conditionSelected)
@@ -86,11 +97,43 @@ function submitListener(pillar) {
             }
         }
 
-        collapselistItemArea(listElement);
+        actions.collapselistItemArea(listElement);
 
     });
 
 }
+
+function newListRequest(pillar, userText) {
+    /* submethod of submitListener */
+    // create list
+    let listName = userText.split('\n')[0].trim();
+    if (c.isExistingList(pillar, listName)) return;
+    
+    let listElement = c.createList(pillar, listName);
+
+    // add list to selectable buttons
+    let listTag = c.createSubmitListTag(pillar, listName);
+    submitListListener(pillar, listTag);
+    actions.collapselistItemArea(listElement);
+    actions.collapseListConditionAreas(listElement);
+}
+
+function resetValues(textArea, listSelected, conditionSelected) {
+    textArea.value = '';
+    listSelected.classList.remove('submit-list-selected');
+    if (conditionSelected) conditionSelected.classList.remove('submit-condition-selected');
+}
+
+function deleteListRequest(pillar, userText) {
+    /* submethod of submitListener */
+    // remove list element
+    let listName = userText.split('\n')[0].trim();
+    _.getListElement(pillar, listName).remove();
+    
+    // remove list tag
+    _.getSubmitListTag(pillar, listName).remove();
+}
+
 
 function submitListListener(pillar, listTag) {
     listTag.addEventListener('click', function () {
@@ -116,7 +159,6 @@ function submitConditionListener(pillar, conditionTag) {
 export {
     listItemListeners,
     listConditionListener,
-    collapselistItemArea,
     submitListener,
     submitListListener,
     submitConditionListener

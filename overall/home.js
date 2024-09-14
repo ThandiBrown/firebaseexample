@@ -22,7 +22,7 @@ function loadPage() {
                 let tags = [];
                 for (let listItem of listItems) {
                     let listItemElement = c.createListItem(listElement, listItem.title, listItem.tag);
-                    e.listItemListeners(listItemElement);
+                    e.listItemListeners(listElement, listItemElement);
                     if (listItem.tag && !tags.includes(listItem.tag)) tags.push(listItem.tag);
                 }
 
@@ -33,7 +33,7 @@ function loadPage() {
                 }
 
                 allLists.push(listName);
-                e.collapselistItemArea(listElement);
+                actions.collapselistItemArea(listElement);
                 actions.collapseListConditionAreas(listElement);
             }
         }
@@ -41,7 +41,7 @@ function loadPage() {
         let submitArea = c.createSubmitArea(pillarElement);
 
         for (let listName of allLists) {
-            let listTag = c.createSubmitList(submitArea, listName);
+            let listTag = c.createSubmitListTag(submitArea, listName);
             e.submitListListener(pillarElement, listTag);
         }
 

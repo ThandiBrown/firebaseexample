@@ -19,8 +19,8 @@ function appendAndRetrieve(element, newElement) {
     return element.lastElementChild;
 }
 
-function getSubmitConditionNames(parent) {
-    const tags = parent.querySelectorAll('.submit-condition-tag');
+function getSubmitListNames(parent) {
+    const tags = parent.querySelectorAll('.submit-list-tag');
     const innerTextSet = Array.from(tags).map(tag => getClassName(tag.innerText.trim()));
     return innerTextSet;
 }
@@ -31,11 +31,18 @@ function getListConditionNames(parent) {
     return innerTextSet;
 }
 
+function getSubmitConditionNames(parent) {
+    const tags = parent.querySelectorAll('.submit-condition-tag');
+    const innerTextSet = Array.from(tags).map(tag => getClassName(tag.innerText.trim()));
+    return innerTextSet;
+}
+
 export {
     getClassName,
     printIfTrue,
     append,
     appendAndRetrieve,
     getSubmitConditionNames,
-    getListConditionNames
+    getListConditionNames,
+    getSubmitListNames 
 }

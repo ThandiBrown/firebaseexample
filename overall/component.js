@@ -1,6 +1,7 @@
 import {
     getClassName,
-    printIfTrue, appendAndRetrieve, getSubmitConditionNames, getListConditionNames
+    printIfTrue, appendAndRetrieve, getSubmitConditionNames, getListConditionNames,
+    getSubmitListNames
 } from './component_helper.js';
 import * as _ from './data.js';
 
@@ -19,14 +20,18 @@ function createPillar(title) {
 function createList(pillar, listTitle) {
     let listString = `
         <div class="flexible wrapper ${getClassName(listTitle)}">
-            <div class="list scrolling">
+            <div class="list">
                 <div class="list-title">${listTitle}</div>
-                <div class="list-item-area"></div>
+                <div class="list-item-area scrolling"></div>
             </div>
             <div class="flexible list-condition-area"></div>
         </div>
     `;
     return appendAndRetrieve(_.getListArea(pillar), listString);
+}
+
+function isExistingList(parent, listName) {
+    return getSubmitListNames(parent).includes(getClassName(listName))
 }
 
 function createListItem(listElement, taskDescription, tag = '', isHidden = true) {
@@ -68,41 +73,44 @@ function createSubmitArea(pillar) {
     return appendAndRetrieve(_.getPillarMain(pillar), submitAreaString);
 }
 
-function createSubmitList(pillar, listName) {
+function createSubmitListTag(parent, listName) {
+    /* Adds the title name as the tag*/
+    
     let listTagString = `
         <div class="flexible submit-list-tag">${listName}</div>
         `;
 
-    return appendAndRetrieve(_.getSubmitListArea(pillar), listTagString);
+    return appendAndRetrieve(_.getSubmitListArea(parent), listTagString);
 }
 
-function createSubmitGeneral(pillar, genName) {
+function createSubmitGeneral(parent, genName) {
     let generalTagString = `
         <div class="flexible submit-general-tag">${genName}</div>
         `;
 
-    return appendAndRetrieve(_.getSubmitGeneralArea(pillar), generalTagString);
+    return appendAndRetrieve(_.getSubmitGeneralArea(parent), generalTagString);
 }
 
-function createSubmitCondition(pillar, condition) {
+function createSubmitCondition(parent, condition) {
     // no repeat tags
-    if (getSubmitConditionNames(pillar).includes(condition)) return;
+    if (getSubmitConditionNames(parent).includes(condition)) return;
 
     let conditionTagsString = `
         <div class="flexible submit-condition-tag">${condition}</div>
         `;
 
-    return appendAndRetrieve(_.getSubmitConditionArea(pillar), conditionTagsString);
+    return appendAndRetrieve(_.getSubmitConditionArea(parent), conditionTagsString);
 }
 
 
 export {
     createPillar,
     createList,
+    isExistingList,
     createListItem,
     createListCondition,
     createSubmitArea,
-    createSubmitList,
+    createSubmitListTag,
     createSubmitCondition,
     createSubmitGeneral
 }

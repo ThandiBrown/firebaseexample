@@ -119,6 +119,7 @@ body * {
 
 .list-item-area {
     padding: 10px;
+    max-height: 100px;
 }
 
 .list-item {
@@ -261,9 +262,9 @@ body * {
 .submit-list-tag,
 .submit-general-tag 
 {
+    border: 3px solid #ccc;
     border-radius: 5px;
     padding: 2px 5px;
-    border-color: #ccc;
     color: hsl(0, 0%, 60%);
 }
 
