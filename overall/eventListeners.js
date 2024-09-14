@@ -22,7 +22,7 @@ function listConditionListener(listElement, tagElem) {
         }
         tagElem.classList.toggle('list-condition-selected');
         // un/collapses the list area based on whether filters are selected
-        collapselistItemArea(listElement);
+        actions.collapselistItemArea(listElement);
     });
 }
 
@@ -53,6 +53,10 @@ function submitListener(pillar) {
         }
 
         let listElement = _.getListElement(pillar, buttonText);
+        console.log("pillar");
+        console.log(pillar);
+        console.log("listElement");
+        console.log(listElement);
 
         /* 
         NEXT: start writing logic for general buttons
@@ -91,7 +95,10 @@ function submitListener(pillar) {
                     c.createListCondition(listElement, conditionSelected)
                 );
 
+                console.log("pillar");
+                console.log(pillar);
                 submitConditionListener(
+                    pillar, 
                     c.createSubmitCondition(pillar, conditionSelected)
                 );
             }
@@ -148,6 +155,7 @@ function submitListListener(pillar, listTag) {
 }
 
 function submitConditionListener(pillar, conditionTag) {
+    if (!conditionTag) return;
     // only allows one category to be selected at a time
     for (let element of pillar.querySelectorAll(".submit-condition-selected")) {
         if (conditionTag != element)

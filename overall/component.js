@@ -92,6 +92,8 @@ function createSubmitGeneral(parent, genName) {
 }
 
 function createSubmitCondition(parent, condition) {
+    console.log("parent");
+    console.log(parent);
     // no repeat tags
     if (getSubmitConditionNames(parent).includes(condition)) return;
 
