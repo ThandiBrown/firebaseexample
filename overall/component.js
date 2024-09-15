@@ -1,9 +1,9 @@
 import {
     getClassName,
-    printIfTrue, appendAndRetrieve, getSubmitConditionNames, getListConditionNames,
-    getSubmitListNames
+    printIfTrue, appendAndRetrieve
 } from './component_helper.js';
-import * as _ from './data.js';
+import * as _ from './getThis.js';
+import * as d from './dataManager.js';
 
 function createPillar(title) {
     let pillarString = `
@@ -14,6 +14,8 @@ function createPillar(title) {
             </div>
         </div>
         `
+    
+    d.newPillar(title);
     return appendAndRetrieve(_.getPage(), pillarString);
 }
 
@@ -27,11 +29,13 @@ function createList(pillar, listTitle) {
             <div class="flexible list-condition-area"></div>
         </div>
     `;
+    
+    d.newList(_.getPillarName(pillar), listTitle);
     return appendAndRetrieve(_.getListArea(pillar), listString);
 }
 
 function isExistingList(parent, listName) {
-    return getSubmitListNames(parent).includes(getClassName(listName))
+    return _.getSubmitListNames(parent).includes(getClassName(listName))
 }
 
 function createListItem(listElement, taskDescription, tag = '', isHidden = true) {
@@ -46,12 +50,19 @@ function createListItem(listElement, taskDescription, tag = '', isHidden = true)
             <div class="delete-line"></div>
         </div>
     `;
+    
+    d.newListItem(
+        _.getPillarName(listElement, 'listElement'), 
+        _.getListTitleName(listElement), 
+        taskDescription, 
+        tag
+    );
     return appendAndRetrieve(_.getListItemArea(listElement), listItemString);
 }
 
 function createListCondition(listElement, tagName) {
     // no repeat tags
-    if (getListConditionNames(listElement).includes(tagName)) return;
+    if (_.getListConditionNames(listElement).includes(tagName)) return;
     let listConditionString = `
         <div class="flexible list-condition-tag">${tagName}</div>
     `;
@@ -75,7 +86,7 @@ function createSubmitArea(pillar) {
 
 function createSubmitListTag(parent, listName) {
     /* Adds the title name as the tag*/
-    
+
     let listTagString = `
         <div class="flexible submit-list-tag">${listName}</div>
         `;
@@ -92,10 +103,8 @@ function createSubmitGeneral(parent, genName) {
 }
 
 function createSubmitCondition(parent, condition) {
-    console.log("parent");
-    console.log(parent);
     // no repeat tags
-    if (getSubmitConditionNames(parent).includes(condition)) return;
+    if (_.getSubmitConditionNames(parent).includes(condition)) return;
 
     let conditionTagsString = `
         <div class="flexible submit-condition-tag">${condition}</div>

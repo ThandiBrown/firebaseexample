@@ -1,4 +1,5 @@
-import * as _ from './data.js';
+import * as _ from './getThis.js';
+import * as ch from './component_helper.js';
 
 function collapseListConditionAreas(listElement) {
     /* 
@@ -24,7 +25,25 @@ function collapselistItemArea(listElement) {
     }
 }
 
+function removeConditionTag(listElement, listItem) {
+    /* 
+        once an item is deleted, check if that was the last instance of see if the attached condition was the last task with that condition, if so remove
+    */
+
+    // key - tag name, value - DOM Element Match
+    let conditionMatches = _.getListConditionMatches(listElement);
+
+    for (let tagName of _.getListConditionNames(listElement)) {
+        if (listItem.classList.contains(tagName)) {
+            if (_.getListItems(listElement, tagName).length == 0) {
+                conditionMatches[tagName].remove();
+            }
+        }
+    }
+}
+
 export {
     collapseListConditionAreas,
-    collapselistItemArea
+    collapselistItemArea,
+    removeConditionTag
 }

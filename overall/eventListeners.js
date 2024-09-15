@@ -1,6 +1,13 @@
 import * as c from './component.js';
-import * as _ from './data.js';
+import * as _ from './getThis.js';
 import * as actions from './actions.js'
+import * as d from './dataManager.js'
+
+
+function saveAllDataListener() {
+    document.querySelector(".saving").addEventListener('click', () => d.saveToDB());
+
+}
 
 function listItemListeners(listElement, listItem) {
     _.getCheckButton(listItem).addEventListener('click', () => listItem.classList.toggle('checked'));
@@ -8,8 +15,14 @@ function listItemListeners(listElement, listItem) {
     _.getDeleteButton(listItem).addEventListener('click', function () {
         if (listItem.classList.contains('checked')) {
             listItem.remove();
+            actions.removeConditionTag(listElement, listItem);
             actions.collapselistItemArea(listElement);
             actions.collapseListConditionAreas(listElement);
+            d.deleteListItem(
+                _.getPillarName(listElement, 'listElement'),
+                _.getListTitleName(listElement),
+                _.getListItemName(listItem)
+            );
         }
     });
 }
@@ -41,7 +54,7 @@ function submitListener(pillar) {
         let conditionSelected = _.getSubmitConditionSelected(pillar);
 
         let buttonText = listSelected.innerText;
-        
+
         resetValues(textArea, listSelected, conditionSelected);
 
         if (buttonText == 'New List') {
@@ -53,18 +66,6 @@ function submitListener(pillar) {
         }
 
         let listElement = _.getListElement(pillar, buttonText);
-        console.log("pillar");
-        console.log(pillar);
-        console.log("listElement");
-        console.log(listElement);
-
-        /* 
-        NEXT: start writing logic for general buttons
-        consider creating an object on a new JavaScript page
-        That can be written to for new data entered, such as a new list being stored
-        or a new list item
-        consider breaking this method down into new functions ---> or starting a new function now with this change
-        */
 
         // parse user submit
         // add submit to the list
@@ -95,10 +96,8 @@ function submitListener(pillar) {
                     c.createListCondition(listElement, conditionSelected)
                 );
 
-                console.log("pillar");
-                console.log(pillar);
                 submitConditionListener(
-                    pillar, 
+                    pillar,
                     c.createSubmitCondition(pillar, conditionSelected)
                 );
             }
@@ -115,7 +114,7 @@ function newListRequest(pillar, userText) {
     // create list
     let listName = userText.split('\n')[0].trim();
     if (c.isExistingList(pillar, listName)) return;
-    
+
     let listElement = c.createList(pillar, listName);
 
     // add list to selectable buttons
@@ -126,6 +125,7 @@ function newListRequest(pillar, userText) {
 }
 
 function resetValues(textArea, listSelected, conditionSelected) {
+    /* submethod of submitListener */
     textArea.value = '';
     listSelected.classList.remove('submit-list-selected');
     if (conditionSelected) conditionSelected.classList.remove('submit-condition-selected');
@@ -136,11 +136,12 @@ function deleteListRequest(pillar, userText) {
     // remove list element
     let listName = userText.split('\n')[0].trim();
     _.getListElement(pillar, listName).remove();
-    
+
     // remove list tag
     _.getSubmitListTag(pillar, listName).remove();
-}
 
+    d.deleteList(_.getPillarName(pillar), listName);
+}
 
 function submitListListener(pillar, listTag) {
     listTag.addEventListener('click', function () {
@@ -169,5 +170,6 @@ export {
     listConditionListener,
     submitListener,
     submitListListener,
-    submitConditionListener
+    submitConditionListener,
+    saveAllDataListener
 }

@@ -2,15 +2,39 @@ import { getData } from './tempData.js'
 import * as actions from './actions.js'
 import * as e from './eventListeners.js'
 import * as c from './component.js'
+import * as t from './comms/talkToDatabase.js'
 
 /* 
 NEXT:
 make the collapse function
 add the submit area
 */
-loadPage();
-function loadPage() {
-    for (let [pillarName, pillarData] of Object.entries(getData())) {
+if (true) {
+    t.readDB(loadPage);
+} else {
+    loadPage(false, getData());
+}
+
+function loadPage(usingDB, userData) {
+    console.log("usingDB");
+    console.log(usingDB);
+    console.log("userData");
+    console.log(userData);
+
+    // t.writeDB({});
+    // Using the fetchData function
+    // t.readDB()
+    //     .then(data => {
+    //         console.log('Data:', data); // Handle the data here
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error); // Handle the error here
+    //     });
+    // return;
+
+    e.saveAllDataListener();
+
+    for (let [pillarName, pillarData] of Object.entries(userData)) {
         let pillarElement = c.createPillar(pillarName);
         let allLists = [];
         let allPillarConditions = [];

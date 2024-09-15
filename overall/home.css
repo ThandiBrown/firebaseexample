@@ -13,6 +13,11 @@ body * {
     scrollbar-width: none;
 }
 
+.saving {
+    width: 50px;
+    height: 25px;
+}
+
 .flexible {
     display: flex;
 }

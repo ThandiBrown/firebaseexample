@@ -19,30 +19,10 @@ function appendAndRetrieve(element, newElement) {
     return element.lastElementChild;
 }
 
-function getSubmitListNames(parent) {
-    const tags = parent.querySelectorAll('.submit-list-tag');
-    const innerTextSet = Array.from(tags).map(tag => getClassName(tag.innerText.trim()));
-    return innerTextSet;
-}
-
-function getListConditionNames(parent) {
-    const tags = parent.querySelectorAll('.list-condition-tag');
-    const innerTextSet = Array.from(tags).map(tag => getClassName(tag.innerText.trim()));
-    return innerTextSet;
-}
-
-function getSubmitConditionNames(parent) {
-    const tags = parent.querySelectorAll('.submit-condition-tag');
-    const innerTextSet = Array.from(tags).map(tag => getClassName(tag.innerText.trim()));
-    return innerTextSet;
-}
 
 export {
     getClassName,
     printIfTrue,
     append,
-    appendAndRetrieve,
-    getSubmitConditionNames,
-    getListConditionNames,
-    getSubmitListNames 
+    appendAndRetrieve
 }
