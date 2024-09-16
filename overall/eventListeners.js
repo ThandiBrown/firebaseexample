@@ -20,40 +20,25 @@ function todayCalendarBoxListener() {
     calendarBoxes.forEach(box => {
         let timer;
 
-        box.addEventListener('mousedown', function () {
-            // Start a timer when mouse is pressed down
+        const startTimer = () => {
             timer = setTimeout(() => {
                 box.classList.toggle('fulfilled');
             }, 2000); // 3000 milliseconds = 3 seconds
-        });
+        };
 
-        box.addEventListener('mouseup', function () {
-            // Clear the timer if mouse is released before 3 seconds
-            clearTimeout(timer);git add .
-            
-        });
-
-        box.addEventListener('mouseleave', function () {
-            // Clear the timer if mouse leaves the box before 3 seconds
+        const clearTimer = () => {
             clearTimeout(timer);
-        });
-        
-        box.addEventListener('touchstart', function () {
-            // Start a timer when mouse is pressed down
-            timer = setTimeout(() => {
-                box.classList.toggle('fulfilled');
-            }, 2000); // 3000 milliseconds = 3 seconds
-        });
+        };
 
-        box.addEventListener('touchend', function () {
-            // Clear the timer if mouse is released before 3 seconds
-            clearTimeout(timer);
-        });
+        // Mouse events
+        box.addEventListener('mousedown', startTimer);
+        box.addEventListener('mouseup', clearTimer);
+        box.addEventListener('mouseleave', clearTimer);
 
-        box.addEventListener('touchcancel', function () {
-            // Clear the timer if mouse leaves the box before 3 seconds
-            clearTimeout(timer);
-        });
+        // Touch events
+        box.addEventListener('touchstart', startTimer);
+        box.addEventListener('touchend', clearTimer);
+        box.addEventListener('touchcancel', clearTimer);
     });
 }
 
