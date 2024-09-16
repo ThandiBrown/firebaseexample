@@ -1,5 +1,5 @@
 import * as _ from './getThis.js';
-import * as t from './comms/talkToDatabase.js'
+// import * as t from './comms/talkToDatabase.js'
 
 const userData = {};
 
@@ -10,7 +10,7 @@ function printUserData() {
 
 function saveToDB() {
     //- console.log("saveToDB");
-    t.writeDB(userData, '');
+    // t.writeDB(userData, '');
 }
 
 function newPillar(name) {

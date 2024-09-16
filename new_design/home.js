@@ -2,16 +2,17 @@ import { scrollCalendars } from './calendar.js'
 import { getData } from './data/tempData.js'
 import {
     getPillar,
-    getList,
+    addList,
     getListItem,
-    getTag
+    getTag,
+    addSubmissionTitleTag
 } from './components.js'
 import {
-    getClassName
+    getClassName, appendAndRetrieve
 } from './component_helper.js'
 import { displayUpcomingEvents } from './upcoming.js'
 
-
+let data = null;
 main();
 function main() {
     // displayUpcomingEvents();
@@ -24,24 +25,29 @@ function main() {
 
 function starter() {
 
-    let data = getData();
-    for (let pillar of data) {
+    data = getData();
+    for (let [pillarName, pillarData] of Object.entries(data)) {
         if ([
             'Upkeep',
             'Entertainment'
-        ].includes(pillar.pillarName)) {
-            document.querySelector(".page").insertAdjacentHTML(
-                'beforeend', getPillar(pillar.pillarName, pillar.pillarData)
+            ].includes(pillarName)) {
+                document.querySelector(".page").insertAdjacentHTML(
+                'beforeend', getPillar(pillarName, pillarData)
             );
         }
 
     }
-}
+    // for (let pillar of data) {
+    //     if ([
+    //         'Upkeep',
+    //         'Entertainment'
+    //     ].includes(pillar.pillarName)) {
+    //         document.querySelector(".page").insertAdjacentHTML(
+    //             'beforeend', getPillar(pillar.pillarName, pillar.pillarData)
+    //         );
+    //     }
 
-function createNewList(pillar, title) {
-    pillar.querySelector(".listboxes").insertAdjacentHTML(
-        'beforeend', getList(title)
-    );
+    // }
 }
 
 function addEventListeners() {
@@ -143,13 +149,23 @@ function submitItem(pillar) {
 
     let tagSelected = submissionArea.querySelector(".list-tag-selected");
     let listClass = getClassName(listSelected.innerText);
-    
+
+    // reset values
     submissionArea.querySelector(".submit-text-area").value = '';
     listSelected.classList.remove('list-selected');
     if (tagSelected) tagSelected.classList.remove('list-tag-selected');
-    
+
     if (listClass == 'new-list') {
-        createNewList(pillar, submission);
+        /* 
+        create a new list with text
+        add list title to the submission bubbles
+        add a new list as a category in data
+        */
+        submission = submission.split("\n")[0];
+        addList(pillar, submission);
+        let titleTag = addSubmissionTitleTag(submissionArea, submission);
+        addSubmissionTitleEL(pillar, titleTag);
+        saveNewList(pillar, submission);
         return;
     }
 
@@ -197,7 +213,7 @@ function submitItem(pillar) {
         itemCount++;
     }
 
-    
+
 
     let listBoxMain = pillar.querySelector("." + listClass + " > .listbox > .listbox-main");
     listBoxMain.insertAdjacentHTML('beforeend', items);
@@ -229,4 +245,8 @@ function getLastChildren(parentElement, num) {
     return Array.from(children).slice(startIndex);
 }
 
-
+function saveNewList(pillar, title) {
+    let pillarName = pillar.querySelector(".boxTitle").innerText;
+    data[pillarName].lists[title] = [];
+    console.log(data);
+}

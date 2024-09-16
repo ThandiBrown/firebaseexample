@@ -2,7 +2,7 @@ import { getData } from './tempData.js'
 import * as actions from './actions.js'
 import * as e from './eventListeners.js'
 import * as c from './component.js'
-import * as t from './comms/talkToDatabase.js'
+// import * as t from './comms/talkToDatabase.js'
 
 /* 
 NEXT:
@@ -18,9 +18,7 @@ if (false) {
 function loadPage(usingDB, userData) {
 
     /* 
-    load calendars
-    for each date between the very first in the list and today, create squares
-    if there is a date in the list representing that square, make sure that it is highlighted
+    add the data management element to the calendars
     */
 
     e.saveAllDataListener();

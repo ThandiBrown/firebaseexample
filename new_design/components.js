@@ -1,6 +1,6 @@
 import {
     getClassName,
-    printIfTrue
+    printIfTrue, appendAndRetrieve
 } from './component_helper.js'
 import { getCalendar } from './calendar.js'
 
@@ -85,7 +85,7 @@ function getList(listTitle, tasks = [], output = {}) {
     listElement = `
     <div class="flexible wrapper ${titleClass}">
         ${listElement}    
-        ${printIfTrue(() => getListTagArea(tags), hasTags)}
+        ${getListTagArea(tags)}
     </div>
     `;
     if (Object.keys(output).length) {
@@ -167,6 +167,18 @@ function getTag(tagName) {
     return `<div class="flexible tag">${tagName}</div>`
 }
 
+function addSubmissionTitleTag(submissionArea, title) {
+    return appendAndRetrieve(
+        submissionArea.querySelector(".submission-title-area"), 
+        getTag(title));
+}
+
+function addList(pillar, title) {
+    return appendAndRetrieve(
+        pillar.querySelector(".listboxes"), 
+        getList(title));
+}
+
 export {
     getPillar,
     getContent,
@@ -177,5 +189,7 @@ export {
     getSubmissionTagArea,
     getSubmissionTitleArea,
     getSubmissionArea,
-    getTag
+    getTag,
+    addSubmissionTitleTag,
+    addList
 }
