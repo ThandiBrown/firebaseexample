@@ -49,20 +49,37 @@ function newListItem(pillarName, listName, itemName, tag = '') {
     printUserData();
 }
 
-function deleteListItem(pillarName, listName, itemName) {
+function deleteListItem(pillarName, listName, listElement, itemName) {
     console.log("deleteListItem");
+    console.log("listName:" + JSON.stringify(listName));
+    console.log(listElement);
+    
+
+    let index = getChildOrder(listElement);
+    console.log("index:" + JSON.stringify(index));
+
     let listItems = userData[pillarName]['lists'][listName];
-    let index;
-    for (let i = 0; i < listItems.length; i++) {
-        if (listItems[i].title.trim() == itemName.trim()) {
-            index = i;
-            break;
-        }
-    }
-    if (index) {
+    console.log("listItems:" + JSON.stringify(listItems));
+    
+    if (!isNaN(index) && itemName.includes(listItems[index].title.trim())) {
         listItems.splice(index, 1);
     }
     printUserData();
+}
+
+function getChildOrder(child) {
+    // Get the parent element
+    const parent = child.parentElement;
+
+    // Get all children of the parent
+    const children = Array.from(parent.children);
+    console.log("children");
+    console.log(children);
+
+    // Find the index of the child element in the children array
+    const index = children.indexOf(child);
+
+    return index;
 }
 
 

@@ -6,7 +6,6 @@ import * as d from './dataManager.js'
 
 function saveAllDataListener() {
     document.querySelector(".saving").addEventListener('click', () => d.saveToDB());
-
 }
 
 function listItemListeners(listElement, listItem) {
@@ -14,15 +13,16 @@ function listItemListeners(listElement, listItem) {
 
     _.getDeleteButton(listItem).addEventListener('click', function () {
         if (listItem.classList.contains('checked')) {
+            d.deleteListItem(
+                _.getPillarName(listElement, 'listElement'),
+                _.getListTitleName(listElement),
+                listItem,
+                _.getListItemName(listItem)
+            );
             listItem.remove();
             actions.removeConditionTag(listElement, listItem);
             actions.collapselistItemArea(listElement);
             actions.collapseListConditionAreas(listElement);
-            d.deleteListItem(
-                _.getPillarName(listElement, 'listElement'),
-                _.getListTitleName(listElement),
-                _.getListItemName(listItem)
-            );
         }
     });
 }

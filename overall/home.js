@@ -16,21 +16,6 @@ if (true) {
 }
 
 function loadPage(usingDB, userData) {
-    console.log("usingDB");
-    console.log(usingDB);
-    console.log("userData");
-    console.log(userData);
-
-    // t.writeDB({});
-    // Using the fetchData function
-    // t.readDB()
-    //     .then(data => {
-    //         console.log('Data:', data); // Handle the data here
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error); // Handle the error here
-    //     });
-    // return;
 
     e.saveAllDataListener();
 

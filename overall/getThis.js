@@ -24,7 +24,7 @@ function getPillarName(element, type = 'pillar') {
             }
         }
     }
-    
+
     return element.querySelector(".pillar-title").innerText;
 }
 
@@ -53,7 +53,6 @@ function getListTitleName(listElement) {
 }
 
 function getListItemName(listItem) {
-    // the area that contains all list items within a list
     return listItem.querySelector(".list-value").innerText;
 }
 

@@ -37,10 +37,12 @@ async function readDB(method, ...args) {
             method(false, {}, [...args]);
             // No data available at the path
             console.log('No data available');
+            alert('no data to retrieve')
             return null;
         }
     } catch (error) {
         // Handle any errors
+        alert('Error fetching data')
         console.error('Error fetching data:', error);
         throw error; // Re-throw the error to be handled by the caller
     }
