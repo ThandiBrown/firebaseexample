@@ -9,7 +9,7 @@ NEXT:
 make the collapse function
 add the submit area
 */
-if (true) {
+if (false) {
     t.readDB(loadPage);
 } else {
     loadPage(false, getData());
@@ -17,12 +17,31 @@ if (true) {
 
 function loadPage(usingDB, userData) {
 
+    /* 
+    load calendars
+    for each date between the very first in the list and today, create squares
+    if there is a date in the list representing that square, make sure that it is highlighted
+    */
+
     e.saveAllDataListener();
 
     for (let [pillarName, pillarData] of Object.entries(userData)) {
         let pillarElement = c.createPillar(pillarName);
         let allLists = [];
         let allPillarConditions = [];
+
+
+        if (pillarData.calendar) {
+            // create calendar area
+            let calendarArea = c.createCalendarArea(pillarElement);
+            for (let calendarData of pillarData.calendar) {
+                // break;
+                c.createCalendar(calendarArea, calendarData);
+                // break;
+            }
+
+            e.todayCalendarBoxListener();
+        }
 
         if (pillarData.lists) {
             for (let [listName, listItems] of Object.entries(pillarData.lists)) {

@@ -8,6 +8,55 @@ function saveAllDataListener() {
     document.querySelector(".saving").addEventListener('click', () => d.saveToDB());
 }
 
+function todayCalendarBoxListener() {
+    const todayBoxes = document.querySelectorAll('.today');
+    todayBoxes.forEach(todayBox => {
+        todayBox.addEventListener('click', function () {
+            todayBox.classList.toggle('fulfilled');
+        });
+    });
+    
+    const calendarBoxes = document.querySelectorAll('.day');
+    calendarBoxes.forEach(box => {
+        let timer;
+
+        box.addEventListener('mousedown', function () {
+            // Start a timer when mouse is pressed down
+            timer = setTimeout(() => {
+                box.classList.toggle('fulfilled');
+            }, 2000); // 3000 milliseconds = 3 seconds
+        });
+
+        box.addEventListener('mouseup', function () {
+            // Clear the timer if mouse is released before 3 seconds
+            clearTimeout(timer);git add .
+            
+        });
+
+        box.addEventListener('mouseleave', function () {
+            // Clear the timer if mouse leaves the box before 3 seconds
+            clearTimeout(timer);
+        });
+        
+        box.addEventListener('touchstart', function () {
+            // Start a timer when mouse is pressed down
+            timer = setTimeout(() => {
+                box.classList.toggle('fulfilled');
+            }, 2000); // 3000 milliseconds = 3 seconds
+        });
+
+        box.addEventListener('touchend', function () {
+            // Clear the timer if mouse is released before 3 seconds
+            clearTimeout(timer);
+        });
+
+        box.addEventListener('touchcancel', function () {
+            // Clear the timer if mouse leaves the box before 3 seconds
+            clearTimeout(timer);
+        });
+    });
+}
+
 function listItemListeners(listElement, listItem) {
     _.getCheckButton(listItem).addEventListener('click', () => listItem.classList.toggle('checked'));
 
@@ -165,11 +214,14 @@ function submitConditionListener(pillar, conditionTag) {
     conditionTag.addEventListener('click', () => conditionTag.classList.toggle('submit-condition-selected'));
 }
 
+
+
 export {
     listItemListeners,
     listConditionListener,
     submitListener,
     submitListListener,
     submitConditionListener,
-    saveAllDataListener
+    saveAllDataListener,
+    todayCalendarBoxListener
 }

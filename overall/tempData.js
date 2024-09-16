@@ -25,6 +25,41 @@ function genSentences(numberOfSentences) {
     return sentences
 }
 
+function generateRandomDates(daysBeforeToday) {
+    const today = new Date();
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() - daysBeforeToday);
+    console.log("startDate:" + JSON.stringify(startDate));
+
+    // Calculate the total number of days in the range
+    const totalDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+    // Determine a random number of dates to generate (between 1 and totalDays)
+    const numberOfDates = Math.floor(Math.random() * totalDays) + 5;
+
+    const dates = [];
+    const usedDates = new Set(); // To ensure uniqueness
+
+    // Generate random dates
+    for (let i = 0; i < numberOfDates; i++) {
+
+        // Random day offset
+        const randomOffset = Math.floor(Math.random() * totalDays);
+        const randomDate = new Date(startDate);
+        randomDate.setDate(startDate.getDate() + randomOffset);
+
+        // Format the date as YYYY-MM-DD
+        const formattedDate = randomDate.toISOString().split('T')[0];
+
+        // Add date to the list if it's not already included
+        if (!usedDates.has(formattedDate)) {
+            dates.push(formattedDate);
+            usedDates.add(formattedDate);
+        }
+    }
+
+    return dates;
+}
 
 let data = {
     // 'Garden': {},
@@ -33,6 +68,18 @@ let data = {
             'Build muscle and endurance',
             'Maintain a healthy diet',
             'Be proficient in tech interview questions'
+        ],
+        'calendar': [
+            {
+                'type': 'exercise',
+                'startDate': '2024-08-28',
+                'fulfilled': generateRandomDates(19)
+            },
+            {
+                'type': 'eating',
+                'startDate': '2024-08-28',
+                'fulfilled': generateRandomDates(19)
+            }
         ],
         'calendars': ['exercise', 'eating'],
         'lists': {

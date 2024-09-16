@@ -42,6 +42,22 @@ function removeConditionTag(listElement, listItem) {
     }
 }
 
+function generateDates(numberOfDates) {
+    const dates = [];
+    const today = new Date();
+
+    for (let i = 0; i < numberOfDates; i++) {
+        // Create a new date object for each date in the list
+        let newDate = new Date(today);
+        // Set the date by adding i days
+        newDate.setDate(today.getDate() + i);
+        // Add the new date to the array
+        dates.push(newDate.toISOString().split('T')[0]); // Formatting the date as YYYY-MM-DD
+    }
+
+    return dates;
+}
+
 export {
     collapseListConditionAreas,
     collapselistItemArea,
