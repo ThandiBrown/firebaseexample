@@ -8,22 +8,24 @@ function saveAllDataListener() {
     document.querySelector(".saving").addEventListener('click', () => d.saveToDB());
 }
 
-function todayCalendarBoxListener() {
-    const todayBoxes = document.querySelectorAll('.today');
+function todayCalendarBoxListener(pillarName, calendarName, calendar) {
+    const todayBoxes = calendar.querySelectorAll('.today');
     todayBoxes.forEach(todayBox => {
         todayBox.addEventListener('click', function () {
+            d.updateCalendarFulfillment(pillarName, calendarName, todayBox.getAttribute('title'));
             todayBox.classList.toggle('fulfilled');
         });
     });
-    
-    const calendarBoxes = document.querySelectorAll('.day');
+
+    const calendarBoxes = calendar.querySelectorAll('.day');
     calendarBoxes.forEach(box => {
         let timer;
 
         const startTimer = () => {
             timer = setTimeout(() => {
+                d.updateCalendarFulfillment(pillarName, calendarName, box.getAttribute('title'));
                 box.classList.toggle('fulfilled');
-            }, 2000); // 3000 milliseconds = 3 seconds
+            }, 1000); // 3000 milliseconds = 3 seconds
         };
 
         const clearTimer = () => {

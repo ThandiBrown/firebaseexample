@@ -21,7 +21,7 @@ function appendAndRetrieve(element, newElement) {
 
 function insertAndRetrieve(element, newElement) {
     element.insertAdjacentHTML('afterbegin', newElement);
-    return element.lastElementChild;
+    return element.firstElementChild;
 }
 
 

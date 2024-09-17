@@ -2,21 +2,47 @@ import { getData } from './tempData.js'
 import * as actions from './actions.js'
 import * as e from './eventListeners.js'
 import * as c from './component.js'
-// import * as t from './comms/talkToDatabase.js'
+import { initializeFirebase } from './comms/foundation.js'
+import * as t from './comms/talkToDatabase.js'
 
 /* 
 NEXT:
 make the collapse function
 add the submit area
 */
-if (false) {
+if (true) {
+    initializeFirebase();
+    t.getStarted();
+
+    t.readDBHistory(updateHistory);
     t.readDB(loadPage);
+
 } else {
+    // initializeFirebase();
+    // t.getStarted();
     loadPage(false, getData());
 }
 
-function loadPage(usingDB, userData) {
+function updateHistory(history, userData) {
 
+    let mostRecent = JSON.stringify(userData);
+
+    if (!history.length) {
+        history.push(mostRecent);
+        // console.log("New history"); console.log(history);
+        t.writeDBHistory(history);
+    }
+    else if (mostRecent.trim() != history[history.length - 1].trim()) {
+        if (history.length > 9) {
+            history.shift();
+        }
+        history.push(mostRecent);
+        // console.log("history"); console.log(history);
+        t.writeDBHistory(history);
+    }
+}
+
+function loadPage(usingDB, userData) {
     /* 
     add the data management element to the calendars
     */
@@ -32,13 +58,13 @@ function loadPage(usingDB, userData) {
         if (pillarData.calendar) {
             // create calendar area
             let calendarArea = c.createCalendarArea(pillarElement);
+            console.log("calendarArea"); console.log(calendarArea);
             for (let calendarData of pillarData.calendar) {
                 // break;
-                c.createCalendar(calendarArea, calendarData);
-                // break;
+                let calendar = c.createCalendar(calendarArea, calendarData);
+                e.todayCalendarBoxListener(pillarName, calendarData.type, calendar);
             }
-
-            e.todayCalendarBoxListener();
+            actions.scrollCalendars();
         }
 
         if (pillarData.lists) {

@@ -38,10 +38,14 @@ function createCalendar(calendarArea, calendarData) {
     }
 
     calendarString = `
-        <div class="flexible exercise calendar ${calendarData.type}">${calendarString}</div>
+        <div class="flexible calendar ${calendarData.type}">${calendarString}</div>
     `
 
-    ch.appendElem(calendarArea, calendarString);
+    d.newCalendar(
+        _.getPillarName(calendarArea, 'calendarArea'), calendarData
+    );
+
+    return ch.appendAndRetrieve(calendarArea, calendarString);
 }
 
 function createList(pillar, listTitle) {

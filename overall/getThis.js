@@ -16,7 +16,7 @@ function getPillarMain(pillar) {
 }
 
 function getPillarName(element, type = 'pillar') {
-    if (type == 'listElement') {
+    if (type != 'pillar') {
         for (let pillar of getPillars()) {
             if (pillar.contains(element)) {
                 element = pillar;
