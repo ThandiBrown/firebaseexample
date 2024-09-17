@@ -34,8 +34,8 @@ function returnRecordsAsBool(calendarData) {
     // console.log('calendarData.fulfilled');
     // console.log(calendarData.fulfilled);
     let allDates = generateDatesFrom(calendarData.startDate);
-    // console.log("allDates");
-    // console.log(allDates);
+    console.log("allDates");
+    console.log(allDates);
     for (let date of allDates) {
         newRecords.push({
             'date': date,
@@ -43,10 +43,10 @@ function returnRecordsAsBool(calendarData) {
             'tag': ''
         });
     }
-    // console.log("newRecords"); console.log(newRecords);
+    console.log("newRecords"); console.log(newRecords);
     newRecords = chunkAndModifyArray(newRecords, 7);
 
-    console.log("newRecords");
+    console.log("newRecords2");
     console.log(newRecords);
     return newRecords
 }
@@ -73,14 +73,18 @@ function generateDatesFrom(startDateParam) {
     let currentDate = new Date(startDate);
 
     // Loop to generate dates from startDate to today
+    // using this instead of a while
     for (let i = 0; i < Math.round(
         (today - startDate) / (1000 * 60 * 60 * 24)
-    ); i++) {
-
-        // Format the date as YYYY-MM-DD
-        dates.push(currentDate.toISOString().split('T')[0]);
-        // Move to the next day
-        currentDate.setDate(currentDate.getDate() + 1);
+    ) + 1; i++) {
+        if (currentDate <= today) {
+            // Format the date as YYYY-MM-DD
+            dates.push(currentDate.toISOString().split('T')[0]);
+            // Move to the next day
+            currentDate.setDate(currentDate.getDate() + 1);
+        } else {
+            break;
+        }
     }
 
     return dates;
