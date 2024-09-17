@@ -34,8 +34,8 @@ function returnRecordsAsBool(calendarData) {
     // console.log('calendarData.fulfilled');
     // console.log(calendarData.fulfilled);
     let allDates = generateDatesFrom(calendarData.startDate);
-    console.log("allDates");
-    console.log(allDates);
+    // console.log("allDates");
+    // console.log(allDates);
     for (let date of allDates) {
         newRecords.push({
             'date': date,
@@ -43,11 +43,9 @@ function returnRecordsAsBool(calendarData) {
             'tag': ''
         });
     }
-    console.log("newRecords"); console.log(newRecords);
+    // console.log("newRecords"); console.log(newRecords);
     newRecords = chunkAndModifyArray(newRecords, 7);
 
-    console.log("newRecords2");
-    console.log(newRecords);
     return newRecords
 }
 
@@ -120,8 +118,6 @@ function chunkAndModifyArray(list, chunkSize) {
         result.push(chunk);
     }
 
-    console.log('result');
-    console.log(result);
     return result;
 }
 
