@@ -12,36 +12,56 @@ function todayCalendarBoxListener(pillarName, calendarName, calendar) {
     const todayBoxes = calendar.querySelectorAll('.today');
     todayBoxes.forEach(todayBox => {
         todayBox.addEventListener('click', function () {
-            d.updateCalendarFulfillment(pillarName, calendarName, todayBox.getAttribute('title'));
-            todayBox.classList.toggle('fulfilled');
+            let status = toggleCalendarStatus(todayBox);
+            d.updateCalendarFulfillment(pillarName, calendarName, todayBox.getAttribute('title'), status);
+
         });
     });
 
     const calendarBoxes = calendar.querySelectorAll('.day');
     calendarBoxes.forEach(box => {
-        let timer;
+        if (!Array.from(todayBoxes).includes(box)) {
+            let timer;
 
-        const startTimer = () => {
-            timer = setTimeout(() => {
-                d.updateCalendarFulfillment(pillarName, calendarName, box.getAttribute('title'));
-                box.classList.toggle('fulfilled');
-            }, 1000); // 3000 milliseconds = 3 seconds
-        };
+            const startTimer = () => {
+                timer = setTimeout(() => {
+                    let status = toggleCalendarStatus(box);
+                    d.updateCalendarFulfillment(pillarName, calendarName, box.getAttribute('title'), status);
+                }, 1000); // 3000 milliseconds = 3 seconds
+            };
 
-        const clearTimer = () => {
-            clearTimeout(timer);
-        };
+            const clearTimer = () => {
+                clearTimeout(timer);
+            };
 
-        // Mouse events
-        box.addEventListener('mousedown', startTimer);
-        box.addEventListener('mouseup', clearTimer);
-        box.addEventListener('mouseleave', clearTimer);
+            // Mouse events
+            box.addEventListener('mousedown', startTimer);
+            box.addEventListener('mouseup', clearTimer);
+            box.addEventListener('mouseleave', clearTimer);
 
-        // Touch events
-        box.addEventListener('touchstart', startTimer);
-        box.addEventListener('touchend', clearTimer);
-        box.addEventListener('touchcancel', clearTimer);
+            // Touch events
+            box.addEventListener('touchstart', startTimer);
+            box.addEventListener('touchend', clearTimer);
+            box.addEventListener('touchcancel', clearTimer);
+        }
+
     });
+}
+
+function toggleCalendarStatus(box) {
+    let status = '';
+    if (box.classList.contains('fulfilled')) {
+        box.classList.remove('fulfilled');
+        box.classList.add('progressed');
+        status = 'progressed';
+    } else if (box.classList.contains('progressed')) {
+        box.classList.remove('progressed');
+        status = '';
+    } else {
+        box.classList.add('fulfilled');
+        status = 'fulfilled';
+    }
+    return status;
 }
 
 function listItemListeners(listElement, listItem) {

@@ -4,6 +4,7 @@ import * as t from './comms/talkToDatabase.js'
 const userData = {};
 
 function printUserData(value = userData) {
+    console.log("userData");
     console.log(JSON.parse(JSON.stringify(value)));
     // console.log({...userData});
 }
@@ -24,18 +25,23 @@ function newCalendar(pillarName, calendarData) {
     printUserData(userData[pillarName]['calendar']);
 }
 
-function updateCalendarFulfillment(pillarName, calendarType, dateString) {
+function updateCalendarFulfillment(pillarName, calendarType, dateString, status) {
     console.log("updateCalendarFulfillment");
     // ignore empty strings (ignore upcoming-days boxes)
     if (!dateString) return;
     for (let calendar of userData[pillarName]['calendar']) {
+        console.log("calendar"); console.log(calendar);
+
         if (calendar.type == calendarType) {
-            if (calendar.fulfilled.includes(dateString)) {
-                calendar.fulfilled.splice(calendar.fulfilled.indexOf(dateString), 1);
-            } else {
+            if (status == 'fulfilled') {
                 calendar.fulfilled.push(dateString);
+            } else if (status == 'progressed') {
+                calendar.fulfilled.splice(calendar.fulfilled.indexOf(dateString), 1);
+                calendar.progressed.push(dateString);
+            } else {
+                calendar.progressed.splice(calendar.progressed.indexOf(dateString), 1);
             }
-            printUserData(calendar.fulfilled);
+            printUserData(calendar);
             break;
         }
     }

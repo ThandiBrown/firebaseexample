@@ -26,6 +26,8 @@ function insertAndRetrieve(element, newElement) {
 
 
 function returnRecordsAsBool(calendarData) {
+    console.log("calendarData"); console.log(calendarData);
+
     /* produce a list of booleans from the start date of the record keeping until now
     the value should be true if a record was stored at that day
     */
@@ -40,10 +42,11 @@ function returnRecordsAsBool(calendarData) {
         newRecords.push({
             'date': date,
             'fulfilled': calendarData.fulfilled.includes(date),
+            'progressed': calendarData.progressed.includes(date),
             'tag': ''
         });
     }
-    // console.log("newRecords"); console.log(newRecords);
+    console.log("newRecords"); console.log(newRecords);
     newRecords = chunkAndModifyArray(newRecords, 7);
 
     return newRecords
@@ -51,7 +54,7 @@ function returnRecordsAsBool(calendarData) {
 
 function generateDatesFrom(startDateParam) {
     // Convert startDateParam to a Date object if it's not already
-    const today = new Date();
+    const today = getCentralTime();
     let startDate;
 
     if (typeof startDateParam === 'string') {
@@ -88,6 +91,18 @@ function generateDatesFrom(startDateParam) {
     return dates;
 }
 
+function getCentralTime(date = new Date()) {
+    // Create a date object from the input or use the current date
+    let utc = date.getTime() + date.getTimezoneOffset() * 60000;
+
+    // Offset for Central Time (CT) which is UTC-6 or UTC-5 (during DST)
+    const offset = -6; // Central Standard Time (CST) UTC-6
+    // const offset = -5; // Central Daylight Time (CDT) UTC-5 (during DST)
+
+    // Return the date in Central Time
+    return new Date(utc + 3600000 * offset);
+}
+
 function chunkAndModifyArray(list, chunkSize) {
     if (chunkSize <= 0) {
         throw new Error("Chunk size must be greater than 0.");
@@ -110,7 +125,7 @@ function chunkAndModifyArray(list, chunkSize) {
             // Fill the rest of the chunk with zeros
             while (chunk.length < chunkSize) {
                 chunk.push({
-                    'date': '', 'fulfilled': '', 'tag': 'upcoming-days'
+                    'date': '', 'fulfilled': '', 'progressed': '', 'tag': 'upcoming-days'
                 });
             }
         }

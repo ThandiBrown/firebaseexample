@@ -178,6 +178,12 @@ body * {
     background-color: hsl(120, 73%, 88%);
 }
 
+.eating .progressed,
+.exercise .progressed
+{
+    background-color: hsl(43, 74%, 79%);
+}
+
 .upcoming-days {
     /* outline: 3px solid #eee;
     background-color: white; */

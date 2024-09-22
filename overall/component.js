@@ -30,6 +30,7 @@ function createCalendar(calendarArea, calendarData) {
             calendarString += `
                 <div class="day
                 ${ch.printIfTrue(' fulfilled', day.fulfilled)}
+                ${ch.printIfTrue(' progressed', day.progressed)}
                 ${ch.printIfTrue(' ' + day.tag, day.tag)}" 
                 title="${day.date}"
                 ></div>`

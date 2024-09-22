@@ -15,11 +15,14 @@ if (true) {
     t.getStarted();
 
     t.readDBHistory(updateHistory);
+    e.saveAllDataListener();
     t.readDB(loadPage);
 
 } else {
     // initializeFirebase();
     // t.getStarted();
+    // t.readDBHistory(loadPage);
+
     loadPage(false, getData());
 }
 
@@ -47,7 +50,9 @@ function loadPage(usingDB, userData) {
     add the data management element to the calendars
     */
 
-    e.saveAllDataListener();
+    if (typeof userData === 'string') {
+        userData = JSON.parse(userData);
+    }
 
     for (let [pillarName, pillarData] of Object.entries(userData)) {
         let pillarElement = c.createPillar(pillarName);
@@ -58,9 +63,9 @@ function loadPage(usingDB, userData) {
         if (pillarData.calendar) {
             // create calendar area
             let calendarArea = c.createCalendarArea(pillarElement);
-            console.log("calendarArea"); console.log(calendarArea);
             for (let calendarData of pillarData.calendar) {
-                // break;
+                // ADD
+                // if (!('progressed' in calendarData)) calendarData.progressed = [];
                 let calendar = c.createCalendar(calendarArea, calendarData);
                 e.todayCalendarBoxListener(pillarName, calendarData.type, calendar);
             }
