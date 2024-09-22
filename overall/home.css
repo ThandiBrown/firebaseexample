@@ -282,8 +282,8 @@ body * {
 }
 
 .checked > .check {
-    background-color: #eee;
-    border: 3px solid #eee;
+    background-color: hsl(0, 0%, 90%);
+    border: 3px solid hsl(0, 0%, 90%);
 }
 
 .checked > .delete-line {

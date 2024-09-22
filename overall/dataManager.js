@@ -16,7 +16,7 @@ function saveToDB() {
 }
 
 function newCalendar(pillarName, calendarData) {
-    console.log("newCalendar");
+    // console.log("newCalendar");
     if (!('calendar' in userData[pillarName])) {
         userData[pillarName]['calendar'] = []
     }
@@ -26,12 +26,10 @@ function newCalendar(pillarName, calendarData) {
 }
 
 function updateCalendarFulfillment(pillarName, calendarType, dateString, status) {
-    console.log("updateCalendarFulfillment");
+    // console.log("updateCalendarFulfillment");
     // ignore empty strings (ignore upcoming-days boxes)
     if (!dateString) return;
     for (let calendar of userData[pillarName]['calendar']) {
-        console.log("calendar"); console.log(calendar);
-
         if (calendar.type == calendarType) {
             if (status == 'fulfilled') {
                 calendar.fulfilled.push(dateString);
@@ -65,36 +63,35 @@ function newList(pillarName, listName) {
 }
 
 function deleteList(pillarName, listName) {
-    console.log("deleteList");
+    // console.log("deleteList");
     delete userData[pillarName]['lists'][listName];
     printUserData();
 }
 
-function newListItem(pillarName, listName, itemName, tag = '') {
-    // console.log("newListItem");
-    let listItem = {};
-
-    listItem['title'] = itemName;
-
-    if (tag) {
-        listItem['tag'] = tag;
-    }
-
+function newListItem(pillarName, listName, listItem) {
     userData[pillarName]['lists'][listName].push(listItem);
     // printUserData();
 }
 
-function deleteListItem(pillarName, listName, listElement, itemName) {
-    console.log("deleteListItem");
-    console.log("listName:" + JSON.stringify(listName));
-    console.log(listElement);
-
+function updateListItemStatus(pillarName, listName, listElement, itemName, status, prevStatus) {
+    console.log("updateListItemStatus");
 
     let index = getChildOrder(listElement);
-    console.log("index:" + JSON.stringify(index));
 
     let listItems = userData[pillarName]['lists'][listName];
-    console.log("listItems:" + JSON.stringify(listItems));
+
+    if (!isNaN(index) && itemName.includes(listItems[index].title.trim())) {
+        if (status) listItems[index][status] = true;
+        if (prevStatus) listItems[index][prevStatus] = false;
+    }
+    printUserData(listItems);
+}
+
+function deleteListItem(pillarName, listName, listElement, itemName) {
+
+    let index = getChildOrder(listElement);
+
+    let listItems = userData[pillarName]['lists'][listName];
 
     if (!isNaN(index) && itemName.includes(listItems[index].title.trim())) {
         listItems.splice(index, 1);
@@ -108,8 +105,6 @@ function getChildOrder(child) {
 
     // Get all children of the parent
     const children = Array.from(parent.children);
-    console.log("children");
-    console.log(children);
 
     // Find the index of the child element in the children array
     const index = children.indexOf(child);
@@ -128,5 +123,6 @@ export {
     deleteList,
     saveToDB,
     newCalendar,
-    updateCalendarFulfillment
+    updateCalendarFulfillment,
+    updateListItemStatus
 }

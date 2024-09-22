@@ -10,7 +10,7 @@ NEXT:
 make the collapse function
 add the submit area
 */
-if (false) {
+if (true) {
     initializeFirebase();
     t.getStarted();
 
@@ -23,7 +23,7 @@ if (false) {
     // t.getStarted();
     // t.readDBHistory(loadPage);
 
-    loadPage(false, getData());
+    // loadPage(false, getData());
 }
 
 function updateHistory(history, userData) {
@@ -52,7 +52,7 @@ function loadPage(usingDB, userData) {
 
     if (typeof userData === 'string') {
         userData = JSON.parse(userData);
-        console.log("userData");console.log(userData);
+        console.log("userData"); console.log(userData);
     }
 
     for (let [pillarName, pillarData] of Object.entries(userData)) {
@@ -77,7 +77,7 @@ function loadPage(usingDB, userData) {
 
                 let tags = [];
                 for (let listItem of listItems) {
-                    let listItemElement = c.createListItem(listElement, listItem.title, listItem.tag);
+                    let listItemElement = c.createListItem(listElement, listItem);
                     e.listItemListeners(listElement, listItemElement);
                     if (listItem.tag && !tags.includes(listItem.tag)) tags.push(listItem.tag);
                 }

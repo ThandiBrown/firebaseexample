@@ -12,7 +12,7 @@ function todayCalendarBoxListener(pillarName, calendarName, calendar) {
     const todayBoxes = calendar.querySelectorAll('.today');
     todayBoxes.forEach(todayBox => {
         todayBox.addEventListener('click', function () {
-            let status = toggleMultipleStatuses(todayBox, ['fulfilled', 'progressed']);
+            let [status, prevStatus] = toggleMultipleStatuses(todayBox, ['fulfilled', 'progressed']);
             d.updateCalendarFulfillment(pillarName, calendarName, todayBox.getAttribute('title'), status);
 
         });
@@ -25,7 +25,7 @@ function todayCalendarBoxListener(pillarName, calendarName, calendar) {
 
             const startTimer = () => {
                 timer = setTimeout(() => {
-                    let status = toggleMultipleStatuses(box, ['fulfilled', 'progressed']);
+                    let [status, prevStatus] = toggleMultipleStatuses(box, ['fulfilled', 'progressed']);
                     d.updateCalendarFulfillment(pillarName, calendarName, box.getAttribute('title'), status);
                 }, 1000); // 3000 milliseconds = 3 seconds
             };
@@ -48,30 +48,18 @@ function todayCalendarBoxListener(pillarName, calendarName, calendar) {
     });
 }
 
-function toggleCalendarStatus(box) {
-    let status = '';
-    if (box.classList.contains('fulfilled')) {
-        box.classList.remove('fulfilled');
-        box.classList.add('progressed');
-        status = 'progressed';
-    } else if (box.classList.contains('progressed')) {
-        box.classList.remove('progressed');
-        status = '';
-    } else {
-        box.classList.add('fulfilled');
-        status = 'fulfilled';
-    }
-    return status;
-}
 
 function toggleMultipleStatuses(element, statuses) {
     let updated = false;
     let status = '';
+    let previous = '';
+
     for (let i = 0; i < statuses.length - 1; i++) {
         if (element.classList.contains(statuses[i])) {
             element.classList.remove(statuses[i]);
             element.classList.add(statuses[i + 1]);
             status = statuses[i + 1];
+            previous = statuses[i];
             updated = true;
             break;
         }
@@ -80,6 +68,7 @@ function toggleMultipleStatuses(element, statuses) {
         if (element.classList.contains(statuses[statuses.length - 1])) {
             // contains last class
             element.classList.remove(statuses[statuses.length - 1]);
+            previous = statuses[statuses.length - 1];
         } else {
             // contains no classes
             element.classList.add(statuses[0]);
@@ -88,14 +77,26 @@ function toggleMultipleStatuses(element, statuses) {
     }
 
     console.log("status"); console.log(status);
-    return status;
-
+    console.log("previous"); console.log(previous);
+    return [status, previous];
 }
 
 
 function listItemListeners(listElement, listItem) {
-    // _.getCheckButton(listItem).addEventListener('click', () => listItem.classList.toggle('checked'));
-    _.getCheckButton(listItem).addEventListener('click', () => toggleMultipleStatuses(listItem, ['checked', 'in-progress']));
+
+    _.getCheckButton(listItem).addEventListener('click', function () {
+        let [status, prevStatus] = toggleMultipleStatuses(listItem, ['checked', 'in-progress']);
+        console.log("status"); console.log(status);
+        console.log("prevStatus"); console.log(prevStatus);
+
+        d.updateListItemStatus(
+            _.getPillarName(listElement, 'listElement'),
+            _.getListTitleName(listElement),
+            listItem,
+            _.getListItemName(listItem),
+            status, prevStatus
+        );
+    });
 
     _.getDeleteButton(listItem).addEventListener('click', function () {
         if (listItem.classList.contains('checked')) {
@@ -173,7 +174,10 @@ function submitListener(pillar) {
 
             listItemListeners(
                 listElement,
-                c.createListItem(listElement, line, conditionSelected, Boolean(conditionSelected))
+                c.createListItem(listElement, {
+                    'title': line,
+                    'tag': conditionSelected
+                }, Boolean(conditionSelected))
             );
 
             if (conditionSelected) {

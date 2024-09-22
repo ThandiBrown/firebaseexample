@@ -29,7 +29,6 @@ function generateRandomDates(daysBeforeToday) {
     const today = new Date();
     const startDate = new Date(today);
     startDate.setDate(today.getDate() - daysBeforeToday);
-    console.log("startDate:" + JSON.stringify(startDate));
 
     // Calculate the total number of days in the range
     const totalDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
@@ -65,125 +64,127 @@ function generateRandomDates(daysBeforeToday) {
 function getData() {
     return {
         "Upkeep": {
-          "calendar": [
-            {
-              "type": "exercise",
-              "startDate": "2024-09-16",
-              "fulfilled": [
-                "2024-09-16"
-              ],
-              "progressed": []
-            },
-            {
-              "type": "eating",
-              "startDate": "2024-09-16",
-              "fulfilled": [],
-              "progressed": [
-                "2024-09-20"
-              ]
+            "calendar": [
+                {
+                    "type": "exercise",
+                    "startDate": "2024-09-16",
+                    "fulfilled": [
+                        "2024-09-16"
+                    ],
+                    "progressed": []
+                },
+                {
+                    "type": "eating",
+                    "startDate": "2024-09-16",
+                    "fulfilled": [],
+                    "progressed": [
+                        "2024-09-20"
+                    ]
+                }
+            ],
+            "lists": {
+                "Time Sensitive": [
+                    {
+                        "title": "Christmas flight ✈️"
+                    }
+                ],
+                "Conditional": [
+                    {
+                        "title": "Ask company to mail w2 to chinue address"
+                    },
+                    {
+                        "title": "Makeup with chinue",
+                        "tag": "Chinue's House"
+                    }
+                ],
+                "Backlog": [
+                    {
+                        "title": "All new emails",
+                        "checked": false,
+                        "in-progress": true
+                    },
+                    {
+                        "title": "Tsa precheck"
+                    },
+                    {
+                        "title": "Find happypages site"
+                    },
+                    {
+                        "title": "Determine non tech things"
+                    },
+                    {
+                        "title": "Chinue advice on stainless pans"
+                    },
+                    {
+                        "title": "300 questions social program"
+                    },
+                    {
+                        "title": "Figure out how to recover dragon if hard reset"
+                    },
+                    {
+                        "title": "How to save computer if destroyed"
+                    },
+                    {
+                        "title": "fidelity, change email to: thanbrown22@gmail.com "
+                    },
+                    {
+                        "title": "umb health services, change email to: thanbrown22@gmail.com"
+                    },
+                    {
+                        "title": "same for State Farm ^"
+                    }
+                ],
+                "Day Checkpoints": [
+                    {
+                        "title": "Hygiene, shower and start work by 630"
+                    },
+                    {
+                        "title": "Technique: make green tea 1st, ear buds knox hill video"
+                    },
+                    {
+                        "title": "Water / liquid only day"
+                    },
+                    {
+                        "title": "Prop up laptop for neck"
+                    },
+                    {
+                        "title": "Use counters as stand up desk"
+                    },
+                    {
+                        "title": "*Follow* day's layout / routine"
+                    }
+                ]
             }
-          ],
-          "lists": {
-            "Time Sensitive": [
-              {
-                "title": "Christmas flight ✈️"
-              }
-            ],
-            "Conditional": [
-              {
-                "title": "Ask company to mail w2 to chinue address"
-              },
-              {
-                "title": "Makeup with chinue",
-                "tag": "Chinue's House"
-              }
-            ],
-            "Backlog": [
-              {
-                "title": "All new emails"
-              },
-              {
-                "title": "Tsa precheck"
-              },
-              {
-                "title": "Find happypages site"
-              },
-              {
-                "title": "Determine non tech things"
-              },
-              {
-                "title": "Chinue advice on stainless pans"
-              },
-              {
-                "title": "300 questions social program"
-              },
-              {
-                "title": "Figure out how to recover dragon if hard reset"
-              },
-              {
-                "title": "How to save computer if destroyed"
-              },
-              {
-                "title": "fidelity, change email to: thanbrown22@gmail.com "
-              },
-              {
-                "title": "umb health services, change email to: thanbrown22@gmail.com"
-              },
-              {
-                "title": "same for State Farm ^"
-              }
-            ],
-            "Day Checkpoints": [
-              {
-                "title": "Hygiene, shower and start work by 630"
-              },
-              {
-                "title": "Technique: make green tea 1st, ear buds knox hill video"
-              },
-              {
-                "title": "Water / liquid only day"
-              },
-              {
-                "title": "Prop up laptop for neck"
-              },
-              {
-                "title": "Use counters as stand up desk"
-              },
-              {
-                "title": "*Follow* day's layout / routine"
-              }
-            ]
-          }
         },
         "Entertainment": {
-          "lists": {
-            "Hobbies to Try": [],
-            "Things to Watch": [
-              {
-                "title": "Mayfair witches"
-              },
-              {
-                "title": "Amc, stars, showtime, apple shows"
-              },
-              {
-                "title": "Penguin hbomax site"
-              }
-            ],
-            "Foods to Make": []
-          }
+            "lists": {
+                "Hobbies to Try": [],
+                "Things to Watch": [
+                    {
+                        "title": "Mayfair witches"
+                    },
+                    {
+                        "title": "Amc, stars, showtime, apple shows"
+                    },
+                    {
+                        "title": "Penguin hbomax site"
+                    }
+                ],
+                "Foods to Make": []
+            }
         },
         "Relationships": {
-          "lists": {
-            "Calls and Messaging": [],
-            "Gifts List": [
-              {
-                "title": "Her dryer - made slides ",
-                "tag": "Chinue"
-              }
-            ]
-          }
+            "lists": {
+                "Calls and Messaging": [],
+                "Gifts List": [
+                    {
+                        "title": "Her dryer - made slides ",
+                        "tag": "Chinue"
+                    }
+                ]
+            }
         }
-      }
+    }
 }
 
 function getDataOld() {

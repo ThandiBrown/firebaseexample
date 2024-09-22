@@ -68,14 +68,18 @@ function isExistingList(parent, listName) {
     return _.getSubmitListNames(parent).includes(ch.getClassName(listName))
 }
 
-function createListItem(listElement, taskDescription, tag = '', isHidden = true) {
-    let tagClass = tag ? `
-        ${ch.printIfTrue('hidden', isHidden)} ${ch.getClassName(tag)}
+function createListItem(listElement, listItem, isHidden = true) {
+    let tagClass = listItem.tag ? `
+        ${ch.printIfTrue('hidden', isHidden)} ${ch.getClassName(listItem.tag)}
     ` : '';
+    let additionalClasses = `
+        ${ch.printIfTrue(' checked', listItem.checked)}
+        ${ch.printIfTrue(' in-progress', listItem['in-progress'])}
+    `;
     let listItemString = `
-        <div class="flexible list-item ${tagClass}">
+        <div class="flexible list-item ${tagClass} ${additionalClasses}">
             <div class="check"></div>
-            <div class="flexible list-value">${taskDescription}
+            <div class="flexible list-value">${listItem.title}
             </div>
             <div class="delete-line"></div>
         </div>
@@ -84,8 +88,7 @@ function createListItem(listElement, taskDescription, tag = '', isHidden = true)
     d.newListItem(
         _.getPillarName(listElement, 'listElement'),
         _.getListTitleName(listElement),
-        taskDescription,
-        tag
+        listItem
     );
     return ch.appendAndRetrieve(_.getListItemArea(listElement), listItemString);
 }

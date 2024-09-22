@@ -26,7 +26,6 @@ function insertAndRetrieve(element, newElement) {
 
 
 function returnRecordsAsBool(calendarData) {
-    console.log("calendarData"); console.log(calendarData);
 
     /* produce a list of booleans from the start date of the record keeping until now
     the value should be true if a record was stored at that day
@@ -46,7 +45,6 @@ function returnRecordsAsBool(calendarData) {
             'tag': ''
         });
     }
-    console.log("newRecords"); console.log(newRecords);
     newRecords = chunkAndModifyArray(newRecords, 7);
 
     return newRecords
@@ -119,7 +117,6 @@ function chunkAndModifyArray(list, chunkSize) {
         if (i + chunkSize >= list.length) {
             // Set the last element to 1 if the chunk is not empty
             if (chunk.length > 0) {
-                console.log(chunk[chunk.length - 1]);
                 chunk[chunk.length - 1].tag = 'today';
             }
             // Fill the rest of the chunk with zeros
