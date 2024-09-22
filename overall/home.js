@@ -10,7 +10,7 @@ NEXT:
 make the collapse function
 add the submit area
 */
-if (true) {
+if (false) {
     initializeFirebase();
     t.getStarted();
 
@@ -52,6 +52,7 @@ function loadPage(usingDB, userData) {
 
     if (typeof userData === 'string') {
         userData = JSON.parse(userData);
+        console.log("userData");console.log(userData);
     }
 
     for (let [pillarName, pillarData] of Object.entries(userData)) {
@@ -64,8 +65,6 @@ function loadPage(usingDB, userData) {
             // create calendar area
             let calendarArea = c.createCalendarArea(pillarElement);
             for (let calendarData of pillarData.calendar) {
-                // ADD
-                // if (!('progressed' in calendarData)) calendarData.progressed = [];
                 let calendar = c.createCalendar(calendarArea, calendarData);
                 e.todayCalendarBoxListener(pillarName, calendarData.type, calendar);
             }

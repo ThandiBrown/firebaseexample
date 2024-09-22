@@ -295,6 +295,19 @@ body * {
     background-color: lightblue;
 }
 
+.in-progress > .check {
+    background-color: hsla(144, 53%, 79%, 0.835);
+    border: none;
+}
+
+.in-progress > .delete-line {
+    background-color: hsla(144, 32%, 58%, 0.87);
+}
+
+.in-progress > .list-value {
+    background-color: hsla(144, 53%, 79%, 0.335);
+}
+
 .list-condition-area {
     width: 100%;
     padding: 10px;

@@ -12,7 +12,7 @@ function todayCalendarBoxListener(pillarName, calendarName, calendar) {
     const todayBoxes = calendar.querySelectorAll('.today');
     todayBoxes.forEach(todayBox => {
         todayBox.addEventListener('click', function () {
-            let status = toggleCalendarStatus(todayBox);
+            let status = toggleMultipleStatuses(todayBox, ['fulfilled', 'progressed']);
             d.updateCalendarFulfillment(pillarName, calendarName, todayBox.getAttribute('title'), status);
 
         });
@@ -25,7 +25,7 @@ function todayCalendarBoxListener(pillarName, calendarName, calendar) {
 
             const startTimer = () => {
                 timer = setTimeout(() => {
-                    let status = toggleCalendarStatus(box);
+                    let status = toggleMultipleStatuses(box, ['fulfilled', 'progressed']);
                     d.updateCalendarFulfillment(pillarName, calendarName, box.getAttribute('title'), status);
                 }, 1000); // 3000 milliseconds = 3 seconds
             };
@@ -64,8 +64,38 @@ function toggleCalendarStatus(box) {
     return status;
 }
 
+function toggleMultipleStatuses(element, statuses) {
+    let updated = false;
+    let status = '';
+    for (let i = 0; i < statuses.length - 1; i++) {
+        if (element.classList.contains(statuses[i])) {
+            element.classList.remove(statuses[i]);
+            element.classList.add(statuses[i + 1]);
+            status = statuses[i + 1];
+            updated = true;
+            break;
+        }
+    }
+    if (!updated) {
+        if (element.classList.contains(statuses[statuses.length - 1])) {
+            // contains last class
+            element.classList.remove(statuses[statuses.length - 1]);
+        } else {
+            // contains no classes
+            element.classList.add(statuses[0]);
+            status = statuses[0];
+        }
+    }
+
+    console.log("status"); console.log(status);
+    return status;
+
+}
+
+
 function listItemListeners(listElement, listItem) {
-    _.getCheckButton(listItem).addEventListener('click', () => listItem.classList.toggle('checked'));
+    // _.getCheckButton(listItem).addEventListener('click', () => listItem.classList.toggle('checked'));
+    _.getCheckButton(listItem).addEventListener('click', () => toggleMultipleStatuses(listItem, ['checked', 'in-progress']));
 
     _.getDeleteButton(listItem).addEventListener('click', function () {
         if (listItem.classList.contains('checked')) {
