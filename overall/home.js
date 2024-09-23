@@ -19,11 +19,13 @@ if (true) {
     t.readDB(loadPage);
 
 } else {
-    // initializeFirebase();
-    // t.getStarted();
-    // t.readDBHistory(loadPage);
-
-    // loadPage(false, getData());
+    if (false) {
+        initializeFirebase();
+        t.getStarted();
+        t.readDBHistory(loadPage);
+    } else {
+        loadPage(false, getData());
+    }
 }
 
 function updateHistory(history, userData) {
@@ -72,26 +74,83 @@ function loadPage(usingDB, userData) {
         }
 
         if (pillarData.lists) {
-            for (let [listName, listItems] of Object.entries(pillarData.lists)) {
-                let listElement = c.createList(pillarElement, listName);
 
-                let tags = [];
-                for (let listItem of listItems) {
-                    let listItemElement = c.createListItem(listElement, listItem);
-                    e.listItemListeners(listElement, listItemElement);
-                    if (listItem.tag && !tags.includes(listItem.tag)) tags.push(listItem.tag);
+            if (true) {
+                for (let [listName, listData] of Object.entries(pillarData.lists)) {
+
+
+                    let listElement = c.createList(pillarElement, listName);
+
+                    let tags = [];
+                    for (let listItem of listData.items) {
+                        let listItemElement = c.createListItem(listElement, listItem);
+                        e.listItemListeners(listElement, listItemElement);
+
+                        if (listItem.tag && !tags.includes(listItem.tag)) {
+                            tags.push(listItem.tag);
+                        }
+                    }
+
+                    for (let tagName of tags) {
+                        let tagElement = c.createListCondition(listElement, tagName);
+                        e.listConditionListener(listElement, tagElement);
+                        allPillarConditions.push(tagName);
+
+                        // select selected tags
+                        if (pillarData.lists[listName].selectedTags.includes(tagName)) {
+                            tagElement.click();
+                        }
+                    }
+
+                    allLists.push(listName);
+                    actions.collapselistItemArea(listElement);
+                    actions.collapseListConditionAreas(listElement);
+
+
+                    // select selected tags - for the data version
                 }
 
-                for (let tagName of tags) {
-                    let tagElement = c.createListCondition(listElement, tagName);
-                    e.listConditionListener(listElement, tagElement);
-                    allPillarConditions.push(tagName);
-                }
+            } else {
+                for (let [listName, listItems] of Object.entries(pillarData.lists)) {
 
-                allLists.push(listName);
-                actions.collapselistItemArea(listElement);
-                actions.collapseListConditionAreas(listElement);
+                    // ADD
+                    pillarData.lists[listName] = {};
+                    pillarData.lists[listName].items = listItems;
+                    pillarData.lists[listName].selectedTags = [];
+
+                    let listElement = c.createList(pillarElement, listName);
+
+                    let tags = [];
+                    for (let listItem of listItems) {
+                        let listItemElement = c.createListItem(listElement, listItem);
+                        e.listItemListeners(listElement, listItemElement);
+
+                        if (listItem.tag && !tags.includes(listItem.tag)) {
+                            tags.push(listItem.tag);
+                        }
+                    }
+
+                    for (let tagName of tags) {
+                        let tagElement = c.createListCondition(listElement, tagName);
+                        e.listConditionListener(listElement, tagElement);
+                        allPillarConditions.push(tagName);
+
+                        // select selected tags
+                        if (pillarData.lists[listName].selectedTags.includes(tagName)) {
+                            tagElement.click();
+                        }
+                    }
+
+                    allLists.push(listName);
+                    actions.collapselistItemArea(listElement);
+                    actions.collapseListConditionAreas(listElement);
+
+
+                    // select selected tags - for the data version
+                }
             }
+
+
         }
 
         let submitArea = c.createSubmitArea(pillarElement);

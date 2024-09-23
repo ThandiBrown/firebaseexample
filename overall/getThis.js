@@ -68,6 +68,10 @@ function getListConditionArea(parent) {
     return parent.querySelector(".list-condition-area");
 }
 
+function getTagName(tagElement) {
+    return tagElement.innerText.trim();
+}
+
 function getListConditionMatches(parent) {
     const tags = parent.querySelectorAll('.list-condition-tag');
     let matches = {};
@@ -173,5 +177,6 @@ export {
     getSubmitListNames,
     getListItemName,
     getPillarName,
-    getListTitleName
+    getListTitleName,
+    getTagName
 }

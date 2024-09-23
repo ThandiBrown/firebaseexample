@@ -22,7 +22,7 @@ function newCalendar(pillarName, calendarData) {
     }
 
     userData[pillarName]['calendar'].push(calendarData);
-    printUserData(userData[pillarName]['calendar']);
+    // printUserData(userData[pillarName]['calendar']);
 }
 
 function updateCalendarFulfillment(pillarName, calendarType, dateString, status) {
@@ -58,7 +58,10 @@ function newList(pillarName, listName) {
         userData[pillarName]['lists'] = {}
     }
 
-    userData[pillarName]['lists'][listName] = [];
+    userData[pillarName]['lists'][listName] = {
+        'items': [],
+        'selectedTags': []
+    };
     // printUserData();
 }
 
@@ -69,7 +72,7 @@ function deleteList(pillarName, listName) {
 }
 
 function newListItem(pillarName, listName, listItem) {
-    userData[pillarName]['lists'][listName].push(listItem);
+    userData[pillarName]['lists'][listName].items.push(listItem);
     // printUserData();
 }
 
@@ -78,7 +81,7 @@ function updateListItemStatus(pillarName, listName, listElement, itemName, statu
 
     let index = getChildOrder(listElement);
 
-    let listItems = userData[pillarName]['lists'][listName];
+    let listItems = userData[pillarName]['lists'][listName].items;
 
     if (!isNaN(index) && itemName.includes(listItems[index].title.trim())) {
         if (status) listItems[index][status] = true;
@@ -91,11 +94,27 @@ function deleteListItem(pillarName, listName, listElement, itemName) {
 
     let index = getChildOrder(listElement);
 
-    let listItems = userData[pillarName]['lists'][listName];
+    let listItems = userData[pillarName]['lists'][listName].items;
 
     if (!isNaN(index) && itemName.includes(listItems[index].title.trim())) {
         listItems.splice(index, 1);
     }
+    printUserData();
+}
+
+function selectListTag(pillarName, listName, tagName) {
+
+    console.log("userData - selectListTag"); console.log(userData);
+    console.log(userData[pillarName]['lists'][listName]);
+
+    let selectedTags = userData[pillarName]['lists'][listName].selectedTags;
+    if (selectedTags.includes(tagName)) {
+        selectedTags.splice(selectedTags.indexOf(tagName), 1);
+    } else {
+        selectedTags.push(tagName);
+    }
+    console.log('selected');
+    printUserData(userData[pillarName]['lists'][listName].selectedTags);
     printUserData();
 }
 
@@ -124,5 +143,6 @@ export {
     saveToDB,
     newCalendar,
     updateCalendarFulfillment,
-    updateListItemStatus
+    updateListItemStatus,
+    selectListTag
 }

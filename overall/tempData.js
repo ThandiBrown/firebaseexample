@@ -83,105 +83,138 @@ function getData() {
                 }
             ],
             "lists": {
-                "Time Sensitive": [
-                    {
-                        "title": "Christmas flight ✈️"
-                    }
-                ],
-                "Conditional": [
-                    {
-                        "title": "Ask company to mail w2 to chinue address"
-                    },
-                    {
-                        "title": "Makeup with chinue",
-                        "tag": "Chinue's House"
-                    }
-                ],
-                "Backlog": [
-                    {
-                        "title": "All new emails",
-                        "checked": false,
-                        "in-progress": true
-                    },
-                    {
-                        "title": "Tsa precheck"
-                    },
-                    {
-                        "title": "Find happypages site"
-                    },
-                    {
-                        "title": "Determine non tech things"
-                    },
-                    {
-                        "title": "Chinue advice on stainless pans"
-                    },
-                    {
-                        "title": "300 questions social program"
-                    },
-                    {
-                        "title": "Figure out how to recover dragon if hard reset"
-                    },
-                    {
-                        "title": "How to save computer if destroyed"
-                    },
-                    {
-                        "title": "fidelity, change email to: thanbrown22@gmail.com "
-                    },
-                    {
-                        "title": "umb health services, change email to: thanbrown22@gmail.com"
-                    },
-                    {
-                        "title": "same for State Farm ^"
-                    }
-                ],
-                "Day Checkpoints": [
-                    {
-                        "title": "Hygiene, shower and start work by 630"
-                    },
-                    {
-                        "title": "Technique: make green tea 1st, ear buds knox hill video"
-                    },
-                    {
-                        "title": "Water / liquid only day"
-                    },
-                    {
-                        "title": "Prop up laptop for neck"
-                    },
-                    {
-                        "title": "Use counters as stand up desk"
-                    },
-                    {
-                        "title": "*Follow* day's layout / routine"
-                    }
-                ]
+                "Time Sensitive": {
+                    "items": [
+                        {
+                            "title": "Christmas flight ✈️"
+                        }
+                    ],
+                    "selectedTags": []
+                },
+                "Conditional": {
+                    "items": [
+                        {
+                            "title": "Ask company to mail w2 to chinue address"
+                        },
+                        {
+                            "title": "Makeup with chinue",
+                            "tag": "Chinue's House"
+                        }
+                    ],
+                    "selectedTags": ["Chinue's House"]
+                },
+                "Backlog": {
+                    "items": [
+                        {
+                            "title": "All new emails",
+                            "checked": false,
+                            "in-progress": true
+                        },
+                        {
+                            "title": "Tsa precheck",
+                            "checked": false,
+                            "in-progress": true
+                        },
+                        {
+                            "title": "Find happypages site",
+                            "checked": false,
+                            "in-progress": false
+                        },
+                        {
+                            "title": "Determine non tech things",
+                            "checked": false,
+                            "in-progress": false
+                        },
+                        {
+                            "title": "Chinue advice on stainless pans"
+                        },
+                        {
+                            "title": "300 questions social program"
+                        },
+                        {
+                            "title": "Figure out how to recover dragon if hard reset"
+                        },
+                        {
+                            "title": "How to save computer if destroyed"
+                        },
+                        {
+                            "title": "fidelity, change email to: thanbrown22@gmail.com "
+                        },
+                        {
+                            "title": "umb health services, change email to: thanbrown22@gmail.com"
+                        },
+                        {
+                            "title": "same for State Farm ^"
+                        }
+                    ],
+                    "selectedTags": []
+                },
+                "Day Checkpoints": {
+                    "items": [
+                        {
+                            "title": "Hygiene, shower and start work by 630"
+                        },
+                        {
+                            "title": "Technique: make green tea 1st, ear buds knox hill video"
+                        },
+                        {
+                            "title": "Water / liquid only day"
+                        },
+                        {
+                            "title": "Prop up laptop for neck"
+                        },
+                        {
+                            "title": "Use counters as stand up desk"
+                        },
+                        {
+                            "title": "*Follow* day's layout / routine"
+                        }
+                    ],
+                    "selectedTags": []
+                }
             }
         },
         "Entertainment": {
             "lists": {
-                "Hobbies to Try": [],
-                "Things to Watch": [
-                    {
-                        "title": "Mayfair witches"
-                    },
-                    {
-                        "title": "Amc, stars, showtime, apple shows"
-                    },
-                    {
-                        "title": "Penguin hbomax site"
-                    }
-                ],
-                "Foods to Make": []
+                "Hobbies to Try": {
+                    "items": [],
+                    "selectedTags": []
+                },
+                "Things to Watch": {
+                    "items": [
+                        {
+                            "title": "Mayfair witches"
+                        },
+                        {
+                            "title": "Amc, stars, showtime, apple shows"
+                        },
+                        {
+                            "title": "Penguin hbomax site"
+                        }
+                    ],
+                    "selectedTags": []
+                },
+                "Foods to Make": {
+                    "items": [],
+                    "selectedTags": []
+                }
             }
         },
         "Relationships": {
             "lists": {
-                "Calls and Messaging": [],
-                "Gifts List": [
-                    {
-                        "title": "Her dryer - made slides ",
-                        "tag": "Chinue"
-                    }
-                ]
+                "Calls and Messaging": {
+                    "items": [],
+                    "selectedTags": []
+                },
+                "Gifts List": {
+                    "items": [
+                        {
+                            "title": "Her dryer - made slides ",
+                            "tag": "Chinue"
+                        }
+                    ],
+                    "selectedTags": []
+                }
             }
         }
     }

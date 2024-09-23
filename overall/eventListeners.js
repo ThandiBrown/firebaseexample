@@ -123,6 +123,12 @@ function listConditionListener(listElement, tagElem) {
         tagElem.classList.toggle('list-condition-selected');
         // un/collapses the list area based on whether filters are selected
         actions.collapselistItemArea(listElement);
+
+        d.selectListTag(
+            _.getPillarName(listElement, 'listElement'),
+            _.getListTitleName(listElement),
+            _.getTagName(tagElem)
+        );
     });
 }
 
