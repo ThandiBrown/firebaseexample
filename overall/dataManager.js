@@ -76,6 +76,27 @@ function newListItem(pillarName, listName, listItem) {
     // printUserData();
 }
 
+function moveListItem(pillarName, listName, listItemElement, direction) {
+    let listItems = userData[pillarName]['lists'][listName].items;
+    // Element's physical position within its parentt
+    let index = getChildOrder(listItemElement);
+
+    // Check if the index is correct; use "includes" in case there is extra text associated with the element name '\n' or '<br>'
+    if (!isNaN(index) && index != -1 && _.getListItemName(listItemElement).includes(listItems[index].title.trim())) {
+        let itemData = listItems.splice(index, 1)[0];
+
+        if (direction == 'To Top') {
+            listItems.unshift(itemData);
+        } else if (direction == 'To Bottom') {
+            listItems.push(itemData);
+        }
+    } else {
+        console.log('TROUBLE FINDING: ' + itemName);
+    }
+    printUserData(listItems);
+
+}
+
 function updateListItemStatus(pillarName, listName, listElement, itemName, status, prevStatus) {
     console.log("updateListItemStatus");
 
@@ -90,14 +111,16 @@ function updateListItemStatus(pillarName, listName, listElement, itemName, statu
     printUserData(listItems);
 }
 
-function deleteListItem(pillarName, listName, listElement, itemName) {
+function deleteListItem(pillarName, listName, listItem, itemName) {
 
-    let index = getChildOrder(listElement);
+    let index = getChildOrder(listItem);
 
     let listItems = userData[pillarName]['lists'][listName].items;
 
-    if (!isNaN(index) && itemName.includes(listItems[index].title.trim())) {
+    if (!isNaN(index) && index != -1 && itemName.includes(listItems[index].title.trim())) {
         listItems.splice(index, 1);
+    } else {
+        console.log('TROUBLE FINDING: ' + itemName);
     }
     printUserData();
 }
@@ -144,5 +167,6 @@ export {
     newCalendar,
     updateCalendarFulfillment,
     updateListItemStatus,
-    selectListTag
+    selectListTag,
+    moveListItem
 }

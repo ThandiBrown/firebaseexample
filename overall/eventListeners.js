@@ -84,6 +84,7 @@ function toggleMultipleStatuses(element, statuses) {
 
 function listItemListeners(listElement, listItem) {
 
+    // CHECK BUTTON
     _.getCheckButton(listItem).addEventListener('click', function () {
         let [status, prevStatus] = toggleMultipleStatuses(listItem, ['checked', 'in-progress']);
         console.log("status"); console.log(status);
@@ -98,6 +99,24 @@ function listItemListeners(listElement, listItem) {
         );
     });
 
+
+    // LIST VALUE
+    let listValueElement = _.getListValue(listItem);
+
+    let timer;
+    const startTimer = () => {
+        timer = setTimeout(() => {
+            listItem.classList.toggle('list-item-selected');
+        }, 500); // 3000 milliseconds = 3 seconds
+    };
+
+    const clearTimer = () => { clearTimeout(timer); };
+
+    listValueElement.addEventListener('mousedown', startTimer);
+    listValueElement.addEventListener('mouseup', clearTimer);
+    listValueElement.addEventListener('mouseleave', clearTimer);
+
+    // DELETE BUTTON
     _.getDeleteButton(listItem).addEventListener('click', function () {
         if (listItem.classList.contains('checked')) {
             d.deleteListItem(
@@ -205,6 +224,35 @@ function submitListener(pillar) {
 
 }
 
+function movementListeners(genTag, direction) {
+    genTag.addEventListener('click', function () {
+        moveRequest(direction);
+    });
+}
+
+function moveRequest(direction) {
+
+    const selectedElements = document.querySelectorAll('.list-item-selected');
+
+    selectedElements.forEach(element => {
+        console.log(element.parentNode.parentNode);
+        d.moveListItem(
+            _.getPillarName(element, 'listItem'),
+            _.getListTitleName(element.parentNode.parentNode),
+            element,
+            direction
+        );
+
+        if (direction == 'To Top') {
+            element.parentNode.insertBefore(element, element.parentNode.firstChild);
+        } else if (direction == 'To Bottom') {
+            element.parentNode.appendChild(element);
+        }
+
+        element.classList.remove('list-item-selected');
+    });
+}
+
 function newListRequest(pillar, userText) {
     /* submethod of submitListener */
     // create list
@@ -270,5 +318,6 @@ export {
     submitListListener,
     submitConditionListener,
     saveAllDataListener,
-    todayCalendarBoxListener
+    todayCalendarBoxListener,
+    movementListeners
 }

@@ -94,14 +94,16 @@ function getData() {
                 "Conditional": {
                     "items": [
                         {
-                            "title": "Ask company to mail w2 to chinue address"
+                            "title": "Ask company to mail w2 to chinue address",
+                            "checked": false,
+                            "in-progress": false
                         },
                         {
                             "title": "Makeup with chinue",
                             "tag": "Chinue's House"
                         }
                     ],
-                    "selectedTags": ["Chinue's House"]
+                    "selectedTags": []
                 },
                 "Backlog": {
                     "items": [
@@ -171,6 +173,10 @@ function getData() {
                         }
                     ],
                     "selectedTags": []
+                },
+                "Shopping": {
+                    "items": [],
+                    "selectedTags": []
                 }
             }
         },
@@ -197,6 +203,15 @@ function getData() {
                 "Foods to Make": {
                     "items": [],
                     "selectedTags": []
+                },
+                "Backlog": {
+                    "items": [
+                        {
+                            "title": "look into pyenvironment, removing/uninstalling global downloads",
+                            "tag": ""
+                        }
+                    ],
+                    "selectedTags": []
                 }
             }
         },
@@ -211,6 +226,19 @@ function getData() {
                         {
                             "title": "Her dryer - made slides ",
                             "tag": "Chinue"
+                        },
+                        {
+                            "title": "Chinue friend's walking at desk device",
+                            "tag": ""
+                        }
+                    ],
+                    "selectedTags": []
+                },
+                "Memories": {
+                    "items": [
+                        {
+                            "title": "New kombucha 9/23",
+                            "tag": ""
                         }
                     ],
                     "selectedTags": []

@@ -308,6 +308,10 @@ body * {
     background-color: hsla(144, 53%, 79%, 0.335);
 }
 
+.list-item-selected > * {
+    background-color: hsla(350, 100%, 88%, 0.699) !important;
+}
+
 .list-condition-area {
     width: 100%;
     padding: 10px;

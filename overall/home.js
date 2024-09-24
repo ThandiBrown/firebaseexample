@@ -10,7 +10,7 @@ NEXT:
 make the collapse function
 add the submit area
 */
-if (true) {
+if (false) {
     initializeFirebase();
     t.getStarted();
 
@@ -49,7 +49,9 @@ function updateHistory(history, userData) {
 
 function loadPage(usingDB, userData) {
     /* 
-    add the data management element to the calendars
+        NEXT:
+        A button to push elements to the top or bottom of the list
+        adding the upcoming element, maybe some reoccurring features
     */
 
     if (typeof userData === 'string') {
@@ -75,84 +77,38 @@ function loadPage(usingDB, userData) {
 
         if (pillarData.lists) {
 
-            if (true) {
-                for (let [listName, listData] of Object.entries(pillarData.lists)) {
+            for (let [listName, listData] of Object.entries(pillarData.lists)) {
 
+                let listElement = c.createList(pillarElement, listName);
 
-                    let listElement = c.createList(pillarElement, listName);
+                let tags = [];
+                for (let listItem of listData.items) {
+                    let listItemElement = c.createListItem(listElement, listItem);
+                    e.listItemListeners(listElement, listItemElement);
 
-                    let tags = [];
-                    for (let listItem of listData.items) {
-                        let listItemElement = c.createListItem(listElement, listItem);
-                        e.listItemListeners(listElement, listItemElement);
-
-                        if (listItem.tag && !tags.includes(listItem.tag)) {
-                            tags.push(listItem.tag);
-                        }
+                    if (listItem.tag && !tags.includes(listItem.tag)) {
+                        tags.push(listItem.tag);
                     }
-
-                    for (let tagName of tags) {
-                        let tagElement = c.createListCondition(listElement, tagName);
-                        e.listConditionListener(listElement, tagElement);
-                        allPillarConditions.push(tagName);
-
-                        // select selected tags
-                        if (pillarData.lists[listName].selectedTags.includes(tagName)) {
-                            tagElement.click();
-                        }
-                    }
-
-                    allLists.push(listName);
-                    actions.collapselistItemArea(listElement);
-                    actions.collapseListConditionAreas(listElement);
-
-
-                    // select selected tags - for the data version
                 }
 
-            } else {
-                for (let [listName, listItems] of Object.entries(pillarData.lists)) {
+                for (let tagName of tags) {
+                    let tagElement = c.createListCondition(listElement, tagName);
+                    e.listConditionListener(listElement, tagElement);
+                    allPillarConditions.push(tagName);
 
-                    // ADD
-                    pillarData.lists[listName] = {};
-                    pillarData.lists[listName].items = listItems;
-                    pillarData.lists[listName].selectedTags = [];
-
-                    let listElement = c.createList(pillarElement, listName);
-
-                    let tags = [];
-                    for (let listItem of listItems) {
-                        let listItemElement = c.createListItem(listElement, listItem);
-                        e.listItemListeners(listElement, listItemElement);
-
-                        if (listItem.tag && !tags.includes(listItem.tag)) {
-                            tags.push(listItem.tag);
-                        }
+                    // select selected tags
+                    if (pillarData.lists[listName].selectedTags.includes(tagName)) {
+                        tagElement.click();
                     }
-
-                    for (let tagName of tags) {
-                        let tagElement = c.createListCondition(listElement, tagName);
-                        e.listConditionListener(listElement, tagElement);
-                        allPillarConditions.push(tagName);
-
-                        // select selected tags
-                        if (pillarData.lists[listName].selectedTags.includes(tagName)) {
-                            tagElement.click();
-                        }
-                    }
-
-                    allLists.push(listName);
-                    actions.collapselistItemArea(listElement);
-                    actions.collapseListConditionAreas(listElement);
-
-
-                    // select selected tags - for the data version
                 }
+
+                allLists.push(listName);
+                actions.collapselistItemArea(listElement);
+                actions.collapseListConditionAreas(listElement);
+
             }
 
-
         }
-
         let submitArea = c.createSubmitArea(pillarElement);
 
         for (let listName of allLists) {
@@ -163,6 +119,11 @@ function loadPage(usingDB, userData) {
         for (let genName of ['New List', 'Delete List']) {
             let genTag = c.createSubmitGeneral(submitArea, genName);
             e.submitListListener(pillarElement, genTag);
+        }
+
+        for (let genName of ['To Top', 'To Bottom']) {
+            let genTag = c.createSubmitGeneral(submitArea, genName);
+            e.movementListeners(genTag, genName);
         }
 
         for (let condition of allPillarConditions) {

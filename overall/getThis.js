@@ -52,12 +52,16 @@ function getListTitleName(listElement) {
     return listElement.querySelector(".list-title").innerText;
 }
 
-function getListItemName(listItem) {
-    return listItem.querySelector(".list-value").innerText;
-}
-
 function getCheckButton(parent) {
     return parent.querySelector('.check');
+}
+
+function getListValue(parent) {
+    return parent.querySelector('.list-value');
+}
+
+function getListItemName(listItem) {
+    return listItem.querySelector(".list-value").innerText;
 }
 
 function getDeleteButton(parent) {
@@ -178,5 +182,6 @@ export {
     getListItemName,
     getPillarName,
     getListTitleName,
-    getTagName
+    getTagName,
+    getListValue
 }
