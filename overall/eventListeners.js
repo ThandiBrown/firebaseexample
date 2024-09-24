@@ -76,8 +76,7 @@ function toggleMultipleStatuses(element, statuses) {
         }
     }
 
-    console.log("status"); console.log(status);
-    console.log("previous"); console.log(previous);
+
     return [status, previous];
 }
 
@@ -87,8 +86,6 @@ function listItemListeners(listElement, listItem) {
     // CHECK BUTTON
     _.getCheckButton(listItem).addEventListener('click', function () {
         let [status, prevStatus] = toggleMultipleStatuses(listItem, ['checked', 'in-progress']);
-        console.log("status"); console.log(status);
-        console.log("prevStatus"); console.log(prevStatus);
 
         d.updateListItemStatus(
             _.getPillarName(listElement, 'listElement'),
@@ -226,30 +223,25 @@ function submitListener(pillar) {
 
 function movementListeners(genTag, direction) {
     genTag.addEventListener('click', function () {
-        moveRequest(direction);
-    });
-}
+        const selectedElements = document.querySelectorAll('.list-item-selected');
 
-function moveRequest(direction) {
+        selectedElements.forEach(element => {
 
-    const selectedElements = document.querySelectorAll('.list-item-selected');
+            d.moveListItem(
+                _.getPillarName(element, 'listItem'),
+                _.getListTitleName(element.parentNode.parentNode),
+                element,
+                direction
+            );
 
-    selectedElements.forEach(element => {
-        console.log(element.parentNode.parentNode);
-        d.moveListItem(
-            _.getPillarName(element, 'listItem'),
-            _.getListTitleName(element.parentNode.parentNode),
-            element,
-            direction
-        );
+            if (direction == 'To Top') {
+                element.parentNode.insertBefore(element, element.parentNode.firstChild);
+            } else if (direction == 'To Bottom') {
+                element.parentNode.appendChild(element);
+            }
 
-        if (direction == 'To Top') {
-            element.parentNode.insertBefore(element, element.parentNode.firstChild);
-        } else if (direction == 'To Bottom') {
-            element.parentNode.appendChild(element);
-        }
-
-        element.classList.remove('list-item-selected');
+            element.classList.remove('list-item-selected');
+        });
     });
 }
 
