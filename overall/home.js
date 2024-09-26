@@ -10,7 +10,7 @@ NEXT:
 make the collapse function
 add the submit area
 */
-if (false) {
+if (true) {
     initializeFirebase();
     t.getStarted();
 
@@ -52,6 +52,8 @@ function loadPage(usingDB, userData) {
         NEXT:
         A button to push elements to the top or bottom of the list
         adding the upcoming element, maybe some reoccurring features
+        
+        Get the saving for list to work
     */
 
     if (typeof userData === 'string') {
