@@ -4,8 +4,39 @@ import * as actions from './actions.js'
 import * as d from './dataManager.js'
 
 
-function saveAllDataListener() {
-    document.querySelector(".saving").addEventListener('click', () => d.saveToDB());
+function saveAllDataListener(isProduction = true) {
+    if (isProduction) {
+        document.querySelector(".saving").addEventListener('click', () => d.saveToDB());
+    } else {
+        document.querySelector(".saving").addEventListener('click', () => d.printUserData());
+    }
+
+}
+
+function pillarTitleListener(pillarElement) {
+    _.getPillarTitle(pillarElement).addEventListener('dblclick', function () {
+        collapsePillar(pillarElement);
+    });
+}
+
+function collapsePillar(pillarElement) {
+    let pillarTitle = pillarElement.querySelector('.pillar-title');
+    let mainDiv = pillarElement.querySelector('.pillar-main');
+
+    let startedCollapsed = mainDiv.classList.contains('hidden');
+
+    if (startedCollapsed) {
+        mainDiv.classList.remove('hidden');
+        pillarTitle.style.borderWidth = '3px';
+    } else {
+        mainDiv.classList.add('hidden');
+        pillarTitle.style.borderWidth = '0px';
+    }
+
+    d.collapsePillar(
+        _.getPillarName(pillarElement),
+        !startedCollapsed
+    );
 }
 
 function todayCalendarBoxListener(pillarName, calendarName, calendar) {
@@ -48,7 +79,6 @@ function todayCalendarBoxListener(pillarName, calendarName, calendar) {
     });
 }
 
-
 function toggleMultipleStatuses(element, statuses) {
     let updated = false;
     let status = '';
@@ -88,7 +118,7 @@ function listItemListeners(listElement, listItem) {
         let [status, prevStatus] = toggleMultipleStatuses(listItem, ['checked', 'in-progress']);
 
         d.updateListItemStatus(
-            _.getPillarName(listElement, 'listElement'),
+            _.getPillarName(listElement, false),
             _.getListTitleName(listElement),
             listItem,
             _.getListItemName(listItem),
@@ -117,7 +147,7 @@ function listItemListeners(listElement, listItem) {
     _.getDeleteButton(listItem).addEventListener('click', function () {
         if (listItem.classList.contains('checked')) {
             d.deleteListItem(
-                _.getPillarName(listElement, 'listElement'),
+                _.getPillarName(listElement, false),
                 _.getListTitleName(listElement),
                 listItem,
                 _.getListItemName(listItem)
@@ -141,7 +171,7 @@ function listConditionListener(listElement, tagElem) {
         actions.collapselistItemArea(listElement);
 
         d.selectListTag(
-            _.getPillarName(listElement, 'listElement'),
+            _.getPillarName(listElement, false),
             _.getListTitleName(listElement),
             _.getTagName(tagElem)
         );
@@ -228,7 +258,7 @@ function movementListeners(genTag, direction) {
         selectedElements.forEach(element => {
 
             d.moveListItem(
-                _.getPillarName(element, 'listItem'),
+                _.getPillarName(element, false),
                 _.getListTitleName(element.parentNode.parentNode),
                 element,
                 direction
@@ -311,5 +341,7 @@ export {
     submitConditionListener,
     saveAllDataListener,
     todayCalendarBoxListener,
-    movementListeners
+    movementListeners,
+    pillarTitleListener,
+    collapsePillar
 }

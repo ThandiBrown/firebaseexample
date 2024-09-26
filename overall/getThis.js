@@ -15,8 +15,12 @@ function getPillarMain(pillar) {
     return pillar.querySelector(".pillar-main");
 }
 
-function getPillarName(element, type = 'pillar') {
-    if (type != 'pillar') {
+function getPillarTitle(pillar) {
+    return pillar.querySelector(".pillar-title");
+}
+
+function getPillarName(element, isPillar) {
+    if (!isPillar) {
         for (let pillar of getPillars()) {
             if (pillar.contains(element)) {
                 element = pillar;
@@ -183,5 +187,6 @@ export {
     getPillarName,
     getListTitleName,
     getTagName,
-    getListValue
+    getListValue,
+    getPillarTitle
 }

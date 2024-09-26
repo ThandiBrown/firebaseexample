@@ -24,6 +24,7 @@ if (true) {
         t.getStarted();
         t.readDBHistory(loadPage);
     } else {
+        e.saveAllDataListener(false);
         loadPage(false, getData());
     }
 }
@@ -50,10 +51,7 @@ function updateHistory(history, userData) {
 function loadPage(usingDB, userData) {
     /* 
         NEXT:
-        A button to push elements to the top or bottom of the list
         adding the upcoming element, maybe some reoccurring features
-        
-        Get the saving for list to work
     */
 
     if (typeof userData === 'string') {
@@ -62,9 +60,12 @@ function loadPage(usingDB, userData) {
     }
 
     for (let [pillarName, pillarData] of Object.entries(userData)) {
-        let pillarElement = c.createPillar(pillarName);
+
+        let pillarElement = c.createPillar(pillarName, pillarData.status);
         let allLists = [];
         let allPillarConditions = [];
+
+        e.pillarTitleListener(pillarElement);
 
 
         if (pillarData.calendar) {
@@ -134,7 +135,7 @@ function loadPage(usingDB, userData) {
         }
 
         e.submitListener(pillarElement);
-
+        if (pillarData.status.collapsed) e.collapsePillar(pillarElement);
     }
 }
 

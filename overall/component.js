@@ -2,7 +2,7 @@ import * as ch from './component_helper.js';
 import * as _ from './getThis.js';
 import * as d from './dataManager.js';
 
-function createPillar(title) {
+function createPillar(title, status) {
     let pillarString = `
         <div class="flexible pillar ${ch.getClassName(title)}">
             <h1 class="pillar-title">${title}</h1>
@@ -12,7 +12,7 @@ function createPillar(title) {
         </div>
         `
 
-    d.newPillar(title);
+    d.newPillar(title, status);
     return ch.appendAndRetrieve(_.getPage(), pillarString);
 }
 
@@ -43,7 +43,7 @@ function createCalendar(calendarArea, calendarData) {
     `
 
     d.newCalendar(
-        _.getPillarName(calendarArea, 'calendarArea'), calendarData
+        _.getPillarName(calendarArea, false), calendarData
     );
 
     return ch.appendAndRetrieve(calendarArea, calendarString);
@@ -86,7 +86,7 @@ function createListItem(listElement, listItem, isHidden = true) {
     `;
 
     d.newListItem(
-        _.getPillarName(listElement, 'listElement'),
+        _.getPillarName(listElement, false),
         _.getListTitleName(listElement),
         listItem
     );

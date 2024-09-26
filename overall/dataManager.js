@@ -46,10 +46,19 @@ function updateCalendarFulfillment(pillarName, calendarType, dateString, status)
 
 }
 
-function newPillar(name) {
+function newPillar(name, status) {
     // console.log("newPillar");
     userData[name] = {};
+    userData[name]['status'] = status;
     // printUserData();
+}
+
+function collapsePillar(pillarName, isHidden) {
+    if (isHidden) {
+        userData[pillarName]['status'].collapsed = true;
+    } else {
+        userData[pillarName]['status'].collapsed = false;
+    }
 }
 
 function newList(pillarName, listName) {
@@ -168,5 +177,6 @@ export {
     updateCalendarFulfillment,
     updateListItemStatus,
     selectListTag,
-    moveListItem
+    moveListItem,
+    collapsePillar
 }
