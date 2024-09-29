@@ -70,35 +70,35 @@ function getData() {
                 "lastUpdated": "2024-09-28"
             },
 
-            // "notifications": [
-            //     {
-            //         "title": "Pay Rent",
-            //         "tags": [
-            //             "(on 29th)"
-            //         ]
-            //     },
-            //     {
-            //         "title": "Christmas Flights",
-            //         "tags": []
-            //     },
-            //     {
-            //         "title": "Gynecologist Appointment",
-            //         "tags": [
-            //             "12/4/2024",
-            //             "66 d",
-            //             "2 mo"
-            //         ]
-            //     },
-            //     {
-            //         "title": "End of the Year",
-            //         "tags": [
-            //             "12/31/2024",
-            //             "93 d",
-            //             "3 mo",
-            //             "75%"
-            //         ]
-            //     }
-            // ],
+            "notifications": [
+                {
+                    "title": "A",
+                    "tags": [
+                        "(on 29th)"
+                    ]
+                },
+                {
+                    "title": "B",
+                    "tags": []
+                },
+                {
+                    "title": "C",
+                    "tags": [
+                        "12/4/2024",
+                        "66 d",
+                        "2 mo"
+                    ]
+                },
+                {
+                    "title": "D",
+                    "tags": [
+                        "12/31/2024",
+                        "93 d",
+                        "3 mo",
+                        "75%"
+                    ]
+                }
+            ],
 
             // "reminders": [
             //     {
@@ -136,7 +136,7 @@ function getData() {
             //     }
             // ]
 
-            "notifications": [],
+            // "notifications": [],
             "reminders": [
                 {
                     'title': 'Pay Rent',

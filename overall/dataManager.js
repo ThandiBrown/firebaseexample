@@ -57,16 +57,6 @@ function newPillar(name, status) {
     // printUserData();
 }
 
-function newUpcomingPillar(pillarData) {
-    // console.log("newPillar");
-    userData['Upcoming'] = {};
-    userData['Upcoming']['status'] = pillarData.status;
-    userData['Upcoming']['reminders'] = [];
-    userData['Upcoming']['notifications'] = pillarData.notifications;
-    // userData['Upcoming']['reminders'] = pillarData.reminders;
-    // printUserData();
-}
-
 function collapsePillar(pillarName, isHidden) {
     if (isHidden) {
         userData[pillarName]['status'].collapsed = true;
@@ -74,43 +64,6 @@ function collapsePillar(pillarName, isHidden) {
         userData[pillarName]['status'].collapsed = false;
     }
 }
-
-function newReminder(reminderData) {
-    userData['Upcoming']['reminders'].push(reminderData);
-    printUserData(userData['Upcoming']['reminders'], 'newReminder: ' + reminderData.title);
-}
-
-function deleteReminder(reminderName) {
-    let reminders = userData['Upcoming']['reminders'];
-    reminders = reminders.filter(reminder => reminder.title !== reminderName)
-    printUserData(userData['Upcoming']['reminders']);
-}
-
-function newNotification(notifications) {
-    for (let notification of notifications)
-        userData['Upcoming']['notifications'].push(notification);
-
-    printUserData(userData['Upcoming']['notifications'], 'newNotification');
-}
-
-function updateReminder(reminderData) {
-    let reminders = userData['Upcoming']['reminders'];
-    const index = reminders.findIndex(item => item.title === reminderData.title);
-
-    // If found, update the dictionary at that index with new values
-    if (index !== -1) {
-        reminders[index] = { ...reminders[index], ...reminderData };
-    }
-
-    printUserData(userData['Upcoming']['reminders'], 'updateReminder: ' + reminderData.title);
-}
-
-
-function updateNotificationStatus() {
-    userData.Upcoming.status.lastUpdated = (new Date()).toISOString().split('T')[0];
-    console.log(userData.Upcoming.status.lastUpdated);
-}
-
 
 function newList(pillarName, listName) {
     // console.log("newList");
@@ -215,6 +168,49 @@ function getChildOrder(child) {
 }
 
 
+// UPCOMING
+function newUpcomingPillar(data) {
+    console.log("newUpcomingPillar");
+    userData['Upcoming'] = structuredClone(data);
+    printUserData();
+}
+
+
+function newReminder(reminderData) {
+    userData['Upcoming']['reminders'].push(reminderData);
+    printUserData(userData['Upcoming']['reminders'], 'newReminder: ' + reminderData.title);
+}
+
+function deleteReminder(reminderName) {
+    let reminders = userData['Upcoming']['reminders'];
+    reminders = reminders.filter(reminder => reminder.title !== reminderName)
+    printUserData(userData['Upcoming']['reminders']);
+}
+
+function newNotification(notifications) {
+    for (let notification of notifications)
+        userData['Upcoming']['notifications'].push(notification);
+
+    printUserData(userData['Upcoming']['notifications'], 'newNotification');
+}
+
+function updateReminder(reminderData) {
+    let reminders = userData['Upcoming']['reminders'];
+    const index = reminders.findIndex(item => item.title === reminderData.title);
+
+    // If found, update the dictionary at that index with new values
+    if (index !== -1) {
+        reminders[index] = { ...reminders[index], ...reminderData };
+    }
+
+    printUserData(userData['Upcoming']['reminders'], 'updateReminder: ' + reminderData.title);
+}
+
+
+function updateNotificationStatus() {
+    userData.Upcoming.status.lastUpdated = (new Date()).toISOString().split('T')[0];
+    console.log(userData.Upcoming.status.lastUpdated);
+}
 
 export {
     newPillar,

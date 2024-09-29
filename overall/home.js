@@ -11,7 +11,7 @@ NEXT:
 make the collapse function
 add the submit area
 */
-if (false) {
+if (true) {
     initializeFirebase();
     t.getStarted();
 
@@ -63,10 +63,10 @@ function loadPage(usingDB, userData) {
 
     for (let [pillarName, pillarData] of Object.entries(userData)) {
 
-        if (pillarData.status.pillarType) {
-            u.loadUpcomingPillar(userData.Upcoming);
-            continue;
-        }
+        // if (pillarData.status.pillarType) {
+        //     u.loadUpcomingPillar(userData.Upcoming);
+        //     continue;
+        // }
 
         let pillarElement = c.createPillar(pillarName, pillarData.status);
         let allLists = [];

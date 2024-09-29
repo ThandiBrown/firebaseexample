@@ -14,8 +14,6 @@ function createUpcomingPillar(upcomingData) {
             </div>
         </div>
         `
-
-    d.newUpcomingPillar(upcomingData);
     return ch.appendAndRetrieve(_.getPage(), pillarString);
 }
 

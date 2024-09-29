@@ -27,24 +27,26 @@ function loadUpcomingPillar(upcomingData) {
 
     let allowUpdate = upcomingData.status.lastUpdated != new Date().toISOString().split('T')[0];
 
-    // REMINDER AND NOTIFICATION ELEMENTS
+    // once a day, delete any reminders and add any new notifications
+    if (allowUpdate) {
+        upcomingData.reminders = deleteReminders(upcomingData);
+        addNewNotifications(upcomingData);
+        updateDailyStatus(upcomingData);
+    }
+
+    d.newUpcomingPillar(upcomingData);
+
+    // REMINDER ELEMENTS
     for (let reminderData of upcomingData.reminders) {
         uc.createReminder(
             pillarElement,
             reminderData,
             determineReminderTags(reminderData)
         );
-
-        // ADD ANY NEW NOTIFICATIONS
-        if (allowUpdate)
-            addNewNotification(reminderData);
     }
 
-    if (allowUpdate)
-        d.updateNotificationStatus();
-
-    // SHOW UP-TO-DATE NOTIFICATIONS
-    for (let notification of d.returnNotifications()) {
+    // NOTIFICATION ELEMENTS
+    for (let notification of upcomingData.notifications) {
         uc.createNotification(
             pillarElement,
             notification
@@ -59,89 +61,105 @@ function loadUpcomingPillar(upcomingData) {
     }
 }
 
-function addNewNotification(r) {
+function updateDailyStatus(upcomingData) {
+    upcomingData.status.lastUpdated = (new Date()).toISOString().split('T')[0];
+}
+
+function deleteReminders(upcomingData) {
+    let today = new Date();
+    return upcomingData.reminders.filter(function (r) {
+        if (r.occurringDate && new Date(r.occurringDate) < today) {
+            return false;
+        }
+        return true;
+    });
+
+}
+
+function deleteNotifications(deletedName) {
+    upcomingData = upcomingData.filter(reminder => reminder.title !== reminderName)
+}
+
+function addNewNotifications(upcomingData) {
     let today = new Date();
     let notifications = [];
 
-
-    // Per Month, nextContactDate is today or has passed
-    if (r.reoccurringDate && new Date(r.nextContactDate) <= today) {
-        r.nextContactDate = e.getNextDayOfMonth(r.reoccurringDate);
-        let dateDictionary = {
-            '1': 'st',
-            '2': 'nd',
-            '3': 'rd',
-        };
-
-        let suffix = dateDictionary[r.reoccurringDate] ? r.reoccurringDate in dateDictionary : 'th';
-
-        notifications.push({
-            'title': r.title,
-            'tags': [`(on ${r.reoccurringDate + suffix})`],
-        });
-    }
-    // Cadence, nextContactDate is today or has passed
-    else if (r.reoccurringCadence && new Date(r.nextContactDate) <= today) {
-        r.nextContactDate = e.getNextInterval(r.startDate, r.reoccurringCadence);
-        notifications.push({
-            'title': r.title,
-            'tags': []
-        })
-    }
-    // Date, showReminder date is today or has passed
-    else if (r.showReminder && new Date(r.showReminder) <= today) {
-        // event has passed
-        if (new Date(r.occurringDate) < today) {
-            // delete from notis
-            d.deleteReminder(r.title);
-        } else {
-            r.showReminder = r.occurringDate;
-            let countdownData = calculateDaysAndMonths(today, r.occurringDate);
-            let tags = [
-                r.occurringDate,
-                `${countdownData.days}`
-            ];
-            if (countdownData.dayNum > 30)
-                tags.push(`${countdownData.months}`)
-
-            notifications.push({
-                'title': r.title,
-                'tags': tags
-            });
-
+    for (let r of upcomingData.reminders) {
+        if (r.reoccurringDate && new Date(r.nextContactDate) <= today) {
+            notifications.push(getPerMonthNoti(r));
         }
-    }
-    // Timer, timerStart date is today or has passed
-    else if (r.timerStart && new Date(r.timerStart) <= today) {
-        // event has passed
-        if (new Date(r.timerEnd) < today) {
-            // delete from notis && reminders
-            d.deleteReminder(r.title);
-        } else {
-            r.showReminder = r.occurringDate;
-            let countdownData = calculateDaysAndMonths(today, r.occurringDate);
-            let tags = [
-                r.occurringDate,
-                `${countdownData.days}`
-            ];
-            if (countdownData.dayNum > 30)
-                tags.push(`${countdownData.months}`)
-
-            tags.push(getPercentageComplete(r.timerStart, r.timerEnd));
-
-            notifications.push({
-                'title': r.title,
-                'tags': tags
-            });
-
+        else if (r.reoccurringCadence && new Date(r.nextContactDate) <= today) {
+            notifications.push(getCadenceNoti(r));
+        }
+        else if (r.showReminder && new Date(r.showReminder) <= today) {
+            notifications.push(getDateNoti(r, today));
+        }
+        else if (r.timerStart && new Date(r.timerStart) <= today) {
+            notifications.push(getTimerNoti(r, today));
         }
     }
 
-    if (notifications.length) {
-        d.newNotification(notifications);
-        d.updateReminder(r);
-    }
+    upcomingData.notifications = upcomingData.notifications.concat(notifications);
 }
+
+function getPerMonthNoti(r) {
+    r.nextContactDate = e.getNextDayOfMonth(r.reoccurringDate);
+    let dateDictionary = {
+        '1': 'st',
+        '2': 'nd',
+        '3': 'rd',
+    };
+
+    let suffix = dateDictionary[r.reoccurringDate] ? r.reoccurringDate in dateDictionary : 'th';
+
+    return {
+        'title': r.title,
+        'tags': [`(on ${r.reoccurringDate + suffix})`],
+    };
+}
+
+function getCadenceNoti(r) {
+    r.nextContactDate = e.getNextInterval(r.startDate, r.reoccurringCadence);
+    return {
+        'title': r.title,
+        'tags': []
+    };
+}
+
+function getDateNoti(r, today) {
+    r.showReminder = r.occurringDate;
+    let countdownData = calculateDaysAndMonths(today, r.occurringDate);
+    let tags = [
+        r.occurringDate,
+        countdownData.days
+    ];
+    if (countdownData.dayNum > 30)
+        tags.push(countdownData.months);
+
+    return {
+        'title': r.title,
+        'tags': tags
+    };
+}
+
+function getTimerNoti(r, today) {
+    r.showReminder = r.occurringDate;
+    let countdownData = calculateDaysAndMonths(today, r.occurringDate);
+    let tags = [
+        r.occurringDate,
+        `${countdownData.days}`
+    ];
+    if (countdownData.dayNum > 30)
+        tags.push(`${countdownData.months}`)
+
+    tags.push(getPercentageComplete(r.timerStart, r.timerEnd));
+
+    return {
+        'title': r.title,
+        'tags': tags
+    };
+}
+
 
 function determineReminderTags(data) {
     let tags = [];
