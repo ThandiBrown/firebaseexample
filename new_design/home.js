@@ -15,7 +15,7 @@ import { displayUpcomingEvents } from './upcoming.js'
 let data = null;
 main();
 function main() {
-    // displayUpcomingEvents();
+    displayUpcomingEvents();
     starter();
     addEventListeners();
 
@@ -30,8 +30,8 @@ function starter() {
         if ([
             'Upkeep',
             'Entertainment'
-            ].includes(pillarName)) {
-                document.querySelector(".page").insertAdjacentHTML(
+        ].includes(pillarName)) {
+            document.querySelector(".page").insertAdjacentHTML(
                 'beforeend', getPillar(pillarName, pillarData)
             );
         }

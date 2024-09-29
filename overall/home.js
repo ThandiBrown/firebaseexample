@@ -10,7 +10,7 @@ NEXT:
 make the collapse function
 add the submit area
 */
-if (true) {
+if (false) {
     initializeFirebase();
     t.getStarted();
 
@@ -58,6 +58,10 @@ function loadPage(usingDB, userData) {
         userData = JSON.parse(userData);
         console.log("userData"); console.log(userData);
     }
+
+
+    makeUpcomingPillar(userData);
+    userData
 
     for (let [pillarName, pillarData] of Object.entries(userData)) {
 
@@ -139,3 +143,134 @@ function loadPage(usingDB, userData) {
     }
 }
 
+function makeUpcomingPillar(userData) {
+    /* 
+    Pay rent should show up the first of every month
+        keep a record of the last day logged onto website
+        have a list of dates between the last day and today
+        if that day is in the array [10/1/2024], add task to the list
+        
+    Christmas flights should show up every two weeks
+    
+    'Gynecologist Appointment' has a fixed date and I would like to be reminded 4 days in advance
+        It would also be nice to have an upcoming dates/activities section that I can view, ordered correctly
+        
+    Game nights are every Tuesdays
+    
+    We need a way to stop reoccurring activities
+    
+    We need to update/ any passed once-occurring activities
+    Do we need an ability to edit information
+    
+    
+    check if the next contact date is already occurred
+    determine the next contact date
+        return the first date that is fourteen day interval from the start date but occurs after today
+    */
+
+    let items = [
+        {
+            'title': 'Pay Rent',
+            'reoccurringDate': 1,
+            'nextContactDate': '10/1/2024',
+        },
+        {
+            'title': 'Christmas Flights',
+            'startDate': '9/14/2024',
+            'nextContactDate': '9/28/2024',
+            'reoccurringCadence': 14
+        },
+        {
+            'title': 'Gynecologist Appointment',
+            'occurringDate': '12/4/2024',
+            'showReminder': '11/30/2024'
+            // 'priorReminderInDays': 4
+        },
+        {
+            'title': 'Game Night',
+            // 'reoccurringWeekday': 'Tuesday'
+            'startDate': '9/24/2024',
+            'nextContactDate': '10/1/2024',
+            'reoccurringCadence': 7
+        },
+    ];
+
+    let notifications = [];
+    let deleteItems = [];
+
+    for (let item of items) {
+
+        let today = new Date();
+
+        if (item.reoccurringDate && new Date(item.nextContactDate) <= today) {
+            notifications.push(item);
+            item.nextContactDate = getNextDayOfMonth(item.reoccurringDate);
+        }
+        else if (item.nextContactDate && new Date(item.nextContactDate) <= today) {
+            notifications.push(item);
+            item.nextContactDate = getNextInterval(item.startDate, item.reoccurringCadence);
+        }
+        else if (item.showReminder && new Date(item.showReminder) <= today) {
+            // event has already occurred
+            if (new Date(item.occurringDate) < today) {
+                // delete from items
+                deleteItems.push(item);
+            } else {
+                notifications.push(item);
+            }
+        }
+    }
+
+    console.log("notifications"); console.log(notifications);
+    console.log("items"); console.log(items);
+    userData.Upcoming = {
+        "status": {
+            "pillarType": "upcoming"
+        },
+        "lists": {
+            "Events": {
+                "items": notifications,
+                "selectedTags": []
+            }
+        }
+    }
+}
+
+
+function getNextDayOfMonth(num) {
+    const today = new Date(); // Get today's date
+
+    // Get the next month
+    const nextMonth = today.getMonth() + 1;
+
+    // Create a date object for the first day of the next month
+    const nextDay = new Date(today.getFullYear(), nextMonth, num);
+
+    // If the next month goes into the next year, JavaScript handles that automatically
+    return nextDay.toISOString().split('T')[0];
+}
+
+function getNextInterval(startDate, cadence) {
+    const today = new Date(); // Get today's date
+    const start = new Date(startDate); // Convert startDate to a Date object
+
+    // If startDate is after today, return the first 14-day interval from startDate
+    if (start > today) {
+        start.setDate(start.getDate() + cadence); // Add 14 days to the startDate
+        return start;
+    }
+
+    // Calculate the difference in days between startDate and today
+    const diffInTime = today.getTime() - start.getTime();
+    const diffInDays = Math.floor(diffInTime / (1000 * 3600 * 24));
+
+    // Find how many full 14-day intervals have passed
+    const intervalsPassed = Math.floor(diffInDays / cadence);
+
+    // Calculate the next date in the 14-day interval after today
+    const nextIntervalDate = new Date(start);
+    nextIntervalDate.setDate(start.getDate() + (intervalsPassed + 1) * cadence);
+
+    // Format the date as YYYY-MM-DD
+    return nextIntervalDate.toISOString().split('T')[0];;
+}
