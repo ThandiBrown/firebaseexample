@@ -31,6 +31,7 @@ function createReminder(pillar, reminderData, tagNames) {
         </div>
     `;
 
+    d.newReminder(reminderData);
     return ch.appendAndRetrieve(_.getNotiAllArea(pillar), reminderString);
 }
 

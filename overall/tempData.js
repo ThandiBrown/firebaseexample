@@ -61,12 +61,81 @@ function generateRandomDates(daysBeforeToday) {
 }
 
 
+
 function getData() {
     return {
         "Upcoming": {
             "status": {
-                "pillarType": "upcoming"
+                "pillarType": "upcoming",
+                "lastUpdated": "2024-09-28"
             },
+
+            // "notifications": [
+            //     {
+            //         "title": "Pay Rent",
+            //         "tags": [
+            //             "(on 29th)"
+            //         ]
+            //     },
+            //     {
+            //         "title": "Christmas Flights",
+            //         "tags": []
+            //     },
+            //     {
+            //         "title": "Gynecologist Appointment",
+            //         "tags": [
+            //             "12/4/2024",
+            //             "66 d",
+            //             "2 mo"
+            //         ]
+            //     },
+            //     {
+            //         "title": "End of the Year",
+            //         "tags": [
+            //             "12/31/2024",
+            //             "93 d",
+            //             "3 mo",
+            //             "75%"
+            //         ]
+            //     }
+            // ],
+
+            // "reminders": [
+            //     {
+            //         "title": "Pay Rent",
+            //         "reoccurringDate": 29,
+            //         "nextContactDate": "2024-10-29"
+            //     },
+            //     {
+            //         "title": "Christmas Flights",
+            //         "startDate": "9/14/2024",
+            //         "nextContactDate": "2024-10-12",
+            //         "reoccurringCadence": 14
+            //     },
+            //     {
+            //         "title": "Game Night",
+            //         "startDate": "9/24/2024",
+            //         "nextContactDate": "10/1/2024",
+            //         "reoccurringCadence": 7
+            //     },
+            //     {
+            //         "title": "New Orleans Trip",
+            //         "occurringDate": "11/21/2024"
+            //     },
+            //     {
+            //         "title": "Gynecologist Appointment",
+            //         "occurringDate": "12/4/2024",
+            //         "showReminder": "12/4/2024"
+            //     },
+            //     {
+            //         "title": "End of the Year",
+            //         "timerStart": "01/01/2024",
+            //         "timerEnd": "12/31/2024",
+            //         "occurringDate": "12/31/2024",
+            //         "showReminder": "12/31/2024"
+            //     }
+            // ]
+
             "notifications": [],
             "reminders": [
                 {

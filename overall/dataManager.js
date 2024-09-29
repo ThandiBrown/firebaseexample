@@ -3,8 +3,12 @@ import * as t from './comms/talkToDatabase.js'
 
 const userData = {};
 
-function printUserData(value = userData) {
-    console.log("userData");
+function returnNotifications() {
+    return userData['Upcoming']['notifications']
+}
+
+function printUserData(value = userData, title = 'userData') {
+    console.log(title);
     console.log(JSON.parse(JSON.stringify(value)));
     // console.log({...userData});
 }
@@ -58,6 +62,7 @@ function newUpcomingPillar(pillarData) {
     userData['Upcoming'] = {};
     userData['Upcoming']['status'] = pillarData.status;
     userData['Upcoming']['reminders'] = [];
+    userData['Upcoming']['notifications'] = pillarData.notifications;
     // userData['Upcoming']['reminders'] = pillarData.reminders;
     // printUserData();
 }
@@ -72,7 +77,7 @@ function collapsePillar(pillarName, isHidden) {
 
 function newReminder(reminderData) {
     userData['Upcoming']['reminders'].push(reminderData);
-    printUserData(userData['Upcoming']['reminders']);
+    printUserData(userData['Upcoming']['reminders'], 'newReminder: ' + reminderData.title);
 }
 
 function deleteReminder(reminderName) {
@@ -80,6 +85,32 @@ function deleteReminder(reminderName) {
     reminders = reminders.filter(reminder => reminder.title !== reminderName)
     printUserData(userData['Upcoming']['reminders']);
 }
+
+function newNotification(notifications) {
+    for (let notification of notifications)
+        userData['Upcoming']['notifications'].push(notification);
+
+    printUserData(userData['Upcoming']['notifications'], 'newNotification');
+}
+
+function updateReminder(reminderData) {
+    let reminders = userData['Upcoming']['reminders'];
+    const index = reminders.findIndex(item => item.title === reminderData.title);
+
+    // If found, update the dictionary at that index with new values
+    if (index !== -1) {
+        reminders[index] = { ...reminders[index], ...reminderData };
+    }
+
+    printUserData(userData['Upcoming']['reminders'], 'updateReminder: ' + reminderData.title);
+}
+
+
+function updateNotificationStatus() {
+    userData.Upcoming.status.lastUpdated = (new Date()).toISOString().split('T')[0];
+    console.log(userData.Upcoming.status.lastUpdated);
+}
+
 
 function newList(pillarName, listName) {
     // console.log("newList");
@@ -201,5 +232,9 @@ export {
     moveListItem,
     collapsePillar,
     newReminder,
-    deleteReminder
+    deleteReminder,
+    newNotification,
+    returnNotifications,
+    updateReminder,
+    updateNotificationStatus
 }

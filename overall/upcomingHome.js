@@ -18,11 +18,16 @@ function loadUpcomingPillar(upcomingData) {
     
     Have days until, progress percentage as tags
     */
+
+    // PILLAR
     let pillarElement = uc.createUpcomingPillar(upcomingData);
     e.pillarTitleListener(pillarElement);
 
     sortReminders(upcomingData.reminders);
 
+    let allowUpdate = upcomingData.status.lastUpdated != new Date().toISOString().split('T')[0];
+
+    // REMINDER AND NOTIFICATION ELEMENTS
     for (let reminderData of upcomingData.reminders) {
         uc.createReminder(
             pillarElement,
@@ -30,17 +35,31 @@ function loadUpcomingPillar(upcomingData) {
             determineReminderTags(reminderData)
         );
 
-        createNotification(pillarElement, reminderData);
+        // ADD ANY NEW NOTIFICATIONS
+        if (allowUpdate)
+            addNewNotification(reminderData);
     }
 
+    if (allowUpdate)
+        d.updateNotificationStatus();
+
+    // SHOW UP-TO-DATE NOTIFICATIONS
+    for (let notification of d.returnNotifications()) {
+        uc.createNotification(
+            pillarElement,
+            notification
+        );
+    }
+
+
+    // CREATE REMINDER BUTTONS
     for (let actionName of ['Date', 'Timer', 'Cadence', 'Per Month']) {
         let tag = uc.createNotiActionTag(pillarElement, actionName);
         // e.actionTagListener(pillarElement, tag, actionName);
     }
 }
 
-
-function createNotification(pillarElement, r) {
+function addNewNotification(r) {
     let today = new Date();
     let notifications = [];
 
@@ -64,6 +83,10 @@ function createNotification(pillarElement, r) {
     // Cadence, nextContactDate is today or has passed
     else if (r.reoccurringCadence && new Date(r.nextContactDate) <= today) {
         r.nextContactDate = e.getNextInterval(r.startDate, r.reoccurringCadence);
+        notifications.push({
+            'title': r.title,
+            'tags': []
+        })
     }
     // Date, showReminder date is today or has passed
     else if (r.showReminder && new Date(r.showReminder) <= today) {
@@ -114,11 +137,9 @@ function createNotification(pillarElement, r) {
         }
     }
 
-    for (let notification of notifications) {
-        uc.createNotification(
-            pillarElement,
-            notification
-        );
+    if (notifications.length) {
+        d.newNotification(notifications);
+        d.updateReminder(r);
     }
 }
 
@@ -146,67 +167,6 @@ function determineReminderTags(data) {
     }
 
     return tags;
-}
-
-function createReminderAndNotifications(pillarElement, reminder) {
-    d.newReminder(reminder);
-
-    if (!shouldDisplay(reminder)) return;
-
-    let notificationElement = uc.createNotification(pillarElement, reminder);
-    let noti = reminder;
-
-    // NOTI TAGS
-    if (true && noti.occurringDate) {
-        let tags = [];
-        let today = new Date().toString();
-
-        let countdownData = calculateDaysAndMonths(
-            today,
-            noti.occurringDate
-        );
-
-        tags.push(noti.occurringDate);
-        tags.push(countdownData.days);
-
-        if (countdownData.dayNum > 30) {
-            tags.push(countdownData.months);
-        }
-
-        if (noti.timerStart) {
-            tags.push(getPercentageComplete(noti.timerStart, noti.timerEnd));
-        }
-
-        uc.createNotiTag(notificationElement, tags);
-    }
-}
-
-
-function shouldDisplay(noti) {
-    let today = new Date();
-
-    // Per Month
-    if (noti.reoccurringDate && new Date(noti.nextContactDate) <= today) {
-        noti.nextContactDate = e.getNextDayOfMonth(noti.reoccurringDate);
-        return true;
-    }
-    // Cadence
-    else if (noti.nextContactDate && new Date(noti.nextContactDate) <= today) {
-        noti.nextContactDate = e.getNextInterval(noti.startDate, noti.reoccurringCadence);
-        return true;
-    }
-    // Date
-    else if (noti.showReminder && new Date(noti.showReminder) <= today) {
-        // event has passed
-        if (new Date(noti.occurringDate) < today) {
-            // delete from notis
-            d.deleteReminder(noti.title);
-        } else {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 function calculateDaysAndMonths(startDate, endDate) {
@@ -280,6 +240,5 @@ function sortReminders(reminders) {
 }
 
 export {
-    loadUpcomingPillar,
-    createReminderAndNotifications
+    loadUpcomingPillar
 }
