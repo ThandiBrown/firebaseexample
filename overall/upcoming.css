@@ -1,0 +1,14 @@
+.upcoming *{
+    border: 3px solid black;
+}
+
+.noti-area {
+   flex-direction: column;
+    gap: 0.5rem; 
+}
+
+.notification {
+    width: 90%;
+    background-color: lavender;
+    margin: auto;
+}

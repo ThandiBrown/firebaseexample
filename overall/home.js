@@ -2,6 +2,7 @@ import { getData } from './tempData.js'
 import * as actions from './actions.js'
 import * as e from './eventListeners.js'
 import * as c from './component.js'
+import * as u from './upcomingHome.js'
 import { initializeFirebase } from './comms/foundation.js'
 import * as t from './comms/talkToDatabase.js'
 
@@ -60,17 +61,21 @@ function loadPage(usingDB, userData) {
     }
 
 
-    makeUpcomingPillar(userData);
-    userData
+    formUpcomingPillarData(userData);
+
 
     for (let [pillarName, pillarData] of Object.entries(userData)) {
+
+        if (pillarData.status.pillarType) {
+            u.loadUpcomingPillar(userData.Upcoming);
+            continue;
+        }
 
         let pillarElement = c.createPillar(pillarName, pillarData.status);
         let allLists = [];
         let allPillarConditions = [];
 
         e.pillarTitleListener(pillarElement);
-
 
         if (pillarData.calendar) {
             // create calendar area
@@ -143,7 +148,7 @@ function loadPage(usingDB, userData) {
     }
 }
 
-function makeUpcomingPillar(userData) {
+function formUpcomingPillarData(userData) {
     /* 
     Pay rent should show up the first of every month
         keep a record of the last day logged onto website
@@ -166,6 +171,8 @@ function makeUpcomingPillar(userData) {
     check if the next contact date is already occurred
     determine the next contact date
         return the first date that is fourteen day interval from the start date but occurs after today
+    
+    Have days until, progress percentage as tags
     */
 
     let items = [
@@ -193,48 +200,54 @@ function makeUpcomingPillar(userData) {
             'nextContactDate': '10/1/2024',
             'reoccurringCadence': 7
         },
+        {
+            'title': 'New Orleans Trip',
+            'occurringDate': '11/21/2024',
+        },
+        {
+            'title': 'End of the Year',
+            'timerStart': '01/01/2024',
+            'timerEnd': '12/31/2024',
+            'occurringDate': '12/31/2024',
+        },
     ];
 
-    let notifications = [];
-    let deleteItems = [];
+    // let notifications = [];
+    // let deleteItems = [];
 
-    for (let item of items) {
+    // for (let item of items) {
 
-        let today = new Date();
+    //     let today = new Date();
 
-        if (item.reoccurringDate && new Date(item.nextContactDate) <= today) {
-            notifications.push(item);
-            item.nextContactDate = getNextDayOfMonth(item.reoccurringDate);
-        }
-        else if (item.nextContactDate && new Date(item.nextContactDate) <= today) {
-            notifications.push(item);
-            item.nextContactDate = getNextInterval(item.startDate, item.reoccurringCadence);
-        }
-        else if (item.showReminder && new Date(item.showReminder) <= today) {
-            // event has already occurred
-            if (new Date(item.occurringDate) < today) {
-                // delete from items
-                deleteItems.push(item);
-            } else {
-                notifications.push(item);
-            }
-        }
-    }
+    //     if (item.reoccurringDate && new Date(item.nextContactDate) <= today) {
+    //         notifications.push(item);
+    //         item.nextContactDate = getNextDayOfMonth(item.reoccurringDate);
+    //     }
+    //     else if (item.nextContactDate && new Date(item.nextContactDate) <= today) {
+    //         notifications.push(item);
+    //         item.nextContactDate = getNextInterval(item.startDate, item.reoccurringCadence);
+    //     }
+    //     else if (item.showReminder && new Date(item.showReminder) <= today) {
+    //         // event has already occurred
+    //         if (new Date(item.occurringDate) < today) {
+    //             // delete from items
+    //             deleteItems.push(item);
+    //         } else {
+    //             notifications.push(item);
+    //         }
+    //     }
+    // }
 
-    console.log("notifications"); console.log(notifications);
-    console.log("items"); console.log(items);
+    // console.log("notifications"); console.log(notifications);
+    // console.log("items"); console.log(items);
     userData.Upcoming = {
         "status": {
             "pillarType": "upcoming"
         },
-        "lists": {
-            "Events": {
-                "items": notifications,
-                "selectedTags": []
-            }
-        }
+        "notifications": items
     }
 }
+
 
 
 function getNextDayOfMonth(num) {

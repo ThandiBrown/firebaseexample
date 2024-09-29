@@ -32,6 +32,14 @@ function getPillarName(element, isPillar) {
     return element.querySelector(".pillar-title").innerText;
 }
 
+function getNotiArea(parent) {
+    return parent.querySelector(".noti-area");
+}
+
+function getNotiTagArea(notiElem) {
+    return notiElem.querySelector(".noti-tag-area");
+}
+
 function getListArea(parent) {
     // the area that contains all lists in a pillar
     return parent.querySelector(".list-area");
@@ -188,5 +196,7 @@ export {
     getListTitleName,
     getTagName,
     getListValue,
-    getPillarTitle
+    getPillarTitle,
+    getNotiArea,
+    getNotiTagArea
 }
