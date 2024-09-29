@@ -40,6 +40,14 @@ function getNotiTagArea(notiElem) {
     return notiElem.querySelector(".noti-tag-area");
 }
 
+function getNotiInputArea(parent) {
+    return parent.querySelector(".noti-input-area");
+}
+
+function getNotiActionArea(parent) {
+    return parent.querySelector(".noti-action-area");
+}
+
 function getListArea(parent) {
     // the area that contains all lists in a pillar
     return parent.querySelector(".list-area");
@@ -198,5 +206,7 @@ export {
     getListValue,
     getPillarTitle,
     getNotiArea,
-    getNotiTagArea
+    getNotiTagArea,
+    getNotiActionArea,
+    getNotiInputArea
 }

@@ -1,4 +1,5 @@
 import * as c from './component.js';
+import * as uc from './upcomingComponent.js';
 import * as _ from './getThis.js';
 import * as actions from './actions.js'
 import * as d from './dataManager.js'
@@ -331,6 +332,24 @@ function submitConditionListener(pillar, conditionTag) {
     conditionTag.addEventListener('click', () => conditionTag.classList.toggle('submit-condition-selected'));
 }
 
+function actionTagListener(pillarElement, tag, actionName) {
+    if (actionName == 'Date') {
+        /* 
+        add a place to input event
+        add an occurrence date field
+        actual reminder integer
+        Add submit button
+        */
+        tag.addEventListener('click', function () {
+            let input = uc.createDateInput(pillarElement);
+            console.log("input");console.log(input);
+            input.querySelector(".submitNotiInput").addEventListener('click', function () {
+                console.log(44);
+                console.log(input.querySelector("#newTask").value);
+            });
+        });
+    }
+}
 
 
 export {
@@ -343,5 +362,6 @@ export {
     todayCalendarBoxListener,
     movementListeners,
     pillarTitleListener,
-    collapsePillar
+    collapsePillar,
+    actionTagListener
 }

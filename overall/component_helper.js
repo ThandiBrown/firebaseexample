@@ -19,6 +19,11 @@ function appendAndRetrieve(element, newElement) {
     return element.lastElementChild;
 }
 
+function appendAndRetrieveParent(element, newElement) {
+    element.insertAdjacentHTML('beforeend', newElement);
+    return element;
+}
+
 function insertAndRetrieve(element, newElement) {
     element.insertAdjacentHTML('afterbegin', newElement);
     return element.firstElementChild;
@@ -139,5 +144,6 @@ export {
     appendElem,
     appendAndRetrieve,
     insertAndRetrieve,
-    returnRecordsAsBool
+    returnRecordsAsBool,
+    appendAndRetrieveParent
 }

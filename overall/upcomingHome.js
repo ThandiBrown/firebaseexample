@@ -10,10 +10,11 @@ function loadUpcomingPillar(upcomingData) {
 
     for (let notification of upcomingData.notifications) {
         let notificationElement = uc.createUpcomingTask(pillarElement, notification.title);
-        let tags = [];
-        let today = new Date().toString();
+
 
         if (notification.occurringDate) {
+            let tags = [];
+            let today = new Date().toString();
             tags.push(notification.occurringDate);
 
             if (notification.timerStart) {
@@ -38,6 +39,11 @@ function loadUpcomingPillar(upcomingData) {
 
             uc.createNotiTag(notificationElement, tags);
         }
+    }
+
+    for (let actionName of ['Date', 'Timer', 'Cadence', 'Per Month']) {
+        let tag = uc.createNotiActionTag(pillarElement, actionName);
+        e.actionTagListener(pillarElement, tag, actionName);
     }
 }
 
