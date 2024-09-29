@@ -17,11 +17,17 @@
     height: 40px;
 }
 
+.noti-tag-area {
+    margin-left: auto;
+    gap: 0.2rem;
+}
+
 #newTask {
     width: 100%;
 }
 
 #priorReminder {
+    padding: 15px;
     width: 50px;
     -moz-appearance: textfield;
 }

@@ -287,3 +287,4 @@ function getNextInterval(startDate, cadence) {
     // Format the date as YYYY-MM-DD
     return nextIntervalDate.toISOString().split('T')[0];;
 }
+

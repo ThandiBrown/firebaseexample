@@ -342,12 +342,25 @@ function actionTagListener(pillarElement, tag, actionName) {
         */
         tag.addEventListener('click', function () {
             let input = uc.createDateInput(pillarElement);
-            console.log("input");console.log(input);
+            console.log("input"); console.log(input);
             input.querySelector(".submitNotiInput").addEventListener('click', function () {
-                console.log(44);
-                console.log(input.querySelector("#newTask").value);
+                let newTask = input.querySelector("#newTask").value;
+                let newTaskDate = input.querySelector("#newTaskDate").value;
+                let priorReminder = input.querySelector("#priorReminder").value;
+                let item = {};
+                item.title = newTask;
+                item.occurringDate = newTaskDate;
+                if (priorReminder.trim() != '') {
+                    let date = new Date(newTaskDate);
+                    date.setDate(date.getDate() - priorReminder);
+                    item.showReminder = date.toISOString().split('T')[0];
+                }
+                // send item to data manager
+                console.log("item"); console.log(item);
             });
         });
+    } else if (actionName == 'Timer') {
+
     }
 }
 

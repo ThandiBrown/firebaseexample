@@ -39,7 +39,7 @@ function createNotiTag(notification, notis) {
     }
 
     // d.newList(_.getPillarName(pillar), listTitle);
-    // return ch.appendAndRetrieve(_.getNotiTagArea(notification), tag);
+    return ch.appendAndRetrieve(_.getNotiTagArea(notification), tag);
 }
 
 function createDateInput(parent) {
