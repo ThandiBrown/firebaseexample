@@ -19,7 +19,7 @@ function getPillarTitle(pillar) {
     return pillar.querySelector(".pillar-title");
 }
 
-function getPillarName(element, isPillar) {
+function getPillarName(element, isPillar = true) {
     if (!isPillar) {
         for (let pillar of getPillars()) {
             if (pillar.contains(element)) {
@@ -34,6 +34,10 @@ function getPillarName(element, isPillar) {
 
 function getNotiArea(parent) {
     return parent.querySelector(".noti-area");
+}
+
+function getNotiAllArea(parent) {
+    return parent.querySelector(".noti-all-area");
 }
 
 function getNotiTagArea(notiElem) {
@@ -208,5 +212,6 @@ export {
     getNotiArea,
     getNotiTagArea,
     getNotiActionArea,
-    getNotiInputArea
+    getNotiInputArea,
+    getNotiAllArea
 }

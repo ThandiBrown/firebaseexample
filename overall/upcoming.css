@@ -2,10 +2,17 @@
     border: 3px solid black;
 }
 
-.noti-area {
-   flex-direction: column;
-    gap: 0.5rem; 
+.noti-area, .noti-all-area {
+    flex-direction: column;
+     gap: 0.5rem; 
+ }
+ 
+ 
+.noti-all-area {
+   opacity: 0.5;
 }
+
+
 
 .notification {
     width: 90%;
@@ -14,7 +21,7 @@
 }
 
 .noti-input-area {
-    height: 40px;
+    max-height: 40px;
 }
 
 .noti-tag-area {
@@ -26,7 +33,7 @@
     width: 100%;
 }
 
-#priorReminder {
+#priorReminder, #newCadence, #newMonthDate {
     padding: 15px;
     width: 50px;
     -moz-appearance: textfield;

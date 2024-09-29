@@ -1,45 +1,212 @@
 
-import * as actions from './actions.js'
+import * as d from './dataManager.js'
 import * as e from './eventListeners.js'
 import * as uc from './upcomingComponent.js'
+import * as _ from './getThis.js';
 
 
 function loadUpcomingPillar(upcomingData) {
-    let pillarElement = uc.createPillar('Upcoming', upcomingData.status);
+    /* 
+    We need a way to stop reoccurring activities
+    
+    We need to update/ any passed once-occurring activities
+    Do we need an ability to edit information
+    
+    check if the next contact date is already occurred
+    determine the next contact date
+        return the first date that is fourteen day interval from the start date but occurs after today
+    
+    Have days until, progress percentage as tags
+    */
+    let pillarElement = uc.createUpcomingPillar(upcomingData);
     e.pillarTitleListener(pillarElement);
 
-    for (let notification of upcomingData.notifications) {
-        let notificationElement = uc.createUpcomingTask(pillarElement, notification.title);
+    sortReminders(upcomingData.reminders);
 
-        // console.log(notification);
-        if (true && notification.occurringDate) {
-            let tags = [];
-            let today = new Date().toString();
-            tags.push(notification.occurringDate);
+    for (let reminderData of upcomingData.reminders) {
+        uc.createReminder(
+            pillarElement,
+            reminderData,
+            determineReminderTags(reminderData)
+        );
 
-            let countdownData = calculateDaysAndMonths(
-                today,
-                notification.occurringDate
-            );
-
-            tags.push(countdownData.days);
-
-            if (countdownData.dayNum > 30) {
-                tags.push(countdownData.months);
-            }
-
-            if (notification.timerStart) {
-                tags.push(getPercentageComplete(notification.timerStart, notification.timerEnd));
-            }
-
-            uc.createNotiTag(notificationElement, tags);
-        }
+        createNotification(pillarElement, reminderData);
     }
 
     for (let actionName of ['Date', 'Timer', 'Cadence', 'Per Month']) {
         let tag = uc.createNotiActionTag(pillarElement, actionName);
-        e.actionTagListener(pillarElement, tag, actionName);
+        // e.actionTagListener(pillarElement, tag, actionName);
     }
+}
+
+
+function createNotification(pillarElement, r) {
+    let today = new Date();
+    let notifications = [];
+
+
+    // Per Month, nextContactDate is today or has passed
+    if (r.reoccurringDate && new Date(r.nextContactDate) <= today) {
+        r.nextContactDate = e.getNextDayOfMonth(r.reoccurringDate);
+        let dateDictionary = {
+            '1': 'st',
+            '2': 'nd',
+            '3': 'rd',
+        };
+
+        let suffix = dateDictionary[r.reoccurringDate] ? r.reoccurringDate in dateDictionary : 'th';
+
+        notifications.push({
+            'title': r.title,
+            'tags': [`(on ${r.reoccurringDate + suffix})`],
+        });
+    }
+    // Cadence, nextContactDate is today or has passed
+    else if (r.reoccurringCadence && new Date(r.nextContactDate) <= today) {
+        r.nextContactDate = e.getNextInterval(r.startDate, r.reoccurringCadence);
+    }
+    // Date, showReminder date is today or has passed
+    else if (r.showReminder && new Date(r.showReminder) <= today) {
+        // event has passed
+        if (new Date(r.occurringDate) < today) {
+            // delete from notis
+            d.deleteReminder(r.title);
+        } else {
+            r.showReminder = r.occurringDate;
+            let countdownData = calculateDaysAndMonths(today, r.occurringDate);
+            let tags = [
+                r.occurringDate,
+                `${countdownData.days}`
+            ];
+            if (countdownData.dayNum > 30)
+                tags.push(`${countdownData.months}`)
+
+            notifications.push({
+                'title': r.title,
+                'tags': tags
+            });
+
+        }
+    }
+    // Timer, timerStart date is today or has passed
+    else if (r.timerStart && new Date(r.timerStart) <= today) {
+        // event has passed
+        if (new Date(r.timerEnd) < today) {
+            // delete from notis && reminders
+            d.deleteReminder(r.title);
+        } else {
+            r.showReminder = r.occurringDate;
+            let countdownData = calculateDaysAndMonths(today, r.occurringDate);
+            let tags = [
+                r.occurringDate,
+                `${countdownData.days}`
+            ];
+            if (countdownData.dayNum > 30)
+                tags.push(`${countdownData.months}`)
+
+            tags.push(getPercentageComplete(r.timerStart, r.timerEnd));
+
+            notifications.push({
+                'title': r.title,
+                'tags': tags
+            });
+
+        }
+    }
+
+    for (let notification of notifications) {
+        uc.createNotification(
+            pillarElement,
+            notification
+        );
+    }
+}
+
+function determineReminderTags(data) {
+    let tags = [];
+
+    // Per Month
+    if (data.reoccurringDate) {
+        tags.push(`Every ${data.reoccurringDate} of the month`);
+    }
+
+    // Cadence
+    else if (data.reoccurringCadence) {
+        tags.push(`Every ${data.reoccurringCadence} days`);
+    }
+
+    // Timer
+    else if (data.timerStart) {
+        tags.push(`${data.timerStart} - ${data.timerEnd}`);
+    }
+
+    // Date
+    else if (data.occurringDate) {
+        tags.push(`${data.occurringDate}`);
+    }
+
+    return tags;
+}
+
+function createReminderAndNotifications(pillarElement, reminder) {
+    d.newReminder(reminder);
+
+    if (!shouldDisplay(reminder)) return;
+
+    let notificationElement = uc.createNotification(pillarElement, reminder);
+    let noti = reminder;
+
+    // NOTI TAGS
+    if (true && noti.occurringDate) {
+        let tags = [];
+        let today = new Date().toString();
+
+        let countdownData = calculateDaysAndMonths(
+            today,
+            noti.occurringDate
+        );
+
+        tags.push(noti.occurringDate);
+        tags.push(countdownData.days);
+
+        if (countdownData.dayNum > 30) {
+            tags.push(countdownData.months);
+        }
+
+        if (noti.timerStart) {
+            tags.push(getPercentageComplete(noti.timerStart, noti.timerEnd));
+        }
+
+        uc.createNotiTag(notificationElement, tags);
+    }
+}
+
+
+function shouldDisplay(noti) {
+    let today = new Date();
+
+    // Per Month
+    if (noti.reoccurringDate && new Date(noti.nextContactDate) <= today) {
+        noti.nextContactDate = e.getNextDayOfMonth(noti.reoccurringDate);
+        return true;
+    }
+    // Cadence
+    else if (noti.nextContactDate && new Date(noti.nextContactDate) <= today) {
+        noti.nextContactDate = e.getNextInterval(noti.startDate, noti.reoccurringCadence);
+        return true;
+    }
+    // Date
+    else if (noti.showReminder && new Date(noti.showReminder) <= today) {
+        // event has passed
+        if (new Date(noti.occurringDate) < today) {
+            // delete from notis
+            d.deleteReminder(noti.title);
+        } else {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 function calculateDaysAndMonths(startDate, endDate) {
@@ -87,8 +254,32 @@ function getPercentageComplete(startDate, endDate) {
     return Math.min(Math.max(percentageComplete, 0), 100).toFixed(0) + '%';
 }
 
+function sortReminders(reminders) {
+    // Function to sort the list based on 'occurringDate'
+    const sortedReminders = reminders.sort((a, b) => {
+        const dateA = a.occurringDate ? new Date(a.occurringDate) : null;
+        const dateB = b.occurringDate ? new Date(b.occurringDate) : null;
 
+        // If both have occurringDate, compare the dates
+        if (dateA && dateB) {
+            return dateA - dateB;
+        }
+        // If only a has occurringDate, a comes after b
+        if (dateA && !dateB) {
+            return 1;
+        }
+        // If only b has occurringDate, b comes after a
+        if (!dateA && dateB) {
+            return -1;
+        }
+        // If neither has occurringDate, keep original order
+        return 0;
+    });
+
+    return sortedReminders
+}
 
 export {
-    loadUpcomingPillar
+    loadUpcomingPillar,
+    createReminderAndNotifications
 }

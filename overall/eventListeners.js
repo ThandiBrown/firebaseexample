@@ -1,4 +1,5 @@
 import * as c from './component.js';
+import * as u from './upcomingHome.js';
 import * as uc from './upcomingComponent.js';
 import * as _ from './getThis.js';
 import * as actions from './actions.js'
@@ -334,47 +335,166 @@ function submitConditionListener(pillar, conditionTag) {
 
 function actionTagListener(pillarElement, tag, actionName) {
     if (actionName == 'Date') {
-        /* 
-        add a place to input event
-        add an occurrence date field
-        actual reminder integer
-        Add submit button
-        */
         tag.addEventListener('click', function () {
             let input = uc.createDateInput(pillarElement);
-            console.log("input"); console.log(input);
+
             input.querySelector(".submitNotiInput").addEventListener('click', function () {
-                let newTask = input.querySelector("#newTask").value;
-                let newTaskDate = input.querySelector("#newTaskDate").value;
-                let priorReminder = input.querySelector("#priorReminder").value;
-                let item = {};
-                item.title = newTask;
-                item.occurringDate = newTaskDate;
+                let newTask = input.querySelector("#newTask").value.trim();
+                let newTaskDate = input.querySelector("#newTaskDate").value.trim();
+                let priorReminder = input.querySelector("#priorReminder").value.trim();
+
+                if ([newTask, newTaskDate].includes('')) return;
+
+                let reminder = {
+                    'title': newTask,
+                    'occurringDate': newTaskDate
+                };
+
                 if (priorReminder.trim() != '') {
                     let date = new Date(newTaskDate);
                     date.setDate(date.getDate() - priorReminder);
-                    item.showReminder = date.toISOString().split('T')[0];
+                    reminder.showReminder = date.toISOString().split('T')[0];
                 }
-                // send item to data manager
-                console.log("item"); console.log(item);
+                input.innerHTML = '';
+                // send reminder to data manager
+                // determine whether to add a notification
+                u.createReminderAndNotifications(reminder);
+                console.log("reminder"); console.log(reminder);
             });
         });
-    } else if (actionName == 'Timer') {
+    }
 
+    else if (actionName == 'Timer') {
+        tag.addEventListener('click', function () {
+            let input = uc.createTimerInput(pillarElement);
+
+            input.querySelector(".submitNotiInput").addEventListener('click', function () {
+                let newTask = input.querySelector("#newTask").value.trim();
+                let newTimerStart = input.querySelector("#newTimerStart").value.trim();
+                let newTimerEnd = input.querySelector("#newTimerEnd").value.trim();
+
+                if ([newTask, newTimerStart, newTimerEnd].includes('')) return;
+
+                let reminder = {
+                    'title': newTask,
+                    'timerStart': newTimerStart,
+                    'timerEnd': newTimerEnd,
+                    'occurringDate': newTimerEnd
+                };
+
+                input.innerHTML = '';
+                // send reminder to data manager
+                u.createReminderAndNotifications(reminder);
+                console.log("reminder"); console.log(reminder);
+            });
+        });
+    }
+
+    else if (actionName == 'Cadence') {
+        tag.addEventListener('click', function () {
+            let input = uc.createCadenceInput(pillarElement);
+
+            input.querySelector(".submitNotiInput").addEventListener('click', function () {
+                let newTask = input.querySelector("#newTask").value.trim();
+                let newStartDate = input.querySelector("#newStartDate").value.trim();
+                let newCadence = input.querySelector("#newCadence").value.trim();
+
+                if ([newTask, newStartDate, newCadence].includes('')) return;
+
+                let reminder = {
+                    'title': newTask,
+                    'startDate': newStartDate,
+                    'reoccurringCadence': newCadence,
+                    'nextContactDate': getNextInterval(newStartDate, newCadence)
+                };
+
+                input.innerHTML = '';
+                // send reminder to data manager
+                u.createReminderAndNotifications(reminder);
+                console.log("reminder"); console.log(reminder);
+            });
+        });
+    }
+
+    else if (actionName == 'Per Month') {
+        tag.addEventListener('click', function () {
+            let input = uc.createPerMonthInput(pillarElement);
+
+            input.querySelector(".submitNotiInput").addEventListener('click', function () {
+                let newTask = input.querySelector("#newTask").value.trim();
+                let newMonthDate = input.querySelector("#newMonthDate").value.trim();
+
+                if ([newTask, newMonthDate].includes('')) return;
+
+                let reminder = {
+                    'title': newTask,
+                    'reoccurringDate': newMonthDate,
+                    'nextContactDate': getNextDayOfMonth(newMonthDate)
+                };
+
+                input.innerHTML = '';
+                // send reminder to data manager
+                u.createReminderAndNotifications(reminder);
+                console.log("reminder"); console.log(reminder);
+            });
+        });
     }
 }
 
+function getNextDayOfMonth(num) {
+    const today = new Date(); // Get today's date
+
+    // Get the next month
+    const nextMonth = today.getMonth() + 1;
+
+    // Create a date object for the first day of the next month
+    const nextDay = new Date(today.getFullYear(), nextMonth, num);
+
+    // If the next month goes into the next year, JavaScript handles that automatically
+    return nextDay.toISOString().split('T')[0];
+}
+
+function getNextInterval(startDate, cadence) {
+    const today = new Date(); // Get today's date
+    const start = new Date(startDate); // Convert startDate to a Date object
+
+    // If startDate is after today, return the first 14-day interval from startDate
+    if (start > today) {
+        start.setDate(start.getDate() + cadence); // Add 14 days to the startDate
+        return start;
+    }
+
+    // Calculate the difference in days between startDate and today
+    const diffInTime = today.getTime() - start.getTime();
+    const diffInDays = Math.floor(diffInTime / (1000 * 3600 * 24));
+
+    // Find how many full 14-day intervals have passed
+    const intervalsPassed = Math.floor(diffInDays / cadence);
+
+    // Calculate the next date in the 14-day interval after today
+    const nextIntervalDate = new Date(start);
+    nextIntervalDate.setDate(start.getDate() + (intervalsPassed + 1) * cadence);
+
+    // Format the date as YYYY-MM-DD
+    return nextIntervalDate.toISOString().split('T')[0];;
+}
 
 export {
+    saveAllDataListener,
+    pillarTitleListener,
+    collapsePillar,
+    todayCalendarBoxListener,
+    toggleMultipleStatuses,
     listItemListeners,
     listConditionListener,
     submitListener,
+    movementListeners,
+    newListRequest,
+    resetValues,
+    deleteListRequest,
     submitListListener,
     submitConditionListener,
-    saveAllDataListener,
-    todayCalendarBoxListener,
-    movementListeners,
-    pillarTitleListener,
-    collapsePillar,
-    actionTagListener
+    actionTagListener,
+    getNextDayOfMonth,
+    getNextInterval
 }

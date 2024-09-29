@@ -53,6 +53,15 @@ function newPillar(name, status) {
     // printUserData();
 }
 
+function newUpcomingPillar(pillarData) {
+    // console.log("newPillar");
+    userData['Upcoming'] = {};
+    userData['Upcoming']['status'] = pillarData.status;
+    userData['Upcoming']['reminders'] = [];
+    // userData['Upcoming']['reminders'] = pillarData.reminders;
+    // printUserData();
+}
+
 function collapsePillar(pillarName, isHidden) {
     if (isHidden) {
         userData[pillarName]['status'].collapsed = true;
@@ -61,10 +70,21 @@ function collapsePillar(pillarName, isHidden) {
     }
 }
 
+function newReminder(reminderData) {
+    userData['Upcoming']['reminders'].push(reminderData);
+    printUserData(userData['Upcoming']['reminders']);
+}
+
+function deleteReminder(reminderName) {
+    let reminders = userData['Upcoming']['reminders'];
+    reminders = reminders.filter(reminder => reminder.title !== reminderName)
+    printUserData(userData['Upcoming']['reminders']);
+}
+
 function newList(pillarName, listName) {
     // console.log("newList");
     if (!('lists' in userData[pillarName])) {
-        userData[pillarName]['lists'] = {}
+        userData[pillarName]['lists'] = {};
     }
 
     userData[pillarName]['lists'][listName] = {
@@ -167,6 +187,7 @@ function getChildOrder(child) {
 
 export {
     newPillar,
+    newUpcomingPillar,
     newList,
     newListItem,
     deleteListItem,
@@ -178,5 +199,7 @@ export {
     updateListItemStatus,
     selectListTag,
     moveListItem,
-    collapsePillar
+    collapsePillar,
+    newReminder,
+    deleteReminder
 }

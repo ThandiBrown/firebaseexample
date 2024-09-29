@@ -63,7 +63,49 @@ function generateRandomDates(daysBeforeToday) {
 
 function getData() {
     return {
-        "Upcoming": {},
+        "Upcoming": {
+            "status": {
+                "pillarType": "upcoming"
+            },
+            "notifications": [],
+            "reminders": [
+                {
+                    'title': 'Pay Rent',
+                    'reoccurringDate': 29,
+                    'nextContactDate': '9/29/2024',
+                },
+                {
+                    'title': 'Christmas Flights',
+                    'startDate': '9/14/2024',
+                    'nextContactDate': '9/28/2024',
+                    'reoccurringCadence': 14
+                },
+                {
+                    'title': 'Gynecologist Appointment',
+                    'occurringDate': '12/4/2024',
+                    // 'showReminder': '11/30/2024',
+                    'showReminder': '9/28/2024',
+                    // 'priorReminderInDays': 4
+                },
+                {
+                    'title': 'Game Night',
+                    // 'reoccurringWeekday': 'Tuesday'
+                    'startDate': '9/24/2024',
+                    'nextContactDate': '10/1/2024',
+                    'reoccurringCadence': 7
+                },
+                {
+                    'title': 'New Orleans Trip',
+                    'occurringDate': '11/21/2024',
+                },
+                {
+                    'title': 'End of the Year',
+                    'timerStart': '01/01/2024',
+                    'timerEnd': '12/31/2024',
+                    'occurringDate': '12/31/2024',
+                },
+            ]
+        },
         // "Upkeep": {
         //     "status": {},
         //     "calendar": [

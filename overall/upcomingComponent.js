@@ -2,32 +2,51 @@ import * as ch from './component_helper.js';
 import * as _ from './getThis.js';
 import * as d from './dataManager.js';
 
-function createPillar(title, status) {
+function createUpcomingPillar(upcomingData) {
     let pillarString = `
-        <div class="flexible pillar ${ch.getClassName(title)}">
-            <h1 class="pillar-title">${title}</h1>
+        <div class="flexible pillar upcoming">
+            <h1 class="pillar-title">Upcoming</h1>
             <div class="flexible pillar-main">
                 <div class="flexible noti-area"></div>
+                <div class="flexible noti-all-area"></div>
                 <div class="flexible noti-input-area"></div>
                 <div class="flexible noti-action-area"></div>
             </div>
         </div>
         `
 
-    d.newPillar(title, status);
+    d.newUpcomingPillar(upcomingData);
     return ch.appendAndRetrieve(_.getPage(), pillarString);
 }
 
-function createUpcomingTask(pillar, notiName) {
-    let task = `
+function createReminder(pillar, reminderData, tagNames) {
+    let tags = '';
+    for (let tagName of tagNames) {
+        tags += `<div class="noti-tag">${tagName}</div>`;
+    }
+    let reminderString = `
         <div class="notification flexible">
-            <div class="noti-name">${notiName}</div>
-            <div class="noti-tag-area flexible"></div>
+            <div class="noti-name">${reminderData.title}</div>
+            <div class="noti-tag-area flexible">${tags}</div>
         </div>
     `;
 
-    // d.newList(_.getPillarName(pillar), listTitle);
-    return ch.appendAndRetrieve(_.getNotiArea(pillar), task);
+    return ch.appendAndRetrieve(_.getNotiAllArea(pillar), reminderString);
+}
+
+function createNotification(pillar, notiData) {
+    let tags = '';
+    for (let tagName of notiData.tags) {
+        tags += `<div class="noti-tag">${tagName}</div>`;
+    }
+    let reminderString = `
+        <div class="notification flexible">
+            <div class="noti-name">${notiData.title}</div>
+            <div class="noti-tag-area flexible">${tags}</div>
+        </div>
+    `;
+
+    return ch.appendAndRetrieve(_.getNotiArea(pillar), reminderString);
 }
 
 function createNotiTag(notification, notis) {
@@ -44,12 +63,41 @@ function createNotiTag(notification, notis) {
 
 function createDateInput(parent) {
     let dateInput = `
-        <input type="text" id="newTask" name="newTask">
-        <input type="date" id="newTaskDate" name="newTaskDate">
-        <input type="number" id="priorReminder" name="priorReminder">
+        <input type="text" id="newTask">
+        <input type="date" id="newTaskDate">
+        <input type="number" id="priorReminder">
         <button class="submitNotiInput"></div>
     `;
     return ch.appendAndRetrieveParent(_.getNotiInputArea(parent), dateInput);
+}
+
+function createTimerInput(parent) {
+    let timerInput = `
+        <input type="text" id="newTask">
+        <input type="date" id="newTimerStart">
+        <input type="date" id="newTimerEnd">
+        <button class="submitNotiInput"></div>
+    `;
+    return ch.appendAndRetrieveParent(_.getNotiInputArea(parent), timerInput);
+}
+
+function createCadenceInput(parent) {
+    let cadenceInput = `
+        <input type="text" id="newTask">
+        <input type="date" id="newStartDate">
+        <input type="number" id="newCadence">
+        <button class="submitNotiInput"></div>
+    `;
+    return ch.appendAndRetrieveParent(_.getNotiInputArea(parent), cadenceInput);
+}
+
+function createPerMonthInput(parent) {
+    let cadenceInput = `
+        <input type="text" id="newTask">
+        <input type="number" id="newMonthDate">
+        <button class="submitNotiInput"></div>
+    `;
+    return ch.appendAndRetrieveParent(_.getNotiInputArea(parent), cadenceInput);
 }
 
 function createNotiActionTag(parent, name) {
@@ -63,9 +111,13 @@ function createNotiActionTag(parent, name) {
 
 
 export {
-    createPillar,
-    createUpcomingTask,
+    createUpcomingPillar,
+    createNotification,
     createNotiTag,
     createNotiActionTag,
-    createDateInput
+    createDateInput,
+    createTimerInput,
+    createCadenceInput,
+    createPerMonthInput,
+    createReminder
 }
