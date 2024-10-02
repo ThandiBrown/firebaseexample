@@ -2762,32 +2762,87 @@ Search in Rotated Sorted Array
 """,
 'hint':
 """ 
-
+focus just on the left side and ask yourself what are the two cases that can exist for the left side and then solve
 """,
 'note':
 """ 
+You know there are two cases that will exist:
+ - The left side of the array is organized/ordered
+ - The left side of the array is not organized/ordered
 
+if the left side is ordered (the number at the left index is less than the number at the middle index), check regularly:
+ - if the target is larger than the middle (which means it is larger than all the numbers on the left side), look on the right side now
+ - if the target is less than the left (which means it's number can't be between the left in 
+ the middle), look on the right side now
+otherwise move to the left
+ 
+if the left side is not ordered (the left side is greater than the middle)
+ - check if our target is greater than the left
+ - check if our target is less than the middle
+in either of these two cases that means our targets on the left side, if not moved to the right
 """,
 'problem': 
 """
+You are given an array of length n which was originally sorted in ascending order. It has now been rotated between 1 and n times. For example, the array nums = [1,2,3,4,5,6] might become:
+
+    [3,4,5,6,1,2] if it was rotated 4 times.
+    [1,2,3,4,5,6] if it was rotated 6 times.
+
+Given the rotated sorted array nums and an integer target, return the index of target within nums, or -1 if it is not present.
+
+You may assume all elements in the sorted rotated array nums are unique,
+
+A solution that runs in O(n) time is trivial, can you write an algorithm that runs in O(log n) time?
+
+Example 1:
+
+Input: nums = [3,4,5,6,1,2], target = 1
+
+Output: 4
+
+Example 2:
+
+Input: nums = [3,5,6,0,1,2], target = 4
+
+Output: -1
 
 """,
 "code":
 """ 
+def search(self, nums: List[int], target: int) -> int:
+    l, r = 0, len(nums) - 1
 
+    while l <= r:
+        mid = (l + r) // 2
+        if target == nums[mid]:
+            return mid
+
+        if nums[l] <= nums[mid]:
+            if target > nums[mid] or target < nums[l]:
+                l = mid + 1
+            else:
+                r = mid - 1
+                
+        else:
+            if target < nums[mid] or target > nums[r]:
+                r = mid - 1
+            else:
+                l = mid + 1
+    return -1
 """
 },
 
-'0':{
+'36':{
 'tag':
-[''],
+['4'],
 'title':
 """ 
-
+Median of Two Sorted Arrays
 """,
 'hint':
 """ 
-
+the median is the middle number, or average of the middle two numbers, in an array
+two pointer
 """,
 'note':
 """ 
@@ -2795,11 +2850,72 @@ Search in Rotated Sorted Array
 """,
 'problem': 
 """
+You are given two integer arrays nums1 and nums2 of size m and n respectively, where each is sorted in ascending order. Return the median value among all elements of the two arrays.
 
+Your solution must run in O(log(m+n))O(log(m+n)) time.
+
+Example 1:
+
+Input: nums1 = [1,2], nums2 = [3]
+
+Output: 2.0
+
+Explanation: Among [1, 2, 3] the median is 2.
+
+Example 2:
+
+Input: nums1 = [1,3], nums2 = [2,4]
+
+Output: 2.5
+
+Explanation: Among [1, 2, 3, 4] the median is (2 + 3) / 2 = 2.5.
 """,
 "code":
 """ 
+# TWO POINTER SOLUTION
+class Solution:
+    def findMedianSortedArrays(self, nums1, nums2):
+        len1 = len(nums1)
+        len2 = len(nums2)
+        # no need to look past this point if both arrays were combined
+        len_combined_halved = (len1 + len2) // 2 + 1
+        i1 = 0
+        i2 = 0
+        median1 = 0
+        median2 = 0
 
+        # Find median.
+        for _ in range(0, len_combined_halved):
+            median2 = median1
+            in_arr1_bounds = i1 < len1
+            in_arr2_bounds = i2 < len2
+            in_both_arr_bounds = in_arr1_bounds and in_arr2_bounds
+            
+            if in_both_arr_bounds:
+                if nums1[i1] <= nums2[i2]:
+                    median1 = nums1[i1]
+                    i1 += 1
+                else:
+                    median1 = nums2[i2]
+                    i2 += 1
+            
+            elif in_arr1_bounds:
+                median1 = nums1[i1]
+                i1 += 1
+            
+            elif in_arr2_bounds:
+                median1 = nums2[i2]
+                i2 += 1
+
+        # Check if the sum of len1 and len2 is odd.
+        if (len1 + len2) % 2 == 1:
+            return float(median1)
+        else:
+            ans = float(median1) + float(median2)
+            return ans / 2.0
+
+f = Solution().findMedianSortedArrays([1, 2], [3, 4])
+print(f)
 """
 },
 
