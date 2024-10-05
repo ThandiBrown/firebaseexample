@@ -16,13 +16,7 @@ function printUserData(value = userData, title = 'userData') {
 
 function saveToDB() {
     console.log("saveToDB");
-
-
-    let b = {};
-    b.Upcoming = um.getUpcomingData();
-    userData = { ...b, ...userData };
-
-    // userData.Upcoming = um.getUpcomingData();
+    userData.Upcoming = um.getUpcomingData();
     console.log("userData"); console.log(userData);
     t.writeDB(userData);
 }
