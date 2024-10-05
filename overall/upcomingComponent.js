@@ -2,50 +2,49 @@ import * as ch from './component_helper.js';
 import * as _ from './getThis.js';
 import * as d from './dataManager.js';
 
-function createUpcomingPillar(upcomingData) {
+function createUpcomingPillar() {
     let pillarString = `
         <div class="flexible pillar upcoming">
             <h1 class="pillar-title">Upcoming</h1>
             <div class="flexible pillar-main">
                 <div class="flexible noti-area"></div>
-                <div class="flexible noti-all-area"></div>
-                <div class="flexible noti-input-area"></div>
-                <div class="flexible noti-action-area"></div>
+                <div class="flexible reminder-area"></div>
+                <div class="flexible upcoming-input-area"></div>
+                <div class="flexible upcoming-action-area"></div>
             </div>
         </div>
         `
     return ch.appendAndRetrieve(_.getPage(), pillarString);
 }
 
-function createReminder(pillar, reminderData, tagNames) {
+function createReminder(reminder) {
     let tags = '';
-    for (let tagName of tagNames) {
+    for (let tagName of reminder.tags) {
         tags += `<div class="noti-tag">${tagName}</div>`;
     }
     let reminderString = `
         <div class="notification flexible">
-            <div class="noti-name">${reminderData.title}</div>
-            <div class="noti-tag-area flexible">${tags}</div>
+            <div class="noti-name">${reminder.title}</div>
+            <div class="upcoming-tag-area flexible">${tags}</div>
         </div>
     `;
 
-    d.newReminder(reminderData);
-    return ch.appendAndRetrieve(_.getNotiAllArea(pillar), reminderString);
+    return ch.appendAndRetrieve(_.getReminderArea(), reminderString);
 }
 
-function createNotification(pillar, notiData) {
+function createNotification(notiData) {
     let tags = '';
     for (let tagName of notiData.tags) {
         tags += `<div class="noti-tag">${tagName}</div>`;
     }
-    let reminderString = `
+    let notiString = `
         <div class="notification flexible">
             <div class="noti-name">${notiData.title}</div>
-            <div class="noti-tag-area flexible">${tags}</div>
+            <div class="upcoming-tag-area flexible">${tags}</div>
         </div>
     `;
 
-    return ch.appendAndRetrieve(_.getNotiArea(pillar), reminderString);
+    return ch.appendAndRetrieve(_.getNotiArea(), notiString);
 }
 
 function createNotiTag(notification, notis) {
@@ -57,7 +56,7 @@ function createNotiTag(notification, notis) {
     }
 
     // d.newList(_.getPillarName(pillar), listTitle);
-    return ch.appendAndRetrieve(_.getNotiTagArea(notification), tag);
+    return ch.appendAndRetrieve(_.getUpcomingTagArea(notification), tag);
 }
 
 function createDateInput(parent) {
@@ -65,9 +64,9 @@ function createDateInput(parent) {
         <input type="text" id="newTask">
         <input type="date" id="newTaskDate">
         <input type="number" id="priorReminder">
-        <button class="submitNotiInput"></div>
+        <button class="upcoming-input-btn"></div>
     `;
-    return ch.appendAndRetrieveParent(_.getNotiInputArea(parent), dateInput);
+    return ch.appendAndRetrieveParent(_.getUpcomingInputArea(parent), dateInput);
 }
 
 function createTimerInput(parent) {
@@ -75,9 +74,9 @@ function createTimerInput(parent) {
         <input type="text" id="newTask">
         <input type="date" id="newTimerStart">
         <input type="date" id="newTimerEnd">
-        <button class="submitNotiInput"></div>
+        <button class="upcoming-input-btn"></div>
     `;
-    return ch.appendAndRetrieveParent(_.getNotiInputArea(parent), timerInput);
+    return ch.appendAndRetrieveParent(_.getUpcomingInputArea(parent), timerInput);
 }
 
 function createCadenceInput(parent) {
@@ -85,18 +84,18 @@ function createCadenceInput(parent) {
         <input type="text" id="newTask">
         <input type="date" id="newStartDate">
         <input type="number" id="newCadence">
-        <button class="submitNotiInput"></div>
+        <button class="upcoming-input-btn"></div>
     `;
-    return ch.appendAndRetrieveParent(_.getNotiInputArea(parent), cadenceInput);
+    return ch.appendAndRetrieveParent(_.getUpcomingInputArea(parent), cadenceInput);
 }
 
 function createPerMonthInput(parent) {
     let cadenceInput = `
         <input type="text" id="newTask">
         <input type="number" id="newMonthDate">
-        <button class="submitNotiInput"></div>
+        <button class="upcoming-input-btn"></div>
     `;
-    return ch.appendAndRetrieveParent(_.getNotiInputArea(parent), cadenceInput);
+    return ch.appendAndRetrieveParent(_.getUpcomingInputArea(parent), cadenceInput);
 }
 
 function createNotiActionTag(parent, name) {
@@ -105,7 +104,7 @@ function createNotiActionTag(parent, name) {
     `;
 
     // d.newList(_.getPillarName(pillar), listTitle);
-    return ch.appendAndRetrieve(_.getNotiActionArea(parent), tag);
+    return ch.appendAndRetrieve(_.getUpcomingActionArea(parent), tag);
 }
 
 

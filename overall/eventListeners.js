@@ -4,13 +4,15 @@ import * as uc from './upcomingComponent.js';
 import * as _ from './getThis.js';
 import * as actions from './actions.js'
 import * as d from './dataManager.js'
+import * as um from './upc/main.js'
 
 
 function saveAllDataListener(isProduction = true) {
     if (isProduction) {
         document.querySelector(".saving").addEventListener('click', () => d.saveToDB());
     } else {
-        document.querySelector(".saving").addEventListener('click', () => d.printUserData());
+        // document.querySelector(".saving").addEventListener('click', () => d.printUserData());
+        document.querySelector(".saving").addEventListener('click', () => um.printData());
     }
 
 }
@@ -338,7 +340,7 @@ function actionTagListener(pillarElement, tag, actionName) {
         tag.addEventListener('click', function () {
             let input = uc.createDateInput(pillarElement);
 
-            input.querySelector(".submitNotiInput").addEventListener('click', function () {
+            input.querySelector(".upcoming-input-btn").addEventListener('click', function () {
                 let newTask = input.querySelector("#newTask").value.trim();
                 let newTaskDate = input.querySelector("#newTaskDate").value.trim();
                 let priorReminder = input.querySelector("#priorReminder").value.trim();
@@ -368,7 +370,7 @@ function actionTagListener(pillarElement, tag, actionName) {
         tag.addEventListener('click', function () {
             let input = uc.createTimerInput(pillarElement);
 
-            input.querySelector(".submitNotiInput").addEventListener('click', function () {
+            input.querySelector(".upcoming-input-btn").addEventListener('click', function () {
                 let newTask = input.querySelector("#newTask").value.trim();
                 let newTimerStart = input.querySelector("#newTimerStart").value.trim();
                 let newTimerEnd = input.querySelector("#newTimerEnd").value.trim();
@@ -394,7 +396,7 @@ function actionTagListener(pillarElement, tag, actionName) {
         tag.addEventListener('click', function () {
             let input = uc.createCadenceInput(pillarElement);
 
-            input.querySelector(".submitNotiInput").addEventListener('click', function () {
+            input.querySelector(".upcoming-input-btn").addEventListener('click', function () {
                 let newTask = input.querySelector("#newTask").value.trim();
                 let newStartDate = input.querySelector("#newStartDate").value.trim();
                 let newCadence = input.querySelector("#newCadence").value.trim();
@@ -420,7 +422,7 @@ function actionTagListener(pillarElement, tag, actionName) {
         tag.addEventListener('click', function () {
             let input = uc.createPerMonthInput(pillarElement);
 
-            input.querySelector(".submitNotiInput").addEventListener('click', function () {
+            input.querySelector(".upcoming-input-btn").addEventListener('click', function () {
                 let newTask = input.querySelector("#newTask").value.trim();
                 let newMonthDate = input.querySelector("#newMonthDate").value.trim();
 

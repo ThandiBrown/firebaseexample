@@ -57,7 +57,7 @@ function loadUpcomingPillar(upcomingData) {
     // CREATE REMINDER BUTTONS
     for (let actionName of ['Date', 'Timer', 'Cadence', 'Per Month']) {
         let tag = uc.createNotiActionTag(pillarElement, actionName);
-        // e.actionTagListener(pillarElement, tag, actionName);
+        e.actionTagListener(pillarElement, tag, actionName);
     }
 }
 
@@ -187,8 +187,8 @@ function determineReminderTags(data) {
     return tags;
 }
 
-function calculateDaysAndMonths(startDate, endDate) {
-    const start = new Date(startDate);
+function calculateDaysAndMonths(endDate) {
+    const start = new Date();
     const end = new Date(endDate);
 
     // Calculate the difference in time (in milliseconds)

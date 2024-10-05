@@ -3,6 +3,7 @@ import * as actions from './actions.js'
 import * as e from './eventListeners.js'
 import * as c from './component.js'
 import * as u from './upcomingHome.js'
+import * as um from './upc/main.js'
 import { initializeFirebase } from './comms/foundation.js'
 import * as t from './comms/talkToDatabase.js'
 
@@ -11,7 +12,7 @@ NEXT:
 make the collapse function
 add the submit area
 */
-if (true) {
+if (false) {
     initializeFirebase();
     t.getStarted();
 
@@ -60,7 +61,9 @@ function loadPage(usingDB, userData) {
         console.log("userData"); console.log(userData);
     }
 
+    um.main(userData.Upcoming);
 
+    return;
     for (let [pillarName, pillarData] of Object.entries(userData)) {
 
         // if (pillarData.status.pillarType) {

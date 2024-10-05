@@ -32,24 +32,24 @@ function getPillarName(element, isPillar = true) {
     return element.querySelector(".pillar-title").innerText;
 }
 
-function getNotiArea(parent) {
-    return parent.querySelector(".noti-area");
+function getNotiArea() {
+    return document.querySelector(".upcoming * > .noti-area");
 }
 
-function getNotiAllArea(parent) {
-    return parent.querySelector(".noti-all-area");
+function getReminderArea() {
+    return document.querySelector(".upcoming * > .reminder-area");
 }
 
-function getNotiTagArea(notiElem) {
-    return notiElem.querySelector(".noti-tag-area");
+function getUpcomingTagArea(notiElem) {
+    return notiElem.querySelector(".upcoming-tag-area");
 }
 
-function getNotiInputArea(parent) {
-    return parent.querySelector(".noti-input-area");
+function getUpcomingInputArea(parent) {
+    return parent.querySelector(".upcoming-input-area");
 }
 
-function getNotiActionArea(parent) {
-    return parent.querySelector(".noti-action-area");
+function getUpcomingActionArea(parent) {
+    return parent.querySelector(".upcoming-action-area");
 }
 
 function getListArea(parent) {
@@ -210,8 +210,8 @@ export {
     getListValue,
     getPillarTitle,
     getNotiArea,
-    getNotiTagArea,
-    getNotiActionArea,
-    getNotiInputArea,
-    getNotiAllArea
+    getUpcomingTagArea,
+    getUpcomingActionArea,
+    getUpcomingInputArea,
+    getReminderArea
 }

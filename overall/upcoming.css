@@ -2,13 +2,13 @@
     border: 3px solid black;
 }
 
-.noti-area, .noti-all-area {
+.noti-area, .reminder-area {
     flex-direction: column;
      gap: 0.5rem; 
  }
  
  
-.noti-all-area {
+.reminder-area {
    opacity: 0.5;
 }
 
@@ -20,11 +20,11 @@
     margin: auto;
 }
 
-.noti-input-area {
+.upcoming-input-area {
     max-height: 40px;
 }
 
-.noti-tag-area {
+.upcoming-tag-area {
     margin-left: auto;
     gap: 0.2rem;
 }
@@ -39,7 +39,7 @@
     -moz-appearance: textfield;
 }
 
-.submitNotiInput {
+.upcoming-input-btn {
     width: 50px;
     background-color: lavender;
 }
@@ -51,7 +51,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.noti-action-area {
+.upcoming-action-area {
     width: 100%;
     justify-content: center;
     align-items: center;
