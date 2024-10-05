@@ -26,6 +26,7 @@ function getElement(task, tags) {
     return reminderString;
 }
 
+
 function setReminders(value) {
     reminders = value;
 }
@@ -40,13 +41,14 @@ function addCadenceReminder(task, startDate, cadence) {
         'type': 'Cadence',
         'title': task,
         'startDate': startDate,
-        'reoccurringCadence': cadence,
+        'cadence': cadence,
         'nextContactDate': getNextInterval(startDate, cadence),
         'tags': tags,
     });
 
     return tags
 }
+
 
 function getNextInterval(startDate, cadence) {
     const today = new Date(); // Get today's date
@@ -73,9 +75,32 @@ function getNextInterval(startDate, cadence) {
     return nextIntervalDate.toISOString().split('T')[0];
 }
 
+
 function getReminders() {
     return reminders;
 }
+
+function checkForNotifications() {
+    let remindersToNotify = [];
+    let today = new Date();
+
+    for (let r of reminders) {
+        if (r.type == 'Cadence') {
+            if (new Date(r.nextContactDate) <= today) {
+                remindersToNotify.push(structuredClone(r));
+                r.nextContactDate = getNextInterval(r.startDate, r.cadence);
+            }
+        }
+    }
+
+    return remindersToNotify;
+}
+
+
+
+
+
+
 
 export {
     getElements,
@@ -83,5 +108,6 @@ export {
     setReminders,
     addCadenceReminder,
     getNextInterval,
-    getReminders
+    getReminders,
+    checkForNotifications
 }

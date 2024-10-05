@@ -16,10 +16,17 @@ function main(upcData) {
 
     r.setReminders(upcData.reminders);
     n.setNotifications(upcData.notifications);
+    
+    if (u.shouldUpdate()) {
+        console.log('Performing Daily Update');
+        let remindersToNotify = r.checkForNotifications();
+        n.remindersToNotifications(remindersToNotify);
+        u.updateLastUpdated();
+    }
 
     u.createElement(
-        n.getElements(upcData.notifications),
-        r.getElements(upcData.reminders)
+        n.getElements(n.getNotifications()),
+        r.getElements(r.getReminders())
     );
 
     _.getPage().appendChild(u.getElement());
@@ -27,11 +34,7 @@ function main(upcData) {
 
 
 function printData() {
-    console.log({
-        'status': {},
-        'reminders': r.getReminders(),
-        'notifications': n.getNotifications()
-    });
+    console.log(u.getUpcomingData());
 }
 
 

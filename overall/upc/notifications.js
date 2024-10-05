@@ -40,6 +40,14 @@ function addCadenceNotification(task) {
     return tags;
 }
 
+function remindersToNotifications(reminders) {
+    for (let r of reminders) {
+        if (r.type == 'Cadence') {
+            addCadenceNotification(r.title);
+        }
+    }
+}
+
 
 function getNotifications() {
     return notifications;
@@ -52,5 +60,6 @@ export {
     getElements,
     getElement,
     addCadenceNotification,
-    getNotifications
+    getNotifications,
+    remindersToNotifications
 }

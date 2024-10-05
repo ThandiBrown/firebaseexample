@@ -88,7 +88,7 @@ function addNewNotifications(upcomingData) {
         if (r.reoccurringDate && new Date(r.nextContactDate) <= today) {
             notifications.push(getPerMonthNoti(r));
         }
-        else if (r.reoccurringCadence && new Date(r.nextContactDate) <= today) {
+        else if (r.cadence && new Date(r.nextContactDate) <= today) {
             notifications.push(getCadenceNoti(r));
         }
         else if (r.showReminder && new Date(r.showReminder) <= today) {
@@ -119,7 +119,7 @@ function getPerMonthNoti(r) {
 }
 
 function getCadenceNoti(r) {
-    r.nextContactDate = e.getNextInterval(r.startDate, r.reoccurringCadence);
+    r.nextContactDate = e.getNextInterval(r.startDate, r.cadence);
     return {
         'title': r.title,
         'tags': []
@@ -170,8 +170,8 @@ function determineReminderTags(data) {
     }
 
     // Cadence
-    else if (data.reoccurringCadence) {
-        tags.push(`Every ${data.reoccurringCadence} days`);
+    else if (data.cadence) {
+        tags.push(`Every ${data.cadence} days`);
     }
 
     // Timer

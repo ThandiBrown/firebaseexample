@@ -57,7 +57,7 @@ function main() {
         'type': 'Cadence',
         'title': 'Active Cadence',
         'startDate': '09/24/2024',
-        'reoccurringCadence': 7
+        'cadence': 7
     });
 
 
@@ -122,8 +122,8 @@ function processRequest(request) {
         let reminder = {
             'title': request.title,
             'startDate': request.startDate,
-            'reoccurringCadence': request.reoccurringCadence,
-            'nextContactDate': hh.getNextInterval(request.startDate, request.reoccurringCadence),
+            'cadence': request.cadence,
+            'nextContactDate': hh.getNextInterval(request.startDate, request.cadence),
             'tags': getCadenceRTags(request)
         };
         addReminderData(reminder);
@@ -178,7 +178,7 @@ function shouldNotifyNow(rData) {
     if (rData.showReminder && new Date(rData.showReminder) <= new Date()) {
         return true;
     }
-    else if (rData.reoccurringCadence && new Date(rData.nextContactDate) <= today) {
+    else if (rData.cadence && new Date(rData.nextContactDate) <= today) {
         return true;
     }
     return false;
@@ -221,7 +221,7 @@ function getTimerTags(data) {
 }
 
 function getCadenceRTags(data) {
-    return [`Every ${data.reoccurringCadence} days`];
+    return [`Every ${data.cadence} days`];
 }
 
 

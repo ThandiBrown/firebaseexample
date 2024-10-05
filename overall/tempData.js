@@ -65,13 +65,22 @@ function generateRandomDates(daysBeforeToday) {
 function getData() {
     return {
         "Upcoming": {
-            "status": {},
             "reminders": [
               {
                 "type": "Cadence",
                 "title": "hello",
                 "startDate": "2024-10-03",
-                "reoccurringCadence": "2",
+                "cadence": "2",
+                "nextContactDate": "2024-10-07",
+                "tags": [
+                  "Every 2 days"
+                ]
+              },
+              {
+                "type": "Cadence",
+                "title": "Again",
+                "startDate": "2024-10-03",
+                "cadence": "2",
                 "nextContactDate": "2024-10-07",
                 "tags": [
                   "Every 2 days"
@@ -82,8 +91,13 @@ function getData() {
               {
                 "title": "hello",
                 "tags": []
+              },
+              {
+                "title": "Again",
+                "tags": []
               }
-            ]
+            ],
+            "lastUpdated": "2024-10-05"
         },
         // "Upcoming": {
         //     "status": {
@@ -131,13 +145,13 @@ function getData() {
         //     //         "title": "Christmas Flights",
         //     //         "startDate": "9/14/2024",
         //     //         "nextContactDate": "2024-10-12",
-        //     //         "reoccurringCadence": 14
+        //     //         "cadence": 14
         //     //     },
         //     //     {
         //     //         "title": "Game Night",
         //     //         "startDate": "9/24/2024",
         //     //         "nextContactDate": "10/1/2024",
-        //     //         "reoccurringCadence": 7
+        //     //         "cadence": 7
         //     //     },
         //     //     {
         //     //         "title": "New Orleans Trip",
@@ -168,7 +182,7 @@ function getData() {
         //             'title': 'Christmas Flights',
         //             'startDate': '9/14/2024',
         //             'nextContactDate': '9/28/2024',
-        //             'reoccurringCadence': 14
+        //             'cadence': 14
         //         },
         //         {
         //             'title': 'Gynecologist Appointment',
@@ -182,7 +196,7 @@ function getData() {
         //             // 'reoccurringWeekday': 'Tuesday'
         //             'startDate': '9/24/2024',
         //             'nextContactDate': '10/1/2024',
-        //             'reoccurringCadence': 7
+        //             'cadence': 7
         //         },
         //         {
         //             'title': 'New Orleans Trip',

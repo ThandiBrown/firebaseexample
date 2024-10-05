@@ -7,7 +7,7 @@ let upcElem;
 
 function newUpc() {
     upcData = {
-        'status': {},
+        'lastUpdated': '01/01/2024',
         'reminders': [],
         'notifications': []
     }
@@ -17,9 +17,20 @@ function newUpc() {
 
 
 function setUpc(data) {
+    if ('status' in data) {
+        delete data.status;
+        data.lastUpdated = '01/01/2024';
+    }
     upcData = data;
 }
 
+function shouldUpdate() {
+    return upcData.lastUpdated != new Date().toISOString().split('T')[0];
+}
+
+function updateLastUpdated() {
+    upcData.lastUpdated = new Date().toISOString().split('T')[0];
+}
 
 function createElement(nStr = '', rStr = '') {
     let insideUpcoming = `
@@ -94,12 +105,21 @@ function cadenceTagEL() {
     });
 }
 
+function getUpcomingData() {
+    return upcData;
+}
 
 export {
     newUpc,
     setUpc,
+    shouldUpdate,
+    updateLastUpdated,
     createElement,
     getElement,
     addReminderElement,
-    addNotificationElement
+    addNotificationElement,
+    getActionTags,
+    addEventListeners,
+    cadenceTagEL,
+    getUpcomingData
 }

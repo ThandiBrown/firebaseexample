@@ -406,7 +406,7 @@ function actionTagListener(pillarElement, tag, actionName) {
                 let reminder = {
                     'title': newTask,
                     'startDate': newStartDate,
-                    'reoccurringCadence': newCadence,
+                    'cadence': newCadence,
                     'nextContactDate': getNextInterval(newStartDate, newCadence)
                 };
 
