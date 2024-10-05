@@ -1,7 +1,8 @@
 import * as _ from './getThis.js';
 import * as t from './comms/talkToDatabase.js'
+import * as um from './upc/main.js'
 
-const userData = {};
+let userData = {};
 
 function returnNotifications() {
     return userData['Upcoming']['notifications']
@@ -15,6 +16,13 @@ function printUserData(value = userData, title = 'userData') {
 
 function saveToDB() {
     console.log("saveToDB");
+
+
+    let b = {};
+    b.Upcoming = um.getUpcomingData();
+    userData = { ...b, ...userData };
+
+    // userData.Upcoming = um.getUpcomingData();
     console.log("userData"); console.log(userData);
     t.writeDB(userData);
 }
