@@ -366,7 +366,8 @@ function loadingPage(response) {
         questionDiv.appendChild(buttonDiv);
         questionnaireDiv.appendChild(questionDiv);
     });
-    scrollToLastSelected();
+    // scrollToLastSelected();
+    // printOrganizedQuestions();
 }
 
 
@@ -404,4 +405,43 @@ function scrollToLastSelected() {
     }
 }
 
-// Call the function to scroll to the last selected element
+function printOrganizedQuestions() {
+    /* 
+        M - memories, 98
+        P - personality, 127
+        R - relationships, 30
+        W - wants, 51
+    */
+    // Initialize the dictionary with keys M, P, R, W and empty arrays
+    const questionDict = {
+        M: [],
+        P: [],
+        R: [],
+        W: []
+    };
+
+    // Select all the question divs
+    const questions = document.querySelectorAll('.question');
+
+    // Iterate through each question div
+    questions.forEach(question => {
+        // Find the first <p> element which contains the question title
+        const questionTitle = question.querySelector('p').innerText;
+        
+        // Find the button that has the class "selected"
+        const selectedButton = question.querySelector('button.selected');
+        
+        if (selectedButton) {
+            // Get the text content of the selected button (M, P, R, or W)
+            const selectedValue = selectedButton.innerText;
+            
+            // Add the question title to the appropriate list in the dictionary
+            if (questionDict[selectedValue]) {
+                questionDict[selectedValue].push(questionTitle);
+            }
+        }
+    });
+
+    console.log(questionDict);
+
+}
