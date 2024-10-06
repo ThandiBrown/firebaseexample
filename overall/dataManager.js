@@ -3,6 +3,7 @@ import * as t from './comms/talkToDatabase.js'
 import * as um from './upc/main.js'
 
 let userData = {};
+userData.Upcoming = {};
 
 function returnNotifications() {
     return userData['Upcoming']['notifications']
