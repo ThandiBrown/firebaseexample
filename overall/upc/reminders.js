@@ -56,7 +56,7 @@ function getNextInterval(startDate, cadence) {
 
     // If startDate is after today, return the first 14-day interval from startDate
     if (start > today) {
-        start.setDate(start.getDate() + cadence); // Add 14 days to the startDate
+        // start.setDate(start.getDate() + cadence); // Add 14 days to the startDate
         return start;
     }
 
