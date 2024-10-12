@@ -1,11 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import {
+	getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider,
+	setPersistence, browserLocalPersistence, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
 
 function initializeFirebase() {
@@ -21,8 +19,40 @@ function initializeFirebase() {
 
 	// Initialize Firebase
 	const app = initializeApp(firebaseConfig);
-	// const analytics = getAnalytics(app);
+	authenticate(app);
 }
+
+function authenticate(app) {
+	const auth = getAuth(app);
+	auth.languageCode = 'en';
+
+	// const user = auth.currentUser;
+
+	// Listen for changes in the authentication state
+	onAuthStateChanged(auth, (user) => {
+		if (user) {
+			// User is signed in, no need to re-authenticate
+			console.log('User is already signed in:', user.email);
+		} else {
+			// No user is signed in, proceed with Google login
+			setPersistence(auth, browserLocalPersistence)
+				.then(() => {
+					const provider = new GoogleAuthProvider();
+					return signInWithRedirect(auth, provider);
+				})
+				.then((result) => {
+					// The signed-in user info can be accessed here
+					console.log('User signed in:', result.user.email);
+				})
+				.catch((error) => {
+					// Handle errors here
+					console.error('Error during sign-in:', error);
+				});
+		}
+	});
+
+}
+
 
 export {
 	initializeFirebase

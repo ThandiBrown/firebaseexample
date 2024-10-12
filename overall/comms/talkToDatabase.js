@@ -11,13 +11,13 @@ function getStarted() {
 }
 
 function writeDB(value) {
-    console.log("value");console.log(value);
-    
+    console.log("value"); console.log(value);
+
     // total2 = ref(db)
     // console.log("total2");console.log(total2);
     let total = ref(db, folderName)
-    
-    console.log("total");console.log(total);
+
+    console.log("total"); console.log(total);
     set(total, JSON.stringify(value))
         .then(() => {
             // alert("data stored successfully");
@@ -64,7 +64,11 @@ async function readDBHistory(method) {
 
         // Get the data
         const userData = await get(ref(db, folderName));
+        console.log("userData");console.log(userData);
         const dataHistory = await get(ref(db, 'lifeMgmtHistory'));
+        console.log("dataHistory");console.log(dataHistory);
+
+
 
         if (dataHistory.exists() && userData.exists()) {
             method(JSON.parse(dataHistory.val()), userData.val());
@@ -72,14 +76,14 @@ async function readDBHistory(method) {
             // return JSON.parse(snapshot.val()); // Access the data
         } else {
             // No data available at the path
-            console.log('No data available');
-            alert('no data to retrieve')
+            console.log('No history available');
+            alert('no history to retrieve')
             return null;
         }
     } catch (error) {
         // Handle any errors
-        alert('Error fetching data')
-        console.error('Error fetching data:', error);
+        alert('Error fetching history')
+        console.error('Error fetching history:', error);
         throw error; // Re-throw the error to be handled by the caller
     }
 }
