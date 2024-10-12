@@ -6,13 +6,14 @@ import * as u from './upcomingHome.js'
 import * as um from './upc/main.js'
 import { initializeFirebase } from './comms/foundation.js'
 import * as t from './comms/talkToDatabase.js'
+import * as test from './testing.js'
 
 /* 
 NEXT:
 make the collapse function
 add the submit area
 */
-if (true) {
+if (false) {
     initializeFirebase()
         .then(() => {
             // Runs after initializeFirebase is complete
@@ -46,8 +47,6 @@ if (true) {
 }
 
 function updateHistory(history, userData) {
-    console.log("history"); console.log(history);
-    // return;
     let mostRecent = JSON.stringify(userData);
 
     if (!history.length) {
@@ -80,7 +79,9 @@ function loadPage(usingDB, userData) {
     for (let [pillarName, pillarData] of Object.entries(userData)) {
 
         if (pillarName == 'Upcoming') {
+            test.addData(userData.Upcoming);
             um.main(userData.Upcoming);
+            test.makeRequests();
             continue;
         }
 

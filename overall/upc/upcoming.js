@@ -42,9 +42,10 @@ function createElement(nStr = '', rStr = '') {
             <div class="flexible reminder-area">
                 ${rStr}
             </div>
-            <div class="flexible upcoming-input-area"></div>
+            <div class="flexible upcoming-input-area">
+            </div>
             <div class="flexible upcoming-action-area">
-                ${getActionTags(['Cadence'])}
+                ${getActionTags(['Cadence', 'Date'])}
             </div>
         </div>
     `;
@@ -80,6 +81,30 @@ function getActionTags(actions) {
 
 function addEventListeners() {
     cadenceTagEL();
+    dateTagEL();
+}
+
+function dateTagEL() {
+    let dateTag = upcElem.querySelector('.' + eh.getClassName('Date'));
+
+
+    dateTag.addEventListener('click', function () {
+        let dateInput = `
+            <input type="text" id="newTask">
+            <input type="date" id="newEventDate">
+            <input type="text" id="priorReminder">
+            <button class="upcoming-input-btn"></div>
+        `;
+        _.getUpcomingInputArea(upcElem).insertAdjacentHTML('beforeend', dateInput);
+
+        upcElem.querySelector(".upcoming-input-btn").addEventListener('click', function () {
+            let task = upcElem.querySelector("#newTask").value.trim();
+            let eventDate = upcElem.querySelector("#newEventDate").value.trim();
+            let reminderDays = upcElem.querySelector("#priorReminder").value.trim();
+            request.dateRequest(task, eventDate, reminderDays);
+            _.getUpcomingInputArea(upcElem).innerHTML = '';
+        });
+    });
 }
 
 function cadenceTagEL() {

@@ -1,1 +1,85 @@
-r = { "Upkeep": { "calendar": [{ "type": "exercise", "startDate": "2024-09-16", "fulfilled": ["2024-09-16"], "progressed": [] }, { "type": "eating", "startDate": "2024-09-16", "fulfilled": [], "progressed": ["2024-09-20"] }], "lists": { "Time Sensitive": [{ "title": "Christmas flight ✈️" }], "Conditional": [{ "title": "Ask company to mail w2 to chinue address" }, { "title": "Makeup with chinue", "tag": "Chinue's House" }], "Backlog": [{ "title": "All new emails", "checked": false, "in-progress": true }, { "title": "Tsa precheck", "in-progress": true, "checked": false }, { "title": "Find happypages site" }, { "title": "Determine non tech things" }, { "title": "Chinue advice on stainless pans" }, { "title": "300 questions social program" }, { "title": "Figure out how to recover dragon if hard reset" }, { "title": "How to save computer if destroyed" }, { "title": "fidelity, change email to: thanbrown22@gmail.com " }, { "title": "umb health services, change email to: thanbrown22@gmail.com" }, { "title": "same for State Farm ^" }], "Day Checkpoints": [{ "title": "Hygiene, shower and start work by 630" }, { "title": "Technique: make green tea 1st, ear buds knox hill video" }, { "title": "Water / liquid only day" }, { "title": "Prop up laptop for neck" }, { "title": "Use counters as stand up desk" }, { "title": "*Follow* day's layout / routine" }] } }, "Entertainment": { "lists": { "Hobbies to Try": [], "Things to Watch": [{ "title": "Mayfair witches" }, { "title": "Amc, stars, showtime, apple shows" }, { "title": "Penguin hbomax site" }], "Foods to Make": [] } }, "Relationships": { "lists": { "Calls and Messaging": [], "Gifts List": [{ "title": "Her dryer - made slides ", "tag": "Chinue" }] } } }
+import * as ur from './upc/upcRequests.js'
+
+
+
+
+function makeRequests() {
+    // Date With Reminder of Today
+    // ur.dateRequest(
+    //     'Make Hamburgers',
+    //     getDateWithOffset(7),
+    //     '7'
+    // );
+    // // Date With Reminder of Before Today
+    // ur.dateRequest(
+    //     'Make Hamburgers',
+    //     getDateWithOffset(7),
+    //     '7, 10'
+    // );
+    // Date With No Reminders
+    // ur.dateRequest(
+    //     'Make Hamburgers',
+    //     getDateWithOffset(7),
+    //     ''
+    // );
+    // Date that occurs today
+    // ur.dateRequest(
+    //     'Make Hamburgers',
+    //     getDateWithOffset(0),
+    //     ''
+    // );
+}
+
+function addData(upcoming) {
+    upcoming.reminders.push(
+        // { // Date That Will Notify Today
+        //     "type": "Date",
+        //     "title": "Make Hamburgers",
+        //     "eventDate": "10-19-2024",
+        //     "showRemindersOn": [
+        //         getTodayDate()
+        //     ],
+        //     "tags": [
+        //         "10-19-2024"
+        //     ]
+        // },
+        { // Date That occurs today
+            "type": "Date",
+            "title": "Make Hamburgers",
+            "eventDate": getTodayDate(),
+            "showRemindersOn": [
+
+            ],
+            "tags": [
+                getTodayDate()
+            ]
+        },
+    )
+}
+
+function getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const day = String(today.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
+function getDateWithOffset(days) {
+    const today = new Date();
+
+    // Add or subtract the days
+    today.setDate(today.getDate() + days);
+
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
+export {
+    makeRequests,
+    addData
+}

@@ -104,18 +104,16 @@ function getData() {
             "calendar": [
                 {
                     "type": "exercise",
-                    "startDate": "2024-09-16",
+                    "startDate": "2024-10-12",
                     "fulfilled": [
-                        "2024-09-16"
                     ],
                     "progressed": []
                 },
                 {
                     "type": "eating",
-                    "startDate": "2024-09-16",
+                    "startDate": "2024-10-12",
                     "fulfilled": [],
                     "progressed": [
-                        "2024-09-20"
                     ]
                 }
             ],

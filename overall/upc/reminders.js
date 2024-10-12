@@ -1,3 +1,4 @@
+import { isToday } from "./upcRequestsHelper.js";
 
 let reminders;
 
@@ -49,6 +50,43 @@ function addCadenceReminder(task, startDate, cadence) {
     return tags
 }
 
+function addDateReminder(task, eventDate, reminderDays) {
+
+    let showRemindersOn = [];
+    let shouldNotify = false;
+    let tags = [
+        `${eventDate}`
+    ];
+
+    // order from highest to lowest
+    reminderDays = reminderDays.sort((a, b) => Number(b) - Number(a));
+    console.log("reminderDays"); console.log(reminderDays);
+
+    let today = new Date();
+    for (let day of reminderDays) {
+        let date = new Date(eventDate);
+        date.setDate(date.getDate() - day);
+        if (date > today) {
+            showRemindersOn.push(dateFormatted(date));
+        } else if (isToday(dateFormatted(date))) {
+            shouldNotify = true;
+        }
+    }
+
+    console.log("showRemindersOn"); console.log(showRemindersOn);
+
+    reminders.push({
+        'type': 'Date',
+        'title': task,
+        'eventDate': eventDate,
+        'showRemindersOn': showRemindersOn,
+        'tags': tags,
+    });
+    console.log('reminders:');
+    console.log(reminders.slice(-1)[0]);
+    return [reminders.slice(-1)[0], shouldNotify];
+}
+
 
 function getNextInterval(startDate, cadence) {
     const today = new Date(); // Get today's date
@@ -75,6 +113,9 @@ function getNextInterval(startDate, cadence) {
     return nextIntervalDate.toISOString().split('T')[0];
 }
 
+function dateFormatted(date) {
+    return date.toISOString().split('T')[0];
+}
 
 function getReminders() {
     return reminders;
@@ -90,13 +131,42 @@ function checkForNotifications() {
                 remindersToNotify.push(structuredClone(r));
                 r.nextContactDate = getNextInterval(r.startDate, r.cadence);
             }
+        } else if (r.type == 'Date') {
+
+            if (new Date(r.eventDate) <= today) {
+                remindersToNotify.push(structuredClone(r));
+            } else {
+                let shouldNotify = false;
+                while (new Date(r.showRemindersOn[0]) <= today) {
+                    r.showRemindersOn.shift();
+                    shouldNotify = true;
+                }
+                if (shouldNotify) {
+                    remindersToNotify.push(structuredClone(r));
+                }
+            }
+
         }
     }
 
     return remindersToNotify;
 }
 
+function removeCompletedReminders() {
+    let today = new Date();
+    reminders = reminders.filter(function (r) {
+        let completed = false;
+        if (r.type == 'Date' && new Date(r.eventDate) <= today) {
+            completed = true;
+        }
 
+        if (!completed) {
+            return r;
+        }
+
+    });
+
+}
 
 
 
@@ -109,5 +179,7 @@ export {
     addCadenceReminder,
     getNextInterval,
     getReminders,
-    checkForNotifications
+    checkForNotifications,
+    addDateReminder,
+    removeCompletedReminders
 }

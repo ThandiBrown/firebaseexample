@@ -4,7 +4,7 @@
 function todayIsCadenceDay(startDateStr, cadence) {
     // Parse the start date string into a Date object
     let startDate = new Date(startDateStr);
-    
+
     // Get today's date without the time part
     let today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -19,10 +19,23 @@ function todayIsCadenceDay(startDateStr, cadence) {
     return dayDifference >= 0 && dayDifference % cadence === 0;
 }
 
+// Function to check if the date string is today
+function isToday(dateString) {
+    let timeZone = moment.tz.guess();
 
+    // Parse the input date in the specified time zone
+    const inputDate = moment.tz(dateString, "YYYY-MM-DD", timeZone);
+
+    // Get today's date in the same time zone
+    const today = moment.tz(timeZone);
+
+    // Compare only by the day in the specified time zone
+    return inputDate.isSame(today, 'day');
+}
 
 
 
 export {
-    todayIsCadenceDay
+    todayIsCadenceDay,
+    isToday
 }

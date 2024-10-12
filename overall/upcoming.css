@@ -33,7 +33,13 @@
     width: 100%;
 }
 
-#priorReminder, #newCadence, #newMonthDate {
+#priorReminder {
+    padding: 15px;
+    width: 100px;
+    -moz-appearance: textfield;
+}
+
+#newCadence, #newMonthDate {
     padding: 15px;
     width: 50px;
     -moz-appearance: textfield;
@@ -57,6 +63,7 @@ input::-webkit-inner-spin-button {
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin-bottom: 10px;
 }
 
 .noti-action-tag
