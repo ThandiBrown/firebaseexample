@@ -7,19 +7,27 @@ import {
 
 
 function initializeFirebase() {
-	const firebaseConfig = {
-		apiKey: "AIzaSyB_VetYgcatX096x78XWbWycpqnoxDPnTU",
-		authDomain: "thandihome-5cd92.firebaseapp.com",
-		databaseURL: "https://thandihome-5cd92-default-rtdb.firebaseio.com",
-		projectId: "thandihome-5cd92",
-		storageBucket: "thandihome-5cd92.appspot.com",
-		messagingSenderId: "45814184020",
-		appId: "1:45814184020:web:e2644a5720b5f8254055c1"
-	};
+	return new Promise((resolve, reject) => {
+		try {
+			const firebaseConfig = {
+				apiKey: "AIzaSyB_VetYgcatX096x78XWbWycpqnoxDPnTU",
+				authDomain: "thandihome-5cd92.firebaseapp.com",
+				databaseURL: "https://thandihome-5cd92-default-rtdb.firebaseio.com",
+				projectId: "thandihome-5cd92",
+				storageBucket: "thandihome-5cd92.appspot.com",
+				messagingSenderId: "45814184020",
+				appId: "1:45814184020:web:e2644a5720b5f8254055c1"
+			};
 
-	// Initialize Firebase
-	const app = initializeApp(firebaseConfig);
-	authenticate(app);
+			// Initialize Firebase
+			const app = initializeApp(firebaseConfig);
+			authenticate(app);
+			// Resolve the promise once initialization is done
+			resolve(app);
+		} catch (error) {
+			reject(error);  // Reject the promise if something goes wrong
+		}
+	});
 }
 
 function authenticate(app) {
@@ -38,7 +46,14 @@ function authenticate(app) {
 			setPersistence(auth, browserLocalPersistence)
 				.then(() => {
 					const provider = new GoogleAuthProvider();
-					return signInWithRedirect(auth, provider);
+					if (isMobile()) {
+						console.log('You are on a mobile device');
+						return signInWithRedirect(auth, provider);
+					} else {
+						console.log('You are on a desktop or non-mobile device');
+						return signInWithPopup(auth, provider);
+					}
+
 				})
 				.then((result) => {
 					// The signed-in user info can be accessed here
@@ -51,6 +66,22 @@ function authenticate(app) {
 		}
 	});
 
+}
+
+function isMobile() {
+	const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+	// Check for Android
+	if (/android/i.test(userAgent)) {
+		return true;
+	}
+
+	// Check for iOS devices
+	if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+		return true;
+	}
+
+	return false;
 }
 
 

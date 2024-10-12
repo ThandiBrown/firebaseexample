@@ -63,10 +63,9 @@ async function readDBHistory(method) {
         // Reference to a specific path (e.g., 'users/userId123')
 
         // Get the data
-        const userData = await get(ref(db, folderName));
-        console.log("userData");console.log(userData);
-        const dataHistory = await get(ref(db, 'lifeMgmtHistory'));
-        console.log("dataHistory");console.log(dataHistory);
+        let userData = await get(ref(db, folderName));
+
+        let dataHistory = await get(ref(db, 'lifeMgmtHistory'));
 
 
 
@@ -82,7 +81,7 @@ async function readDBHistory(method) {
         }
     } catch (error) {
         // Handle any errors
-        alert('Error fetching history')
+        // alert('Error fetching history')
         console.error('Error fetching history:', error);
         throw error; // Re-throw the error to be handled by the caller
     }

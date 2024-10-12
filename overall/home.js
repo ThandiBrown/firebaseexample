@@ -13,27 +13,41 @@ make the collapse function
 add the submit area
 */
 if (true) {
-    initializeFirebase();
-    t.getStarted();
+    initializeFirebase()
+        .then(() => {
+            // Runs after initializeFirebase is complete
+            t.getStarted();
 
-    t.readDBHistory(updateHistory);
-    e.saveAllDataListener();
-    t.readDB(loadPage);
+            t.readDBHistory(updateHistory);
+            e.saveAllDataListener();
+            t.readDB(loadPage);
+        })
+        .catch((error) => {
+            console.error("Error initializing Firebase:", error);
+        });
+
 } else {
     if (false) {
+        initializeFirebase()
+            .then(() => {
+                // Runs after initializeFirebase is complete
+                t.getStarted();
+                t.readDBHistory(loadPage);
+            })
+            .catch((error) => {
+                console.error("Error initializing Firebase2:", error);
+            });
         initializeFirebase();
-        t.getStarted();
-        t.readDBHistory(loadPage);
+
     } else {
-        initializeFirebase();
-        t.getStarted();
-        e.saveAllDataListener(true);
+        e.saveAllDataListener(false);
         loadPage(false, getData());
     }
 }
 
 function updateHistory(history, userData) {
-
+    console.log("history"); console.log(history);
+    // return;
     let mostRecent = JSON.stringify(userData);
 
     if (!history.length) {
