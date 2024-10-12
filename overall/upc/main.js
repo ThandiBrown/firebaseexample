@@ -21,11 +21,17 @@ function main(upcData) {
         console.log('Performing Daily Update');
         let remindersToNotify = r.checkForNotifications();
         n.remindersToNotifications(remindersToNotify);
-        console.log('reminders');
+
+        console.log('reminders before removal');
         console.log(r.getReminders());
         r.removeCompletedReminders();
-        console.log('reminders');
+        r.updateTags();
+        n.updateTags(r.getReminders());
+        console.log('reminders after removal');
         console.log(r.getReminders());
+
+        // update reminder tags && notification tags
+
         u.updateLastUpdated();
     }
 

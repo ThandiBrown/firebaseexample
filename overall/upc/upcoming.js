@@ -45,7 +45,7 @@ function createElement(nStr = '', rStr = '') {
             <div class="flexible upcoming-input-area">
             </div>
             <div class="flexible upcoming-action-area">
-                ${getActionTags(['Cadence', 'Date'])}
+                ${getActionTags(['Cadence', 'Date', 'Per Month'])}
             </div>
         </div>
     `;
@@ -82,8 +82,29 @@ function getActionTags(actions) {
 function addEventListeners() {
     cadenceTagEL();
     dateTagEL();
+    perMonthTagEL();
 }
 
+function perMonthTagEL() {
+    let dateTag = upcElem.querySelector('.' + eh.getClassName('Per Month'));
+
+
+    dateTag.addEventListener('click', function () {
+        let dateInput = `
+            <input type="text" id="newTask">
+            <input type="date" id="newDate">
+            <button class="upcoming-input-btn"></div>
+        `;
+        _.getUpcomingInputArea(upcElem).insertAdjacentHTML('beforeend', dateInput);
+
+        upcElem.querySelector(".upcoming-input-btn").addEventListener('click', function () {
+            let task = upcElem.querySelector("#newTask").value.trim();
+            let date = upcElem.querySelector("#newDate").value.trim();
+            request.perMonthRequest(task, date);
+            _.getUpcomingInputArea(upcElem).innerHTML = '';
+        });
+    });
+}
 function dateTagEL() {
     let dateTag = upcElem.querySelector('.' + eh.getClassName('Date'));
 

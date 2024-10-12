@@ -1,3 +1,12 @@
+import {
+    getClassName,
+    getNextInterval,
+    dateFormatted,
+    isToday,
+    getOrdinalIndicator,
+    getNextDateOfTheMonth,
+    calculateDaysAndMonths
+} from './elementHelper.js'
 
 let notifications;
 
@@ -33,10 +42,7 @@ function getElement(task, tags) {
 
 function addCadenceNotification(task) {
     let tags = [];
-    notifications.push({
-        'title': task,
-        'tags': tags,
-    });
+    addNotification(task, tags);
     return tags;
 }
 
@@ -54,11 +60,24 @@ function addDateNotification(r) {
     if (countdownData.dayNum != 0)
         additionalText = ' Reminder';
 
+    addNotification(r.title + additionalText, tags);
+    return tags;
+}
+
+function addPerMonthNotification(r) {
+    let tags = [
+        `(on ${r.monthDate}${getOrdinalIndicator(parseInt(r.monthDate))})`,
+    ];
+
+    addNotification(r.title, tags);
+    return tags;
+}
+
+function addNotification(title, tags) {
     notifications.push({
-        'title': r.title + additionalText,
+        'title': title,
         'tags': tags,
     });
-    return tags;
 }
 
 function remindersToNotifications(reminders) {
@@ -67,6 +86,8 @@ function remindersToNotifications(reminders) {
             addCadenceNotification(r.title);
         } else if (r.type == 'Date') {
             addDateNotification(r);
+        } else if (r.type == 'Per Month') {
+            addPerMonthNotification(r);
         }
     }
 }
@@ -77,28 +98,30 @@ function getNotifications() {
 }
 
 
-function calculateDaysAndMonths(endDate) {
-    const start = new Date();
-    const end = new Date(endDate);
+function updateTags(reminders) {
+    let nTags = {};
+    for (let r of reminders) {
 
-    // Calculate the difference in time (in milliseconds)
-    const diffInTime = end.getTime() - start.getTime();
+        if (r.type == 'Date') {
+            let countdownData = calculateDaysAndMonths(r.eventDate);
+            let tags = [
+                r.eventDate,
+                `${countdownData.days}`
+            ];
 
-    // Calculate the difference in days
-    const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+            if (countdownData.dayNum > 30)
+                tags.push(`${countdownData.months}`)
 
-    // Calculate the difference in months
-    const yearsDiff = end.getFullYear() - start.getFullYear();
-    const monthsDiff = end.getMonth() - start.getMonth();
+            nTags[r.title] = tags;
+        }
+    }
 
-    // Total months difference, rounded to the nearest whole number
-    const totalMonths = Math.round(yearsDiff * 12 + monthsDiff + (end.getDate() - start.getDate()) / 30);
+    for (let n of notifications) {
+        if (n.title in nTags) {
+            n.tags = nTags[n.title];
+        }
+    }
 
-    return {
-        dayNum: diffInDays,
-        days: diffInDays + 'd',
-        months: totalMonths + 'mo'
-    };
 }
 
 
@@ -109,5 +132,7 @@ export {
     addCadenceNotification,
     getNotifications,
     remindersToNotifications,
-    addDateNotification
+    addDateNotification,
+    addPerMonthNotification,
+    updateTags
 }

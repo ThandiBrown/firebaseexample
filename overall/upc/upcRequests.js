@@ -29,10 +29,19 @@ function dateRequest(task, eventDate, reminderDays) {
     }
 }
 
+function perMonthRequest(task, date) {
+    let [reminder, shouldNotify] = r.addPerMonthReminder(task, date);
+    u.addReminderElement(r.getElement(task, reminder.tags));
 
+    if (shouldNotify) {
+        let nTags = n.addPerMonthNotification(reminder);
+        u.addNotificationElement(n.getElement(task, nTags));
+    }
+}
 
 
 export {
     cadenceRequest,
-    dateRequest
+    dateRequest,
+    perMonthRequest
 }

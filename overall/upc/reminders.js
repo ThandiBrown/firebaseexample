@@ -1,4 +1,12 @@
-import { isToday } from "./upcRequestsHelper.js";
+import {
+    getClassName,
+    getNextInterval,
+    dateFormatted,
+    isToday,
+    getOrdinalIndicator,
+    getNextDateOfTheMonth,
+    calculateDaysAndMonths
+} from './elementHelper.js'
 
 let reminders;
 
@@ -50,6 +58,7 @@ function addCadenceReminder(task, startDate, cadence) {
     return tags
 }
 
+
 function addDateReminder(task, eventDate, reminderDays) {
 
     let showRemindersOn = [];
@@ -60,7 +69,7 @@ function addDateReminder(task, eventDate, reminderDays) {
 
     // order from highest to lowest
     reminderDays = reminderDays.sort((a, b) => Number(b) - Number(a));
-    console.log("reminderDays"); console.log(reminderDays);
+    // console.log("reminderDays"); console.log(reminderDays);
 
     let today = new Date();
     for (let day of reminderDays) {
@@ -73,7 +82,7 @@ function addDateReminder(task, eventDate, reminderDays) {
         }
     }
 
-    console.log("showRemindersOn"); console.log(showRemindersOn);
+    // console.log("showRemindersOn"); console.log(showRemindersOn);
 
     reminders.push({
         'type': 'Date',
@@ -82,44 +91,60 @@ function addDateReminder(task, eventDate, reminderDays) {
         'showRemindersOn': showRemindersOn,
         'tags': tags,
     });
-    console.log('reminders:');
-    console.log(reminders.slice(-1)[0]);
+    // console.log('reminders:');
+    // console.log(reminders.slice(-1)[0]);
     return [reminders.slice(-1)[0], shouldNotify];
 }
 
 
-function getNextInterval(startDate, cadence) {
-    const today = new Date(); // Get today's date
-    const start = new Date(startDate); // Convert startDate to a Date object
+function addPerMonthReminder(task, calDate) {
 
-    // If startDate is after today, return the first 14-day interval from startDate
-    if (start > today) {
-        // start.setDate(start.getDate() + cadence); // Add 14 days to the startDate
-        return start;
+    let shouldNotify = false;
+    let today = new Date();
+    let monthDate = calDate.split('-')[2];
+    let hasStarted = new Date(calDate) <= today;
+
+    let nextContactDate;
+    if (hasStarted) {
+        nextContactDate = getNextDateOfTheMonth(monthDate);
+    } else {
+        nextContactDate = calDate;
     }
 
-    // Calculate the difference in days between startDate and today
-    const diffInTime = today.getTime() - start.getTime();
-    const diffInDays = Math.floor(diffInTime / (1000 * 3600 * 24));
+    let countdownData = calculateDaysAndMonths(nextContactDate);
+    let tags = [
+        `(on ${monthDate}${getOrdinalIndicator(parseInt(monthDate))})`,
+        countdownData.days
+    ];
+    if (countdownData.dayNum > 30)
+        tags.push(`${countdownData.months}`)
 
-    // Find how many full 14-day intervals have passed
-    const intervalsPassed = Math.floor(diffInDays / cadence);
+    // if occurrence has started and is today
+    if (hasStarted && today.getDate() == parseInt(monthDate)) {
+        console.log('Notifying Request');
+        shouldNotify = true;
+    }
 
-    // Calculate the next date in the 14-day interval after today
-    const nextIntervalDate = new Date(start);
-    nextIntervalDate.setDate(start.getDate() + (intervalsPassed + 1) * cadence);
 
-    // Format the date as YYYY-MM-DD
-    return nextIntervalDate.toISOString().split('T')[0];
+    reminders.push({
+        'type': 'Per Month',
+        'title': task,
+        'startDate': calDate,
+        'monthDate': monthDate,
+        'nextContactDate': nextContactDate,
+        'tags': tags,
+    });
+    console.log('Per Month Reminder:');
+    console.log(JSON.stringify(reminders.slice(-1)[0], null, 2));
+
+    return [reminders.slice(-1)[0], shouldNotify];
 }
 
-function dateFormatted(date) {
-    return date.toISOString().split('T')[0];
-}
 
 function getReminders() {
     return reminders;
 }
+
 
 function checkForNotifications() {
     let remindersToNotify = [];
@@ -146,11 +171,18 @@ function checkForNotifications() {
                 }
             }
 
+        } else if (r.type == 'Per Month') {
+            // if has started and occurs today
+            if (new Date(r.startDate) <= today && today.getDate() == parseInt(r.monthDate)) {
+                remindersToNotify.push(structuredClone(r));
+                r.nextContactDate = getNextDateOfTheMonth(r.monthDate);
+            }
         }
     }
 
     return remindersToNotify;
 }
+
 
 function removeCompletedReminders() {
     let today = new Date();
@@ -168,9 +200,22 @@ function removeCompletedReminders() {
 
 }
 
+function updateTags() {
+    for (let r of reminders) {
+        if (r.type == 'Per Month') {
+            let countdownData = calculateDaysAndMonths(r.nextContactDate);
+            let tags = [
+                r.tags[0],
+                countdownData.days
+            ];
+            if (countdownData.dayNum > 30)
+                tags.push(`${countdownData.months}`)
 
+            r.tags = tags;
+        }
+    }
 
-
+}
 
 export {
     getElements,
@@ -181,5 +226,7 @@ export {
     getReminders,
     checkForNotifications,
     addDateReminder,
-    removeCompletedReminders
+    removeCompletedReminders,
+    addPerMonthReminder,
+    updateTags
 }
