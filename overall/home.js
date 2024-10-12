@@ -16,9 +16,9 @@ if (true) {
     initializeFirebase();
     t.getStarted();
 
-    // t.readDBHistory(updateHistory);
-    // e.saveAllDataListener();
-    // t.readDB(loadPage);
+    t.readDBHistory(updateHistory);
+    e.saveAllDataListener();
+    t.readDB(loadPage);
 } else {
     if (false) {
         initializeFirebase();
