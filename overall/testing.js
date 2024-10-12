@@ -8,7 +8,7 @@ function makeRequests() {
 }
 
 function addData(upcoming) {
-    dateData(upcoming);
+    // dateData(upcoming);
     // perMonthData(upcoming);
 }
 
