@@ -56,6 +56,39 @@ function returnRecordsAsBool(calendarData) {
 }
 
 function generateDatesFrom(startDateParam) {
+    let timeZone = moment.tz.guess();
+    const today = moment.tz(timeZone).startOf('day'); // Get today's date at the start of the day in the given time zone
+    let startDate;
+
+    // Convert startDateParam to a Moment.js object if it's a string or Date object
+    if (typeof startDateParam === 'string') {
+        startDate = moment.tz(startDateParam, 'YYYY-MM-DD', timeZone).startOf('day');
+    } else if (moment.isDate(startDateParam)) {
+        startDate = moment.tz(startDateParam, timeZone).startOf('day');
+    } else {
+        throw new Error("Invalid start date format. Provide a string or Date object.");
+    }
+
+    // Ensure startDate is before or equal to today
+    if (startDate.isAfter(today)) {
+        throw new Error("Start date must be before or equal to today.");
+    }
+
+    const dates = [];
+    let currentDate = startDate.clone(); // Clone the startDate for iteration
+
+    // Loop to generate dates from startDate to today
+    while (currentDate.isSameOrBefore(today)) {
+        // Add the formatted date to the list
+        dates.push(currentDate.format('YYYY-MM-DD'));
+        // Move to the next day
+        currentDate.add(1, 'day');
+    }
+
+    return dates;
+}
+
+function generateDatesFromOld(startDateParam) {
     // Convert startDateParam to a Date object if it's not already
     const today = getCentralTime();
     let startDate;

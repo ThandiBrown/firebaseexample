@@ -1,6 +1,4 @@
 import * as c from './component.js';
-import * as u from './upcomingHome.js';
-import * as uc from './upcomingComponent.js';
 import * as _ from './getThis.js';
 import * as actions from './actions.js'
 import * as d from './dataManager.js'
@@ -335,113 +333,7 @@ function submitConditionListener(pillar, conditionTag) {
     conditionTag.addEventListener('click', () => conditionTag.classList.toggle('submit-condition-selected'));
 }
 
-function actionTagListener(pillarElement, tag, actionName) {
-    if (actionName == 'Date') {
-        tag.addEventListener('click', function () {
-            let input = uc.createDateInput(pillarElement);
 
-            input.querySelector(".upcoming-input-btn").addEventListener('click', function () {
-                let newTask = input.querySelector("#newTask").value.trim();
-                let newTaskDate = input.querySelector("#newTaskDate").value.trim();
-                let priorReminder = input.querySelector("#priorReminder").value.trim();
-
-                if ([newTask, newTaskDate].includes('')) return;
-
-                let reminder = {
-                    'title': newTask,
-                    'occurringDate': newTaskDate
-                };
-
-                if (priorReminder.trim() != '') {
-                    let date = new Date(newTaskDate);
-                    date.setDate(date.getDate() - priorReminder);
-                    reminder.showReminder = date.toISOString().split('T')[0];
-                }
-                input.innerHTML = '';
-                // send reminder to data manager
-                // determine whether to add a notification
-                u.createReminderAndNotifications(reminder);
-                console.log("reminder"); console.log(reminder);
-            });
-        });
-    }
-
-    else if (actionName == 'Timer') {
-        tag.addEventListener('click', function () {
-            let input = uc.createTimerInput(pillarElement);
-
-            input.querySelector(".upcoming-input-btn").addEventListener('click', function () {
-                let newTask = input.querySelector("#newTask").value.trim();
-                let newTimerStart = input.querySelector("#newTimerStart").value.trim();
-                let newTimerEnd = input.querySelector("#newTimerEnd").value.trim();
-
-                if ([newTask, newTimerStart, newTimerEnd].includes('')) return;
-
-                let reminder = {
-                    'title': newTask,
-                    'timerStart': newTimerStart,
-                    'timerEnd': newTimerEnd,
-                    'occurringDate': newTimerEnd
-                };
-
-                input.innerHTML = '';
-                // send reminder to data manager
-                u.createReminderAndNotifications(reminder);
-                console.log("reminder"); console.log(reminder);
-            });
-        });
-    }
-
-    else if (actionName == 'Cadence') {
-        tag.addEventListener('click', function () {
-            let input = uc.createCadenceInput(pillarElement);
-
-            input.querySelector(".upcoming-input-btn").addEventListener('click', function () {
-                let newTask = input.querySelector("#newTask").value.trim();
-                let newStartDate = input.querySelector("#newStartDate").value.trim();
-                let newCadence = input.querySelector("#newCadence").value.trim();
-
-                if ([newTask, newStartDate, newCadence].includes('')) return;
-
-                let reminder = {
-                    'title': newTask,
-                    'startDate': newStartDate,
-                    'cadence': newCadence,
-                    'nextContactDate': getNextInterval(newStartDate, newCadence)
-                };
-
-                input.innerHTML = '';
-                // send reminder to data manager
-                u.createReminderAndNotifications(reminder);
-                console.log("reminder"); console.log(reminder);
-            });
-        });
-    }
-
-    else if (actionName == 'Per Month') {
-        tag.addEventListener('click', function () {
-            let input = uc.createPerMonthInput(pillarElement);
-
-            input.querySelector(".upcoming-input-btn").addEventListener('click', function () {
-                let newTask = input.querySelector("#newTask").value.trim();
-                let newMonthDate = input.querySelector("#newMonthDate").value.trim();
-
-                if ([newTask, newMonthDate].includes('')) return;
-
-                let reminder = {
-                    'title': newTask,
-                    'reoccurringDate': newMonthDate,
-                    'nextContactDate': getNextDayOfMonth(newMonthDate)
-                };
-
-                input.innerHTML = '';
-                // send reminder to data manager
-                u.createReminderAndNotifications(reminder);
-                console.log("reminder"); console.log(reminder);
-            });
-        });
-    }
-}
 
 function getNextDayOfMonth(num) {
     const today = new Date(); // Get today's date
@@ -496,7 +388,6 @@ export {
     deleteListRequest,
     submitListListener,
     submitConditionListener,
-    actionTagListener,
     getNextDayOfMonth,
     getNextInterval
 }

@@ -78,14 +78,14 @@ function getData() {
                 },
                 {
                     "type": "Date",
-                    "title": "Gynecologist Appointment",
-                    "eventDate": "2024-12-04",
+                    "title": "Ty Cookoff",
+                    "eventDate": "2024-10-15",
                     "showRemindersOn": [
-                        "2024-11-27",
-                        "2024-11-30"
+                        "2024-10-13"
                     ],
                     "tags": [
-                        "2024-12-04"
+                        "2024-10-15",
+                        "3d"
                     ]
                 },
                 {
@@ -96,18 +96,22 @@ function getData() {
                         "2024-10-19"
                     ],
                     "tags": [
-                        "2024-10-21"
+                        "2024-10-21",
+                        "9d"
                     ]
                 },
                 {
                     "type": "Date",
-                    "title": "Ty Cookoff",
-                    "eventDate": "2024-10-15",
+                    "title": "Gynecologist Appointment",
+                    "eventDate": "2024-12-04",
                     "showRemindersOn": [
-                        "2024-10-13"
+                        "2024-11-27",
+                        "2024-11-30"
                     ],
                     "tags": [
-                        "2024-10-15"
+                        "2024-12-04",
+                        "53d",
+                        "2mo"
                     ]
                 }
             ],

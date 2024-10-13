@@ -2,7 +2,6 @@ import { getData } from './tempData.js'
 import * as actions from './actions.js'
 import * as e from './eventListeners.js'
 import * as c from './component.js'
-import * as u from './upcomingHome.js'
 import * as um from './upc/main.js'
 import { initializeFirebase } from './comms/foundation.js'
 import * as t from './comms/talkToDatabase.js'
@@ -40,7 +39,7 @@ if (true) {
             });
 
     } else {
-        if (true) {
+        if (false) {
             initializeFirebase()
                 .then(() => {
                     // Runs after initializeFirebase is complete
