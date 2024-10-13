@@ -50,10 +50,10 @@ function initializeFirebase() {
 							const provider = new GoogleAuthProvider();
 							if (isMobile()) {
 								console.log('You are on a mobile device');
-								return signInWithRedirect(auth, provider);
+								signInWithRedirect(auth, provider);
 							} else {
 								console.log('You are on a desktop or non-mobile device');
-								return signInWithPopup(auth, provider);
+								signInWithPopup(auth, provider);
 							}
 
 						})
