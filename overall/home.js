@@ -85,6 +85,7 @@ function loadPage(usingDB, userData) {
         console.log("userData"); console.log(userData);
     }
 
+
     for (let [pillarName, pillarData] of Object.entries(userData)) {
 
         if (pillarName == 'Upcoming') {

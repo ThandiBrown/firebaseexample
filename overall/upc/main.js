@@ -17,7 +17,7 @@ function main(upcData) {
     r.setReminders(upcData.reminders);
     n.setNotifications(upcData.notifications);
 
-    if (true || u.shouldUpdate()) {
+    if (u.shouldUpdate()) {
         console.log('Performing Daily Update');
         let remindersToNotify = r.checkForNotifications();
         n.remindersToNotifications(remindersToNotify);
@@ -43,6 +43,8 @@ function printData() {
 }
 
 function getUpcomingData() {
+    u.setUpcReminders(r.getReminders());
+    u.setUpcNotifications(n.getNotifications());
     return u.getUpcomingData();
 }
 

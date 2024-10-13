@@ -145,6 +145,11 @@ function listItemListeners(listElement, listItem) {
     listValueElement.addEventListener('mouseup', clearTimer);
     listValueElement.addEventListener('mouseleave', clearTimer);
 
+    // Touch events
+    listValueElement.addEventListener('touchstart', startTimer);
+    listValueElement.addEventListener('touchend', clearTimer);
+    listValueElement.addEventListener('touchcancel', clearTimer);
+
     // DELETE BUTTON
     _.getDeleteButton(listItem).addEventListener('click', function () {
         if (listItem.classList.contains('checked')) {

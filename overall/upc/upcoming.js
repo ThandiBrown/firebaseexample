@@ -25,7 +25,7 @@ function setUpc(data) {
 }
 
 function shouldUpdate() {
-    return upcData.lastUpdated != new Date().toISOString().split('T')[0];
+    return !eh.isToday(upcData.lastUpdated);
 }
 
 function updateLastUpdated() {
@@ -182,6 +182,15 @@ function getUpcomingData() {
     return upcData;
 }
 
+function setUpcReminders(reminders) {
+    upcData.reminders = reminders;
+}
+
+function setUpcNotifications(notifications) {
+    upcData.notifications = notifications;
+}
+
+
 export {
     newUpc,
     setUpc,
@@ -194,5 +203,7 @@ export {
     getActionTags,
     addEventListeners,
     cadenceTagEL,
-    getUpcomingData
+    getUpcomingData,
+    setUpcReminders,
+    setUpcNotifications
 }

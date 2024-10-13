@@ -38,6 +38,12 @@ body * {
     background-color: lightblue;
 }
 
+.sticky-button {
+    position: sticky;
+    top: 0; /* Sticks to the top */
+    z-index: 1000; /* Ensure it stays on top of other content */
+}
+  
 .flexible {
     display: flex;
 }

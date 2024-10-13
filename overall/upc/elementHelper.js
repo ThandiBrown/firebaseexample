@@ -41,12 +41,24 @@ function isTheDay(dateString) {
     return inputDate.isSame(today, 'day');
 }
 
-function beforeOrOnToday(dateString) {
+function isBeforeOrOnToday(dateString) {
     let timeZone = moment.tz.guess();
     const today = moment.tz(timeZone).startOf('day'); // Get today's date in the specified timezone
     const inputDate = moment.tz(dateString, 'YYYY-MM-DD', timeZone).startOf('day'); // Parse the input date in the same timezone
 
     if (inputDate.isBefore(today) || inputDate.isSame(today)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isToday(dateString) {
+    let timeZone = moment.tz.guess();
+    const today = moment.tz(timeZone).startOf('day'); // Get today's date in the specified timezone
+    const inputDate = moment.tz(dateString, 'YYYY-MM-DD', timeZone).startOf('day'); // Parse the input date in the same timezone
+
+    if (inputDate.isSame(today)) {
         return true;
     } else {
         return false;
@@ -155,7 +167,8 @@ export {
     getNextDateOfTheMonth,
     calculateDaysAndMonths,
     getPercentageComplete,
-    beforeOrOnToday,
+    isBeforeOrOnToday,
     isBeforeToday,
-    getDateWithOffset
+    getDateWithOffset,
+    isToday
 }

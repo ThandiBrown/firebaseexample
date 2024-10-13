@@ -18,7 +18,8 @@ function printUserData(value = userData, title = 'userData') {
 function saveToDB() {
     console.log("saveToDB");
     userData.Upcoming = um.getUpcomingData();
-    console.log("userData"); console.log(userData);
+    console.log("userData");
+    console.log(JSON.stringify(userData, null, 2));
     t.writeDB(userData);
 }
 
