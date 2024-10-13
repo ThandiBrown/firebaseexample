@@ -3,7 +3,7 @@ import * as actions from './actions.js'
 import * as e from './eventListeners.js'
 import * as c from './component.js'
 import * as um from './upc/main.js'
-import { initializeFirebase } from './comms/foundation.js'
+import * as a from './comms/alternate.js'
 import * as t from './comms/talkToDatabase.js'
 import * as test from './upc/testing.js'
 
@@ -12,16 +12,17 @@ NEXT:
 make the collapse function
 add the submit area
 */
-if (true) {
-    initializeFirebase()
-        .then(() => {
-            console.log('We Made It');
-            // Runs after initializeFirebase is complete
-            // t.getStarted();
 
-            // t.readDBHistory(updateHistory);
-            // e.saveAllDataListener();
-            // t.readDB(loadPage);
+if (true) {
+    a.initializeFirebase()
+        .then(() => {
+            // console.log('We Made It');
+            // Runs after initializeFirebase is complete
+            t.getStarted();
+
+            t.readDBHistory(updateHistory);
+            e.saveAllDataListener();
+            t.readDB(loadPage);
         })
         .catch((error) => {
             console.error("Error initializing Firebase:", error);
@@ -39,7 +40,7 @@ if (true) {
                 console.error("Error initializing Firebase2:", error);
             });
 
-    } else {
+    } else if (false) {
         if (false) {
             initializeFirebase()
                 .then(() => {
