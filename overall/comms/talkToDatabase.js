@@ -7,6 +7,7 @@ let db;
 
 
 function getStarted() {
+    console.log(71);
     db = getDatabase();
 }
 

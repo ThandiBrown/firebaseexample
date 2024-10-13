@@ -21,9 +21,47 @@ function initializeFirebase() {
 
 			// Initialize Firebase
 			const app = initializeApp(firebaseConfig);
-			authenticate(app);
-			// Resolve the promise once initialization is done
-			resolve(app);
+			// authenticate(app);
+
+			const auth = getAuth(app);
+			auth.languageCode = 'en';
+
+			// const user = auth.currentUser;
+
+			// Listen for changes in the authentication state
+			onAuthStateChanged(auth, (user) => {
+				if (user) {
+					// User is signed in, no need to re-authenticate
+					console.log('User is already signed in:', user.email);
+					resolve();
+				} else {
+					// No user is signed in, proceed with Google login
+					setPersistence(auth, browserLocalPersistence)
+						.then(() => {
+							const provider = new GoogleAuthProvider();
+							if (isMobile()) {
+								console.log('You are on a mobile device');
+								return signInWithRedirect(auth, provider);
+							} else {
+								console.log('You are on a desktop or non-mobile device');
+								return signInWithPopup(auth, provider);
+							}
+
+						})
+						.then((result) => {
+							// The signed-in user info can be accessed here
+							console.log('User signed in:', result.user.email);
+							resolve();
+						})
+						.catch((error) => {
+							// Handle errors here
+							console.error('Error during sign-in:', error);
+							reject(error);
+						});
+				}
+			});
+
+
 		} catch (error) {
 			reject(error);  // Reject the promise if something goes wrong
 		}
