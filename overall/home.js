@@ -5,7 +5,7 @@ import * as c from './component.js'
 import * as um from './upc/main.js'
 import { initializeFirebase } from './comms/foundation.js'
 import * as t from './comms/talkToDatabase.js'
-import * as test from './testing.js'
+import * as test from './upc/testing.js'
 
 /* 
 NEXT:

@@ -102,7 +102,7 @@ function addDateReminder(task, eventDate, reminderDays) {
 
     let showRemindersOn = [];
     let shouldNotify = false;
-    let countdownData = calculateDaysAndMonths(nextContactDate);
+    let countdownData = calculateDaysAndMonths(eventDate);
     let tags = [
         `${eventDate}`,
         countdownData.days

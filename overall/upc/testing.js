@@ -1,4 +1,4 @@
-import * as ur from './upc/upcRequests.js'
+import * as ur from './upcRequests.js'
 
 
 
