@@ -15,12 +15,13 @@ add the submit area
 if (true) {
     initializeFirebase()
         .then(() => {
+            console.log('We Made It');
             // Runs after initializeFirebase is complete
-            t.getStarted();
+            // t.getStarted();
 
-            t.readDBHistory(updateHistory);
-            e.saveAllDataListener();
-            t.readDB(loadPage);
+            // t.readDBHistory(updateHistory);
+            // e.saveAllDataListener();
+            // t.readDB(loadPage);
         })
         .catch((error) => {
             console.error("Error initializing Firebase:", error);

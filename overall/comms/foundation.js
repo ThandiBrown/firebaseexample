@@ -2,9 +2,22 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import {
 	getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider,
-	setPersistence, browserLocalPersistence, onAuthStateChanged, signOut
+	setPersistence, browserLocalPersistence, onAuthStateChanged, signOut,
+	getRedirectResult
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
+function logOutUser() {
+	const auth = getAuth(); // Initialize Firebase Auth instance
+
+	signOut(auth)
+		.then(() => {
+			console.log("User signed out successfully.");
+			// Optionally, you can redirect the user or update the UI
+		})
+		.catch((error) => {
+			console.error("Error signing out:", error);
+		});
+}
 
 function initializeFirebase() {
 	return new Promise((resolve, reject) => {
@@ -21,106 +34,71 @@ function initializeFirebase() {
 
 			// Initialize Firebase
 			const app = initializeApp(firebaseConfig);
-			// authenticate(app);
-
 			const auth = getAuth(app);
 			auth.languageCode = 'en';
 
 			// signOut(auth)
 			// 	.then(() => {
 			// 		console.log("User signed out successfully.");
-			// 		// Optionally, you can redirect or take additional actions here
+			// 		// Optionally, you can redirect the user or update the UI
 			// 	})
 			// 	.catch((error) => {
 			// 		console.error("Error signing out:", error);
 			// 	});
 
-			// const user = auth.currentUser;
-
-			// Listen for changes in the authentication state
+			// Check for authentication state changes
 			onAuthStateChanged(auth, (user) => {
 				if (user) {
-					// User is signed in, no need to re-authenticate
+					// User is already signed in
 					console.log('User is already signed in:', user.email);
-					resolve();
+					resolve(); // Ensure resolve is only called here when the user is already signed in
 				} else {
-					// No user is signed in, proceed with Google login
+					// Handle sign-in process
 					setPersistence(auth, browserLocalPersistence)
 						.then(() => {
 							const provider = new GoogleAuthProvider();
-							if (true || isMobile()) {
+
+							if (isMobile()) {
 								console.log('You are on a mobile device');
-								return signInWithRedirect(auth, provider);
+								return signInWithRedirect(auth, provider); // Redirect for mobile
 							} else {
 								console.log('You are on a desktop or non-mobile device');
-								return signInWithPopup(auth, provider);
+								return signInWithPopup(auth, provider); // Popup for non-mobile
 							}
-
 						})
 						.then((result) => {
-							// The signed-in user info can be accessed here
-							console.log('User signed in:', result.user.email);
-							resolve();
+							// This block handles sign-in for non-redirect methods (e.g. desktop popup)
+							if (result && result.user) {
+								console.log('User signed in:', result.user.email);
+								resolve();
+							}
 						})
 						.catch((error) => {
-							// Handle errors here
 							console.error('Error during sign-in:', error);
-							reject(error);
+							reject(error); // Reject the promise if there is an error
 						});
 				}
 			});
 
+			// Handle redirects (if using signInWithRedirect)
+			getRedirectResult(auth)
+				.then((result) => {
+					if (result && result.user) {
+						console.log('User signed in with redirect:', result.user.email);
+						resolve();
+					}
+				})
+				.catch((error) => {
+					console.error('Error getting redirect result:', error);
+					reject(error); // Handle errors during the redirect process
+				});
 
 		} catch (error) {
-			reject(error);  // Reject the promise if something goes wrong
+			reject(error); // Reject the promise if something goes wrong
 		}
 	});
 }
 
-function authenticate(app) {
-	const auth = getAuth(app);
-	auth.languageCode = 'en';
-	signOut(auth)
-		.then(() => {
-			console.log("User signed out successfully.");
-			// Optionally, you can redirect or take additional actions here
-		})
-		.catch((error) => {
-			console.error("Error signing out:", error);
-		});
-	// const user = auth.currentUser;
-
-	// Listen for changes in the authentication state
-	// onAuthStateChanged(auth, (user) => {
-	// 	if (user) {
-	// 		// User is signed in, no need to re-authenticate
-	// 		console.log('User is already signed in:', user.email);
-	// 	} else {
-	// 		// No user is signed in, proceed with Google login
-	// 		setPersistence(auth, browserLocalPersistence)
-	// 			.then(() => {
-	// 				const provider = new GoogleAuthProvider();
-	// 				if (isMobile()) {
-	// 					console.log('You are on a mobile device');
-	// 					return signInWithRedirect(auth, provider);
-	// 				} else {
-	// 					console.log('You are on a desktop or non-mobile device');
-	// 					return signInWithPopup(auth, provider);
-	// 				}
-
-	// 			})
-	// 			.then((result) => {
-	// 				// The signed-in user info can be accessed here
-	// 				console.log('User signed in:', result.user.email);
-	// 			})
-	// 			.catch((error) => {
-	// 				// Handle errors here
-	// 				console.error('Error during sign-in:', error);
-	// 			});
-	// 	}
-	// });
-
-}
 
 function isMobile() {
 	const userAgent = navigator.userAgent || navigator.vendor || window.opera;
