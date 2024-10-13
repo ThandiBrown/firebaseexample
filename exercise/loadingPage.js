@@ -1,6 +1,9 @@
 import { readDB, writeDB } from './data/talkToDatabase.js'
 import { returnExercises } from './exerciseList.js'
-import { retrieveSelectedCheckboxesForToday } from './userInputDate.js'
+import {
+    retrieveSelectedCheckboxesForToday,
+    placeYesterdaysDate
+} from './userInputDate.js'
 import {
     getTodaysInfo,
     alternateDisplay,
@@ -25,15 +28,19 @@ window.onload = function () {
 
 loadingSettings();
 
+
+
 function loadingSettings() {
     readDB("", loadingPage);
 }
 
 function loadingPage(response) {
     let exerciseInformationObj = response[0];
+
     let settings = JSON.parse(exerciseInformationObj.settings.info);
     let lastPerformed = JSON.parse(exerciseInformationObj._last_performed.info);
     let weightClassDict = JSON.parse(exerciseInformationObj.weight_classes.info);
+
     displayDaysSinceLastPerformed(settings, lastPerformed, true);
     retrieveSelectedCheckboxesForToday();
     addEventListeners();

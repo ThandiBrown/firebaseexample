@@ -138,4 +138,5 @@ export {
     placeNoDate,
     placePreviousDate,
     placeNextDate,
+    placeYesterdaysDate
 }
