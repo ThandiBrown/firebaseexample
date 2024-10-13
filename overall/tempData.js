@@ -68,36 +68,51 @@ function getData() {
             "reminders": [
                 {
                     "type": "Cadence",
-                    "title": "hello",
-                    "startDate": "2024-10-03",
-                    "cadence": "2",
-                    "nextContactDate": "2024-10-07",
+                    "title": "Game Night",
+                    "startDate": "2024-10-08",
+                    "cadence": "7",
+                    "nextContactDate": "2024-10-15",
                     "tags": [
-                        "Every 2 days"
+                        "Every 7 days"
                     ]
                 },
                 {
-                    "type": "Cadence",
-                    "title": "Again",
-                    "startDate": "2024-10-03",
-                    "cadence": "2",
-                    "nextContactDate": "2024-10-07",
+                    "type": "Date",
+                    "title": "Gynecologist Appointment",
+                    "eventDate": "2024-12-04",
+                    "showRemindersOn": [
+                        "2024-11-27",
+                        "2024-11-30"
+                    ],
                     "tags": [
-                        "Every 2 days"
+                        "2024-12-04"
+                    ]
+                },
+                {
+                    "type": "Date",
+                    "title": "Chinue Day: Common Desk, Penguin",
+                    "eventDate": "2024-10-21",
+                    "showRemindersOn": [
+                        "2024-10-19"
+                    ],
+                    "tags": [
+                        "2024-10-21"
+                    ]
+                },
+                {
+                    "type": "Date",
+                    "title": "Ty Cookoff",
+                    "eventDate": "2024-10-15",
+                    "showRemindersOn": [
+                        "2024-10-13"
+                    ],
+                    "tags": [
+                        "2024-10-15"
                     ]
                 }
             ],
-            "notifications": [
-                {
-                    "title": "hello",
-                    "tags": []
-                },
-                {
-                    "title": "Again",
-                    "tags": []
-                }
-            ],
-            "lastUpdated": "2024-10-05"
+            "notifications": [],
+            "lastUpdated": "2024-10-12"
         },
         "Upkeep": {
             "status": {},
@@ -105,16 +120,14 @@ function getData() {
                 {
                     "type": "exercise",
                     "startDate": "2024-10-12",
-                    "fulfilled": [
-                    ],
+                    "fulfilled": [],
                     "progressed": []
                 },
                 {
                     "type": "eating",
                     "startDate": "2024-10-12",
                     "fulfilled": [],
-                    "progressed": [
-                    ]
+                    "progressed": []
                 }
             ],
             "lists": {
@@ -130,20 +143,6 @@ function getData() {
                         {
                             "title": "By Dad Birthday Gift",
                             "tag": ""
-                        }
-                    ],
-                    "selectedTags": []
-                },
-                "Conditional": {
-                    "items": [
-                        {
-                            "title": "Ask company to mail w2 to chinue address",
-                            "checked": false,
-                            "in-progress": false
-                        },
-                        {
-                            "title": "Makeup with chinue",
-                            "tag": "Chinue's House"
                         }
                     ],
                     "selectedTags": []
@@ -185,61 +184,36 @@ function getData() {
                             "title": "All new emails",
                             "checked": false,
                             "in-progress": true
-                        }
-                    ],
-                    "selectedTags": []
-                },
-                "Day Checkpoints": {
-                    "items": [
-                        {
-                            "title": "Hygiene, shower and start work by 630"
                         },
                         {
-                            "title": "Technique: make green tea 1st, ear buds knox hill video"
-                        },
-                        {
-                            "title": "Water / liquid only day"
-                        },
-                        {
-                            "title": "Prop up laptop for neck"
-                        },
-                        {
-                            "title": "Use counters as stand up desk"
-                        },
-                        {
-                            "title": "*Follow* day's layout / routine"
+                            "title": "Ask company to mail w2 to chinue address ",
+                            "tag": "work"
                         }
                     ],
                     "selectedTags": []
                 },
                 "Shopping": {
-                    "items": [
-                        {
-                            "title": "Magnesium gummies",
-                            "tag": ""
-                        },
-                        {
-                            "title": "K gingerade,gingerberry",
-                            "tag": ""
-                        }
-                    ],
+                    "items": [],
                     "selectedTags": []
                 },
                 "Notes": {
-                    "items": [
-                        {
-                            "title": "9/26 New Batch K",
-                            "tag": ""
-                        }
-                    ],
+                    "items": [],
                     "selectedTags": []
                 }
             }
         },
         "Entertainment": {
             "status": {
-                "collapsed": true
+                "collapsed": false
             },
+            "calendar": [
+                {
+                    "type": "socials",
+                    "startDate": "2024-10-12",
+                    "fulfilled": [],
+                    "progressed": []
+                }
+            ],
             "lists": {
                 "Hobbies to Try": {
                     "items": [],
@@ -275,12 +249,7 @@ function getData() {
             },
             "lists": {
                 "Calls and Messaging": {
-                    "items": [
-                        {
-                            "title": "Respond to Lashonda",
-                            "tag": ""
-                        }
-                    ],
+                    "items": [],
                     "selectedTags": []
                 },
                 "Gifts List": {
@@ -292,6 +261,15 @@ function getData() {
                         {
                             "title": "Chinue friend's walking at desk device",
                             "tag": ""
+                        }
+                    ],
+                    "selectedTags": []
+                },
+                "Activities": {
+                    "items": [
+                        {
+                            "title": "Makeup with chinue ",
+                            "tag": "Chinue's house"
                         }
                     ],
                     "selectedTags": []

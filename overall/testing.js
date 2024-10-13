@@ -5,11 +5,86 @@ import * as ur from './upc/upcRequests.js'
 
 function makeRequests() {
     // perMonthRequests();
+    // timerRequests();
 }
 
 function addData(upcoming) {
     // dateData(upcoming);
     // perMonthData(upcoming);
+    // timerData(upcoming);
+}
+
+function timerRequests() {
+    // 
+    ur.timerRequest(
+        'Timer Hasn\'t Started',
+        getDateWithOffset(10),
+        getDateWithOffset(20),
+    )
+
+    // 
+    ur.timerRequest(
+        'Timer Is Ongoing',
+        getDateWithOffset(-5),
+        getDateWithOffset(5)
+    )
+
+    ur.timerRequest(
+        'Timer Has Ended',
+        getDateWithOffset(-10),
+        getDateWithOffset(-5)
+    )
+
+    ur.timerRequest(
+        'Timer Has Ends Today',
+        getDateWithOffset(-10),
+        getDateWithOffset(0)
+    )
+}
+
+function timerData(upcoming) {
+    upcoming.reminders.push(
+        {
+            "type": "Timer",
+            "title": "Timer Hasn't Started",
+            "startDate": "2024-10-22",
+            "endDate": "2024-11-01",
+            "tags": [
+                "(starts)",
+                "7d"
+            ]
+        },
+        {
+            "type": "Timer",
+            "title": "Timer Is Ongoing",
+            "startDate": "2024-10-07",
+            "endDate": "2024-10-17",
+            "tags": [
+                "7d",
+                "70%"
+            ]
+        },
+        {
+            "type": "Timer",
+            "title": "Timer Has Ended",
+            "startDate": "2024-10-02",
+            "endDate": "2024-10-11",
+            "tags": [
+                "0d",
+                "100%"
+            ]
+        },
+        {
+            "type": "Timer",
+            "title": "Timer Has Ends Today",
+            "startDate": "2024-10-02",
+            "endDate": "2024-10-12",
+            "tags": [
+                "0d",
+                "100%"
+            ]
+        }
+    );
 }
 
 function perMonthRequests() {

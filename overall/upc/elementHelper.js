@@ -2,37 +2,33 @@ function getClassName(value) {
     return value.toLowerCase().replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, '')
 }
 
-
 function getNextInterval(startDate, cadence) {
-    const today = new Date(); // Get today's date
-    const start = new Date(startDate); // Convert startDate to a Date object
+    const today = moment().startOf('day'); // Get today's date, set time to start of the day
+    const start = moment(startDate, 'YYYY-MM-DD').startOf('day'); // Parse startDate and set to start of the day
 
-    // If startDate is after today, return the first 14-day interval from startDate
-    if (start > today) {
-        // start.setDate(start.getDate() + cadence); // Add 14 days to the startDate
-        return start;
+    // If startDate is after today, return the first interval from startDate
+    if (start.isAfter(today)) {
+        return start.add(cadence, 'days').format('YYYY-MM-DD'); // Return the first interval date
     }
 
     // Calculate the difference in days between startDate and today
-    const diffInTime = today.getTime() - start.getTime();
-    const diffInDays = Math.floor(diffInTime / (1000 * 3600 * 24));
+    const diffInDays = today.diff(start, 'days');
 
-    // Find how many full 14-day intervals have passed
+    // Find how many full intervals have passed
     const intervalsPassed = Math.floor(diffInDays / cadence);
 
-    // Calculate the next date in the 14-day interval after today
-    const nextIntervalDate = new Date(start);
-    nextIntervalDate.setDate(start.getDate() + (intervalsPassed + 1) * cadence);
+    // Calculate the next date in the cadence interval after today
+    const nextIntervalDate = start.add((intervalsPassed + 1) * cadence, 'days');
 
-    // Format the date as YYYY-MM-DD
-    return nextIntervalDate.toISOString().split('T')[0];
+    // Return the next interval date in YYYY-MM-DD format
+    return nextIntervalDate.format('YYYY-MM-DD');
 }
 
 function dateFormatted(date) {
     return date.toISOString().split('T')[0];
 }
 // Function to check if the date string is today
-function isToday(dateString) {
+function isTheDay(dateString) {
     let timeZone = moment.tz.guess();
 
     // Parse the input date in the specified time zone
@@ -43,6 +39,30 @@ function isToday(dateString) {
 
     // Compare only by the day in the specified time zone
     return inputDate.isSame(today, 'day');
+}
+
+function beforeOrOnToday(dateString) {
+    let timeZone = moment.tz.guess();
+    const today = moment.tz(timeZone).startOf('day'); // Get today's date in the specified timezone
+    const inputDate = moment.tz(dateString, 'YYYY-MM-DD', timeZone).startOf('day'); // Parse the input date in the same timezone
+
+    if (inputDate.isBefore(today) || inputDate.isSame(today)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isBeforeToday(dateString) {
+    let timeZone = moment.tz.guess();
+    const today = moment.tz(timeZone).startOf('day'); // Get today's date in the specified timezone
+    const inputDate = moment.tz(dateString, 'YYYY-MM-DD', timeZone).startOf('day'); // Parse the input date in the same timezone
+
+    if (inputDate.isBefore(today)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function getOrdinalIndicator(num) {
@@ -58,62 +78,84 @@ function getOrdinalIndicator(num) {
     return (suffixes[num % 10] || suffixes[0]); // Default to "th" for numbers >= 20
 }
 
-
 function getNextDateOfTheMonth(day) {
-    const today = new Date();
-    const currentMonth = today.getMonth(); // Get the current month (0-indexed)
-    const currentYear = today.getFullYear(); // Get the current year
+    const today = moment().startOf('day'); // Get today's date and set time to start of the day
+    let nextDate = moment().date(day).startOf('day'); // Set the day for the current month and reset time
 
-    // Create a date for the given day in the current month
-    const nextDate = new Date(currentYear, currentMonth, day);
-
-    // Check if the day has already passed in the current month
-    if (today.getDate() >= day) {
-        // If today is past the given day, move to the next month
-        nextDate.setMonth(currentMonth + 1);
+    // Check if today is past the given day in the current month
+    if (today.date() >= day) {
+        // Move to the next month if today is past the given day
+        nextDate.add(1, 'month');
     }
 
-    // If the given day exceeds the number of days in the next month,
-    // set the date to the last day of that month
-    const lastDayOfNextMonth = new Date(currentYear, nextDate.getMonth() + 1, 0).getDate();
+    // Ensure the day doesn't exceed the number of days in the next month
+    const lastDayOfNextMonth = nextDate.clone().endOf('month').date(); // Get the last day of the next month
     if (day > lastDayOfNextMonth) {
-        nextDate.setDate(lastDayOfNextMonth);
+        nextDate.date(lastDayOfNextMonth); // Adjust the date to the last day of the month if necessary
     }
 
-    return nextDate.toISOString().split('T')[0]; // Return date in YYYY-MM-DD format
+    return nextDate.format('YYYY-MM-DD'); // Return the date in YYYY-MM-DD format
 }
 
-
 function calculateDaysAndMonths(endDate) {
-    const start = new Date();
-    const end = new Date(endDate);
-
-    // Calculate the difference in time (in milliseconds)
-    const diffInTime = end.getTime() - start.getTime();
+    const start = moment().startOf('day');  // Get today's date and set time to start of the day
+    const end = moment(endDate, 'YYYY-MM-DD').startOf('day');  // Parse endDate and set to start of the day
 
     // Calculate the difference in days
-    const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+    const diffInDays = end.diff(start, 'days');
 
-    // Calculate the difference in months
-    const yearsDiff = end.getFullYear() - start.getFullYear();
-    const monthsDiff = end.getMonth() - start.getMonth();
-
-    // Total months difference, rounded to the nearest whole number
-    const totalMonths = Math.round(yearsDiff * 12 + monthsDiff + (end.getDate() - start.getDate()) / 30);
+    // Calculate the difference in months, including partial months
+    const totalMonths = end.diff(start, 'months', true);  // The 'true' flag includes partial months
 
     return {
         dayNum: diffInDays,
         days: diffInDays + 'd',
-        months: totalMonths + 'mo'
+        months: Math.round(totalMonths) + 'mo'  // Round total months to nearest whole number
     };
+}
+
+function getPercentageComplete(startDate, endDate) {
+    const start = moment(startDate, 'YYYY-MM-DD').startOf('day');  // Parse startDate
+    const end = moment(endDate, 'YYYY-MM-DD').startOf('day');  // Parse endDate
+    const today = moment().startOf('day');  // Get today's date and set time to the start of the day
+
+    // Ensure today's date doesn't exceed the endDate
+    const current = today.isAfter(end) ? end : today;
+
+    // Calculate total duration between startDate and endDate (in milliseconds)
+    const totalDuration = end.diff(start);
+
+    // Calculate the duration from startDate to today
+    const elapsedDuration = current.diff(start);
+
+    // Calculate the percentage complete
+    const percentageComplete = (elapsedDuration / totalDuration) * 100;
+
+    // Return the percentage, ensuring it is not below 0 or above 100
+    return Math.min(Math.max(percentageComplete, 0), 100).toFixed(0) + '%';
+}
+
+function getDateWithOffset(days) {
+    let timeZone = moment.tz.guess();
+    const today = moment.tz(timeZone).startOf('day'); // Get today's date and set to start of the day
+
+    // Add or subtract the specified number of days
+    const offsetDate = today.add(days, 'days');
+
+    // Return the date in YYYY-MM-DD format
+    return offsetDate.format('YYYY-MM-DD');
 }
 
 export {
     getClassName,
     getNextInterval,
     dateFormatted,
-    isToday,
+    isTheDay,
     getOrdinalIndicator,
     getNextDateOfTheMonth,
-    calculateDaysAndMonths
+    calculateDaysAndMonths,
+    getPercentageComplete,
+    beforeOrOnToday,
+    isBeforeToday,
+    getDateWithOffset
 }

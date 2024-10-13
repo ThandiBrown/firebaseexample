@@ -1,11 +1,13 @@
 import {
-    getClassName,
+    getPercentageComplete,
     getNextInterval,
     dateFormatted,
-    isToday,
+    isTheDay,
     getOrdinalIndicator,
     getNextDateOfTheMonth,
-    calculateDaysAndMonths
+    calculateDaysAndMonths,
+    beforeOrOnToday,
+    isBeforeToday
 } from './elementHelper.js'
 
 let reminders;
@@ -38,6 +40,43 @@ function getElement(task, tags) {
 
 function setReminders(value) {
     reminders = value;
+    reminders.sort((a, b) => {
+        let aDate;
+        let bDate;
+        if (a.nextContactDate) {
+            aDate = a.nextContactDate;
+        } else if (a.eventDate) {
+            aDate = a.eventDate;
+        } else if (a.endDate) {
+            aDate = a.endDate;
+        } else {
+            aDate = '2026-01-01';
+        }
+
+        if (b.nextContactDate) {
+            bDate = b.nextContactDate;
+        } else if (b.eventDate) {
+            bDate = b.eventDate;
+        } else if (b.endDate) {
+            bDate = b.endDate;
+        } else {
+            bDate = '2026-01-01';
+        }
+
+        const dateA = aDate ? new Date(aDate) : null;
+        const dateB = bDate ? new Date(bDate) : null;
+
+        // Handle cases where one or both reminders don't have occurringDate
+        if (dateA && dateB) {
+            return dateA - dateB; // Sort by date
+        } else if (dateA) {
+            return -1; // Keep items with dates before those without dates
+        } else if (dateB) {
+            return 1; // Keep items with dates before those without dates
+        } else {
+            return 0; // No dates, so maintain current order
+        }
+    });
 }
 
 
@@ -63,9 +102,13 @@ function addDateReminder(task, eventDate, reminderDays) {
 
     let showRemindersOn = [];
     let shouldNotify = false;
+    let countdownData = calculateDaysAndMonths(nextContactDate);
     let tags = [
-        `${eventDate}`
+        `${eventDate}`,
+        countdownData.days
     ];
+    if (countdownData.dayNum > 30)
+        tags.push(`${countdownData.months}`)
 
     // order from highest to lowest
     reminderDays = reminderDays.sort((a, b) => Number(b) - Number(a));
@@ -77,7 +120,7 @@ function addDateReminder(task, eventDate, reminderDays) {
         date.setDate(date.getDate() - day);
         if (date > today) {
             showRemindersOn.push(dateFormatted(date));
-        } else if (isToday(dateFormatted(date))) {
+        } else if (isTheDay(dateFormatted(date))) {
             shouldNotify = true;
         }
     }
@@ -102,7 +145,7 @@ function addPerMonthReminder(task, calDate) {
     let shouldNotify = false;
     let today = new Date();
     let monthDate = calDate.split('-')[2];
-    let hasStarted = new Date(calDate) <= today;
+    let hasStarted = beforeOrOnToday(calDate);
 
     let nextContactDate;
     if (hasStarted) {
@@ -113,7 +156,7 @@ function addPerMonthReminder(task, calDate) {
 
     let countdownData = calculateDaysAndMonths(nextContactDate);
     let tags = [
-        `(on ${monthDate}${getOrdinalIndicator(parseInt(monthDate))})`,
+        `(on ${parseInt(monthDate)}${getOrdinalIndicator(parseInt(monthDate))})`,
         countdownData.days
     ];
     if (countdownData.dayNum > 30)
@@ -141,6 +184,52 @@ function addPerMonthReminder(task, calDate) {
 }
 
 
+function addTimerReminder(task, startDate, endDate) {
+
+    if (isBeforeToday(endDate)) {
+        return [{}, false];
+    }
+
+    let shouldNotify = false;
+    let today = new Date();
+    let hasStarted = beforeOrOnToday(startDate);
+    let tags;
+
+    if (!hasStarted) {
+        let countdownData = calculateDaysAndMonths(startDate);
+        tags = [
+            // `${countdownData.days} til start`
+            '(starts)',
+            countdownData.days
+        ];
+        if (countdownData.dayNum > 30)
+            tags.push(`${countdownData.months}`)
+
+    } else {
+        let countdownData = calculateDaysAndMonths(endDate);
+        tags = [
+            countdownData.days
+        ];
+        if (countdownData.dayNum > 30)
+            tags.push(`${countdownData.months}`)
+
+        tags.push(getPercentageComplete(startDate, endDate));
+    }
+
+    reminders.push({
+        'type': 'Timer',
+        'title': task,
+        'startDate': startDate,
+        'endDate': endDate,
+        'tags': tags,
+    });
+    console.log('Timer Reminder:');
+    console.log(JSON.stringify(reminders.slice(-1)[0], null, 2));
+
+    return [reminders.slice(-1)[0], shouldNotify];
+}
+
+
 function getReminders() {
     return reminders;
 }
@@ -152,17 +241,18 @@ function checkForNotifications() {
 
     for (let r of reminders) {
         if (r.type == 'Cadence') {
-            if (new Date(r.nextContactDate) <= today) {
+            if (beforeOrOnToday(r.nextContactDate)) {
                 remindersToNotify.push(structuredClone(r));
                 r.nextContactDate = getNextInterval(r.startDate, r.cadence);
             }
         } else if (r.type == 'Date') {
 
-            if (new Date(r.eventDate) <= today) {
+            if (beforeOrOnToday(r.eventDate)) {
+                console.log(99);
                 remindersToNotify.push(structuredClone(r));
             } else {
                 let shouldNotify = false;
-                while (new Date(r.showRemindersOn[0]) <= today) {
+                while (beforeOrOnToday(r.showRemindersOn[0])) {
                     r.showRemindersOn.shift();
                     shouldNotify = true;
                 }
@@ -173,7 +263,7 @@ function checkForNotifications() {
 
         } else if (r.type == 'Per Month') {
             // if has started and occurs today
-            if (new Date(r.startDate) <= today && today.getDate() == parseInt(r.monthDate)) {
+            if (beforeOrOnToday(r.startDate) && today.getDate() == parseInt(r.monthDate)) {
                 remindersToNotify.push(structuredClone(r));
                 r.nextContactDate = getNextDateOfTheMonth(r.monthDate);
             }
@@ -185,10 +275,11 @@ function checkForNotifications() {
 
 
 function removeCompletedReminders() {
-    let today = new Date();
     reminders = reminders.filter(function (r) {
         let completed = false;
-        if (r.type == 'Date' && new Date(r.eventDate) <= today) {
+        if (r.type == 'Date' && beforeOrOnToday(r.eventDate)) {
+            completed = true;
+        } else if (r.type == 'Timer' && isBeforeToday(r.endDate)) {
             completed = true;
         }
 
@@ -202,14 +293,41 @@ function removeCompletedReminders() {
 
 function updateTags() {
     for (let r of reminders) {
-        if (r.type == 'Per Month') {
-            let countdownData = calculateDaysAndMonths(r.nextContactDate);
+        if (['Per Month', 'Date'].includes(r.type)) {
+            let countdownData;
+            if ('nextContactDate' in r) {
+                countdownData = calculateDaysAndMonths(r.nextContactDate);
+            } else if ('eventDate' in r) {
+                countdownData = calculateDaysAndMonths(r.eventDate);
+            }
+
             let tags = [
                 r.tags[0],
                 countdownData.days
             ];
             if (countdownData.dayNum > 30)
                 tags.push(`${countdownData.months}`)
+
+            r.tags = tags;
+        } else if (r.type == 'Timer') {
+            let tags = [];
+            let hasStarted = beforeOrOnToday(r.startDate);
+            let countdownData;
+
+            if (!hasStarted) {
+                countdownData = calculateDaysAndMonths(r.startDate);
+                tags.push('(starts)')
+            } else {
+                countdownData = calculateDaysAndMonths(r.endDate);
+            }
+
+            tags.push(countdownData.days);
+
+            if (countdownData.dayNum > 30)
+                tags.push(`${countdownData.months}`)
+
+            if (hasStarted)
+                tags.push(getPercentageComplete(r.startDate, r.endDate));
 
             r.tags = tags;
         }
@@ -228,5 +346,6 @@ export {
     addDateReminder,
     removeCompletedReminders,
     addPerMonthReminder,
-    updateTags
+    updateTags,
+    addTimerReminder
 }

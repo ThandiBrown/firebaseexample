@@ -11,14 +11,8 @@ function getStarted() {
 }
 
 function writeDB(value) {
-    console.log("value"); console.log(value);
 
-    // total2 = ref(db)
-    // console.log("total2");console.log(total2);
-    let total = ref(db, folderName)
-
-    console.log("total"); console.log(total);
-    set(total, JSON.stringify(value))
+    set(ref(db, folderName), JSON.stringify(value))
         .then(() => {
             // alert("data stored successfully");
             console.log("data stored successfully");

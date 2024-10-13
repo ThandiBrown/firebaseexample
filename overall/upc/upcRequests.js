@@ -39,9 +39,19 @@ function perMonthRequest(task, date) {
     }
 }
 
+function timerRequest(task, startDate, endDate) {
+    let [reminder, shouldNotify] = r.addTimerReminder(task, startDate, endDate);
+    if (Object.keys(reminder).length) {
+        u.addReminderElement(r.getElement(task, reminder.tags));
+    }
+
+
+}
+
 
 export {
     cadenceRequest,
     dateRequest,
-    perMonthRequest
+    perMonthRequest,
+    timerRequest
 }

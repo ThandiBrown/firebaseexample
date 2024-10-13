@@ -2,7 +2,7 @@ import {
     getClassName,
     getNextInterval,
     dateFormatted,
-    isToday,
+    isTheDay,
     getOrdinalIndicator,
     getNextDateOfTheMonth,
     calculateDaysAndMonths

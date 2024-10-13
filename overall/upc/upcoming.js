@@ -29,7 +29,7 @@ function shouldUpdate() {
 }
 
 function updateLastUpdated() {
-    upcData.lastUpdated = new Date().toISOString().split('T')[0];
+    upcData.lastUpdated = eh.getDateWithOffset(0);
 }
 
 function createElement(nStr = '', rStr = '') {
@@ -45,7 +45,7 @@ function createElement(nStr = '', rStr = '') {
             <div class="flexible upcoming-input-area">
             </div>
             <div class="flexible upcoming-action-area">
-                ${getActionTags(['Cadence', 'Date', 'Per Month'])}
+                ${getActionTags(['Cadence', 'Date', 'Per Month', 'Timer'])}
             </div>
         </div>
     `;
@@ -53,7 +53,6 @@ function createElement(nStr = '', rStr = '') {
     upcElem = document.createElement('div');
     upcElem.classList = 'flexible pillar upcoming';
     upcElem.innerHTML = insideUpcoming;
-    console.log("upcElem"); console.log(upcElem);
     addEventListeners();
 
 }
@@ -83,6 +82,33 @@ function addEventListeners() {
     cadenceTagEL();
     dateTagEL();
     perMonthTagEL();
+    timerTagEL();
+}
+
+function timerTagEL() {
+    let dateTag = upcElem.querySelector('.' + eh.getClassName('Timer'));
+
+
+    dateTag.addEventListener('click', function () {
+        let dateInput = `
+            <input type="text" id="newTask">
+            <input type="date" id="newStartDate">
+            <input type="date" id="newEndDate">
+            <button class="upcoming-input-btn"></div>
+        `;
+        _.getUpcomingInputArea(upcElem).insertAdjacentHTML('beforeend', dateInput);
+
+        upcElem.querySelector(".upcoming-input-btn").addEventListener('click', function () {
+            let task = upcElem.querySelector("#newTask").value.trim();
+            let startDate = upcElem.querySelector("#newStartDate").value.trim();
+            let endDate = upcElem.querySelector("#newEndDate").value.trim();
+            if (!eh.isBeforeToday(endDate)) {
+                request.timerRequest(task, startDate, endDate);
+                _.getUpcomingInputArea(upcElem).innerHTML = '';
+            }
+
+        });
+    });
 }
 
 function perMonthTagEL() {
@@ -105,6 +131,7 @@ function perMonthTagEL() {
         });
     });
 }
+
 function dateTagEL() {
     let dateTag = upcElem.querySelector('.' + eh.getClassName('Date'));
 

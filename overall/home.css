@@ -130,15 +130,42 @@ body * {
     margin: 10px;
 }
 
-.exercise {
-    scrollbar-color: #000b7d lightblue;
-    /* Thumb color and track color */
-}
+
 
 .eating {
     scrollbar-color: hsl(120, 73%, 30%) hsl(120, 73%, 88%);
     /* Thumb color and track color */
 }
+
+.eating .fulfilled {
+    background-color: hsl(120, 73%, 88%);
+}
+
+.exercise {
+    scrollbar-color: #000b7d lightblue;
+    /* Thumb color and track color */
+}
+
+.exercise .fulfilled {
+    background-color: lightblue;
+}
+
+.socials {
+    scrollbar-color: hsl(350, 100%, 28%) pink;
+}
+
+.socials .fulfilled {
+    background-color: pink;
+}
+
+.eating .progressed,
+.exercise .progressed,
+.socials .progressed
+{
+    background-color: hsl(43, 74%, 79%);
+}
+
+
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .calendar::-webkit-scrollbar {
@@ -168,20 +195,6 @@ body * {
     background-color: #eee;
     width: 20px;
     height: 20px;
-}
-
-.exercise .fulfilled {
-    background-color: lightblue;
-}
-
-.eating .fulfilled {
-    background-color: hsl(120, 73%, 88%);
-}
-
-.eating .progressed,
-.exercise .progressed
-{
-    background-color: hsl(43, 74%, 79%);
 }
 
 .upcoming-days {

@@ -38,10 +38,21 @@ if (true) {
             .catch((error) => {
                 console.error("Error initializing Firebase2:", error);
             });
-        initializeFirebase();
 
     } else {
-        e.saveAllDataListener(false);
+        if (true) {
+            initializeFirebase()
+                .then(() => {
+                    // Runs after initializeFirebase is complete
+                    t.getStarted();
+                })
+                .catch((error) => {
+                    console.error("Error initializing Firebase2:", error);
+                });
+            e.saveAllDataListener(true);
+        } else {
+            e.saveAllDataListener(false);
+        }
         loadPage(false, getData());
     }
 }
@@ -74,7 +85,6 @@ function loadPage(usingDB, userData) {
         userData = JSON.parse(userData);
         console.log("userData"); console.log(userData);
     }
-    console.log(userData);
 
     for (let [pillarName, pillarData] of Object.entries(userData)) {
 
