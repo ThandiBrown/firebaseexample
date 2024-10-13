@@ -48,7 +48,7 @@ function initializeFirebase() {
 					setPersistence(auth, browserLocalPersistence)
 						.then(() => {
 							const provider = new GoogleAuthProvider();
-							if (isMobile()) {
+							if (true || isMobile()) {
 								console.log('You are on a mobile device');
 								return signInWithRedirect(auth, provider);
 							} else {
