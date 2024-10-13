@@ -1,1 +1,0 @@
-{"date":"09/13/2023","weekday":"Wednesday","exercisesCompleted":["chest_stretches"]}

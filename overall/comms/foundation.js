@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import {
 	getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider,
-	setPersistence, browserLocalPersistence, onAuthStateChanged
+	setPersistence, browserLocalPersistence, onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
 
@@ -25,6 +25,15 @@ function initializeFirebase() {
 
 			const auth = getAuth(app);
 			auth.languageCode = 'en';
+
+			// signOut(auth)
+			// 	.then(() => {
+			// 		console.log("User signed out successfully.");
+			// 		// Optionally, you can redirect or take additional actions here
+			// 	})
+			// 	.catch((error) => {
+			// 		console.error("Error signing out:", error);
+			// 	});
 
 			// const user = auth.currentUser;
 
@@ -71,38 +80,45 @@ function initializeFirebase() {
 function authenticate(app) {
 	const auth = getAuth(app);
 	auth.languageCode = 'en';
-
+	signOut(auth)
+		.then(() => {
+			console.log("User signed out successfully.");
+			// Optionally, you can redirect or take additional actions here
+		})
+		.catch((error) => {
+			console.error("Error signing out:", error);
+		});
 	// const user = auth.currentUser;
 
 	// Listen for changes in the authentication state
-	onAuthStateChanged(auth, (user) => {
-		if (user) {
-			// User is signed in, no need to re-authenticate
-			console.log('User is already signed in:', user.email);
-		} else {
-			// No user is signed in, proceed with Google login
-			setPersistence(auth, browserLocalPersistence)
-				.then(() => {
-					const provider = new GoogleAuthProvider();
-					if (isMobile()) {
-						console.log('You are on a mobile device');
-						return signInWithRedirect(auth, provider);
-					} else {
-						console.log('You are on a desktop or non-mobile device');
-						return signInWithPopup(auth, provider);
-					}
+	// onAuthStateChanged(auth, (user) => {
+	// 	if (user) {
+	// 		// User is signed in, no need to re-authenticate
+	// 		console.log('User is already signed in:', user.email);
+	// 	} else {
+	// 		// No user is signed in, proceed with Google login
+	// 		setPersistence(auth, browserLocalPersistence)
+	// 			.then(() => {
+	// 				const provider = new GoogleAuthProvider();
+	// 				if (isMobile()) {
+	// 					console.log('You are on a mobile device');
+	// 					return signInWithRedirect(auth, provider);
+	// 				} else {
+	// 					console.log('You are on a desktop or non-mobile device');
+	// 					return signInWithPopup(auth, provider);
+	// 				}
 
-				})
-				.then((result) => {
-					// The signed-in user info can be accessed here
-					console.log('User signed in:', result.user.email);
-				})
-				.catch((error) => {
-					// Handle errors here
-					console.error('Error during sign-in:', error);
-				});
-		}
-	});
+	// 			})
+	// 			.then((result) => {
+	// 				// The signed-in user info can be accessed here
+	// 				console.log('User signed in:', result.user.email);
+	// 			})
+	// 			.catch((error) => {
+	// 				// Handle errors here
+	// 				console.error('Error during sign-in:', error);
+	// 			});
+	// 	}
+	// });
 
 }
 

@@ -1,1 +1,0 @@
-{"date":"09/27/2023","weekday":"Wednesday","exercisesCompleted":["dynamic_arm_movement","itwys","extensors","flexors","finger_bands","shoulder_shrugs","shoulder_pinches","arm_stretches","leg_stretches"]}
