@@ -9,6 +9,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
 
+
 async function initializeFirebase() {
   // Firebase configuration
   const firebaseConfig = {
@@ -25,34 +26,42 @@ async function initializeFirebase() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  return new Promise((resolve, reject) => {
-    // Listen for authentication state changes
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        console.log("User is signed in:", user.email);
-        resolve(); // Resolve the promise if the user is signed in
-      } else {
-        console.log("No user is signed in");
+  // Set persistence to browser local storage
+  await setPersistence(auth, browserLocalPersistence)
+    .then(() => {
+      return new Promise((resolve, reject) => {
+        // Listen for authentication state changes
+        onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            console.log("User is signed in:", user.email);
+            resolve(); // Resolve the promise if the user is signed in
+          } else {
+            console.log("No user is signed in");
 
-        // Prompt for password
-        const userInput = prompt("Please enter your password:");
-        if (userInput !== null) {
-          console.log("User entered: " + userInput);
-          try {
-            // Sign in the user
-            await signInWithEmailAndPassword(auth, 'tigaco6170@craftapk.com', userInput);
-            resolve(); // Resolve the promise if sign-in is successful
-          } catch (error) {
-            console.error("Error during sign-in:", error);
-            reject(error); // Reject the promise if there is an error
+            // Prompt for password
+            const userInput = prompt("Please enter your password:");
+            if (userInput !== null) {
+              console.log("User entered: " + userInput);
+              try {
+                // Sign in the user
+                await signInWithEmailAndPassword(auth, 'tigaco6170@craftapk.com', userInput);
+                resolve(); // Resolve the promise if sign-in is successful
+              } catch (error) {
+                console.error("Error during sign-in:", error);
+                reject(error); // Reject the promise if there is an error
+              }
+            } else {
+              console.log("User canceled the prompt");
+              reject(new Error("User canceled the prompt"));
+            }
           }
-        } else {
-          console.log("User canceled the prompt");
-          reject(new Error("User canceled the prompt"));
-        }
-      }
+        });
+      });
+    })
+    .catch((error) => {
+      console.error("Error setting persistence:", error);
+      throw error; // Rethrow the error if persistence setup fails
     });
-  });
 }
 
 
