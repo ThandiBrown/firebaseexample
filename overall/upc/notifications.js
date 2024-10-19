@@ -124,6 +124,37 @@ function updateTags(reminders) {
 
 }
 
+function getDeleteNotiFunc() {
+    let notifications = getNotifications();
+    // Function to remove notification
+    const deleteNotification = () => {
+        // Get the clicked notification element
+        const notificationElements = document.querySelectorAll(".noti-area .upcoming-selected");
+        if (!notificationElements) return;
+
+        // Get the title and tags from the notification div
+        for (let notificationDiv of notificationElements) {
+            const title = notificationDiv.querySelector('.noti-name').textContent;
+            const tags = Array.from(notificationDiv.querySelectorAll('.noti-tag')).map(tag => tag.textContent);
+
+            // Find the corresponding entry in the notifications array and remove it
+            const index = notifications.findIndex(noti => noti.title === title && JSON.stringify(noti.tags) === JSON.stringify(tags));
+
+            if (index !== -1) {
+                notifications.splice(index, 1);  // Remove from the array
+                // console.log(`Removed notification: ${title}`);
+                // console.log(`Updated notifications array:`, notifications);
+                // Remove the notification from the DOM
+                notificationDiv.remove();
+            }
+
+        }
+    };
+
+    return deleteNotification;
+}
+
+
 
 export {
     setNotifications,
@@ -134,5 +165,6 @@ export {
     remindersToNotifications,
     addDateNotification,
     addPerMonthNotification,
-    updateTags
+    updateTags,
+    getDeleteNotiFunc
 }

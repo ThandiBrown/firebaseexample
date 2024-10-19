@@ -158,7 +158,14 @@ function getDateWithOffset(days) {
     return offsetDate.format('YYYY-MM-DD');
 }
 
+function printIfTrue(statement, condition, returnValue = '') {
+    if (typeof statement === 'function')
+        return condition ? statement() : returnValue
+    return condition ? statement : returnValue
+}
+
 export {
+    printIfTrue,
     getClassName,
     getNextInterval,
     dateFormatted,

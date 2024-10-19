@@ -161,7 +161,7 @@ body * {
 }
 
 .socials .fulfilled {
-    background-color: pink;
+    background-color: hsl(350, 100%, 88%);
 }
 
 .eating .progressed,

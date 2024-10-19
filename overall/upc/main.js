@@ -34,7 +34,10 @@ function main(upcData) {
         r.getElements(r.getReminders())
     );
 
+    u.deleteEL(n.getDeleteNotiFunc(), r.getDeleteReminderFunc());
+
     _.getPage().appendChild(u.getElement());
+
 }
 
 

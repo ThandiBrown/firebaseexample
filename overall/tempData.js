@@ -67,37 +67,82 @@ function getData() {
         "Upcoming": {
             "reminders": [
                 {
+                    "type": "Date",
+                    "title": "Chinue Day: Common Desk, Penguin",
+                    "eventDate": "2024-10-21",
+                    "showRemindersOn": [],
+                    "tags": [
+                        "2024-10-21",
+                        "2d"
+                    ]
+                },
+                {
                     "type": "Cadence",
                     "title": "Game Night",
                     "startDate": "2024-10-08",
                     "cadence": "7",
-                    "nextContactDate": "2024-10-15",
+                    "nextContactDate": "2024-10-22",
                     "tags": [
                         "Every 7 days"
                     ]
                 },
                 {
-                    "type": "Date",
-                    "title": "Ty Cookoff",
-                    "eventDate": "2024-10-15",
-                    "showRemindersOn": [
-                        "2024-10-13"
-                    ],
+                    "type": "Per Month",
+                    "title": "PAY RENT",
+                    "startDate": "2024-10-01",
+                    "monthDate": "01",
+                    "nextContactDate": "2024-11-01",
                     "tags": [
-                        "2024-10-15",
-                        "3d"
+                        "(on 1st)",
+                        "13d"
+                    ]
+                },
+                {
+                    "type": "Timer",
+                    "title": "New Orleans",
+                    "startDate": "2024-11-21",
+                    "endDate": "2024-11-24",
+                    "tags": [
+                        "(starts)",
+                        "33d",
+                        "1mo"
                     ]
                 },
                 {
                     "type": "Date",
-                    "title": "Chinue Day: Common Desk, Penguin",
-                    "eventDate": "2024-10-21",
+                    "title": "Thanksgiving",
+                    "eventDate": "2024-11-28",
                     "showRemindersOn": [
-                        "2024-10-19"
+                        "2024-11-28"
                     ],
                     "tags": [
-                        "2024-10-21",
-                        "9d"
+                        "2024-11-28",
+                        "40d",
+                        "1mo"
+                    ]
+                },
+                {
+                    "type": "Date",
+                    "title": "Insurance open enrollment",
+                    "eventDate": "2024-12-01",
+                    "showRemindersOn": [
+                        "2024-12-01"
+                    ],
+                    "tags": [
+                        "2024-12-01",
+                        "43d",
+                        "1mo"
+                    ]
+                },
+                {
+                    "type": "Timer",
+                    "title": "Parentsgiving",
+                    "startDate": "2024-11-25",
+                    "endDate": "2024-12-03",
+                    "tags": [
+                        "(starts)",
+                        "37d",
+                        "1mo"
                     ]
                 },
                 {
@@ -110,13 +155,63 @@ function getData() {
                     ],
                     "tags": [
                         "2024-12-04",
-                        "53d",
+                        "46d",
                         "2mo"
+                    ]
+                },
+                {
+                    "type": "Date",
+                    "title": "Christmas",
+                    "eventDate": "2024-12-25",
+                    "showRemindersOn": [
+                        "2024-12-25"
+                    ],
+                    "tags": [
+                        "2024-12-25",
+                        "67d",
+                        "2mo"
+                    ]
+                },
+                {
+                    "type": "Timer",
+                    "title": "End of the Year",
+                    "startDate": "2024-01-01",
+                    "endDate": "2024-12-31",
+                    "tags": [
+                        "73d",
+                        "2mo",
+                        "80%"
                     ]
                 }
             ],
-            "notifications": [],
-            "lastUpdated": "2024-10-12"
+            "notifications": [
+                {
+                    "title": "Ty Cookoff Reminder",
+                    "tags": [
+                        "2024-10-15",
+                        "2d"
+                    ]
+                },
+                {
+                    "title": "Game Night",
+                    "tags": []
+                },
+                {
+                    "title": "Ty Cookoff",
+                    "tags": [
+                        "2024-10-15",
+                        "0d"
+                    ]
+                },
+                {
+                    "title": "Chinue Day: Common Desk, Penguin Reminder",
+                    "tags": [
+                        "2024-10-21",
+                        "2d"
+                    ]
+                }
+            ],
+            "lastUpdated": "2024-10-19"
         },
         "Upkeep": {
             "status": {},
@@ -138,6 +233,10 @@ function getData() {
                 "Time Sensitive": {
                     "items": [
                         {
+                            "title": "DAD BDAY CARD",
+                            "tag": ""
+                        },
+                        {
                             "title": "Christmas flight ✈️"
                         },
                         {
@@ -146,6 +245,10 @@ function getData() {
                         },
                         {
                             "title": "By Dad Birthday Gift",
+                            "tag": ""
+                        },
+                        {
+                            "title": "Prove college status for YT Premium",
                             "tag": ""
                         }
                     ],
@@ -203,12 +306,29 @@ function getData() {
                 "Notes": {
                     "items": [],
                     "selectedTags": []
+                },
+                "Theme": {
+                    "items": [
+                        {
+                            "title": "Do what you gotta do",
+                            "tag": ""
+                        },
+                        {
+                            "title": "Fitness & Career",
+                            "tag": ""
+                        },
+                        {
+                            "title": "PD: physique/health",
+                            "tag": ""
+                        }
+                    ],
+                    "selectedTags": []
                 }
             }
         },
         "Entertainment": {
             "status": {
-                "collapsed": false
+                "collapsed": true
             },
             "calendar": [
                 {
@@ -220,7 +340,12 @@ function getData() {
             ],
             "lists": {
                 "Hobbies to Try": {
-                    "items": [],
+                    "items": [
+                        {
+                            "title": "Electric Biking in Fort Worth",
+                            "tag": ""
+                        }
+                    ],
                     "selectedTags": []
                 },
                 "Things to Watch": {
@@ -244,6 +369,19 @@ function getData() {
                 "Backlog": {
                     "items": [],
                     "selectedTags": []
+                },
+                "Theme": {
+                    "items": [
+                        {
+                            "title": "enjoyment",
+                            "tag": ""
+                        },
+                        {
+                            "title": "PD: money",
+                            "tag": ""
+                        }
+                    ],
+                    "selectedTags": []
                 }
             }
         },
@@ -253,7 +391,16 @@ function getData() {
             },
             "lists": {
                 "Calls and Messaging": {
-                    "items": [],
+                    "items": [
+                        {
+                            "title": "Contact Roberts 1/3-4mo",
+                            "tag": ""
+                        },
+                        {
+                            "title": "Contact Auntie every 2wk/1mo",
+                            "tag": ""
+                        }
+                    ],
                     "selectedTags": []
                 },
                 "Gifts List": {
@@ -277,6 +424,31 @@ function getData() {
                         }
                     ],
                     "selectedTags": []
+                },
+                "Theme": {
+                    "items": [
+                        {
+                            "title": "foster positive relationships",
+                            "tag": ""
+                        },
+                        {
+                            "title": "can't force anything but can always create opportunities",
+                            "tag": ""
+                        },
+                        {
+                            "title": "make them things you'd want to do so that whether one person or many arrive, you are engaged and ready to connect and enjoy",
+                            "tag": ""
+                        },
+                        {
+                            "title": "preparing for loss whether in death or relationship termination",
+                            "tag": ""
+                        },
+                        {
+                            "title": "PD:time, money, health",
+                            "tag": ""
+                        }
+                    ],
+                    "selectedTags": []
                 }
             }
         },
@@ -293,7 +465,25 @@ function getData() {
                         }
                     ],
                     "selectedTags": []
+                },
+                "Theme": {
+                    "items": [
+                        {
+                            "title": "create and contribute",
+                            "tag": ""
+                        },
+                        {
+                            "title": "PD: physique/health",
+                            "tag": ""
+                        }
+                    ],
+                    "selectedTags": []
                 }
+            }
+        },
+        "Finances": {
+            "status": {
+                "collapsed": true
             }
         }
     }

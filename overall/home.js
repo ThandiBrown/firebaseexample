@@ -30,7 +30,7 @@ if (true) {
 
 } else {
     if (false) {
-        initializeFirebase()
+        a.initializeFirebase()
             .then(() => {
                 // Runs after initializeFirebase is complete
                 t.getStarted();
@@ -40,9 +40,9 @@ if (true) {
                 console.error("Error initializing Firebase2:", error);
             });
 
-    } else if (false) {
+    } else if (true) {
         if (false) {
-            initializeFirebase()
+            a.initializeFirebase()
                 .then(() => {
                     // Runs after initializeFirebase is complete
                     t.getStarted();

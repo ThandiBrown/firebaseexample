@@ -335,6 +335,35 @@ function updateTags() {
 
 }
 
+function getDeleteReminderFunc() {
+    let reminders = getReminders();
+    // Function to remove reminder
+    const deleteReminder = () => {
+        // Get the clicked reminder element
+        const reminderElements = document.querySelectorAll(".reminder-area .upcoming-selected");
+        if (!reminderElements) return;
+
+        // Get the title and tags from the reminder div
+        for (let reminderDiv of reminderElements) {
+            const title = reminderDiv.querySelector('.noti-name').textContent;
+            const tags = Array.from(reminderDiv.querySelectorAll('.noti-tag')).map(tag => tag.textContent);
+
+            // Find the corresponding entry in the reminders array and remove it
+            const index = reminders.findIndex(noti => noti.title === title && JSON.stringify(noti.tags) === JSON.stringify(tags));
+
+            if (index !== -1) {
+                reminders.splice(index, 1);  // Remove from the array
+                // console.log(`Removed reminder: ${title}`);
+                // console.log(`Updated reminders array:`, reminders);
+                // Remove the reminder from the DOM
+                reminderDiv.remove();
+            }
+        }
+    };
+
+    return deleteReminder;
+}
+
 export {
     getElements,
     getElement,
@@ -347,5 +376,6 @@ export {
     removeCompletedReminders,
     addPerMonthReminder,
     updateTags,
-    addTimerReminder
+    addTimerReminder,
+    getDeleteReminderFunc
 }

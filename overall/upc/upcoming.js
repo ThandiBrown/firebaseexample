@@ -7,6 +7,7 @@ let upcElem;
 
 function newUpc() {
     upcData = {
+        'collapseReminder': false,
         'lastUpdated': '01/01/2024',
         'reminders': [],
         'notifications': []
@@ -20,6 +21,9 @@ function setUpc(data) {
     if ('status' in data) {
         delete data.status;
         data.lastUpdated = '01/01/2024';
+    }
+    if (!('collapseReminder' in data)) {
+        data.collapseReminder = false;
     }
     upcData = data;
 }
@@ -39,13 +43,13 @@ function createElement(nStr = '', rStr = '') {
             <div class="flexible noti-area">
                 ${nStr}
             </div>
-            <div class="flexible reminder-area">
+            <div class="flexible reminder-area ${eh.printIfTrue('hidden', upcData.collapseReminder)}">
                 ${rStr}
             </div>
             <div class="flexible upcoming-input-area">
             </div>
             <div class="flexible upcoming-action-area">
-                ${getActionTags(['Cadence', 'Date', 'Per Month', 'Timer'])}
+                ${getActionTags(['Reminder', 'Delete', 'Cadence', 'Date', 'Per Month', 'Timer'])}
             </div>
         </div>
     `;
@@ -63,10 +67,14 @@ function getElement() {
 
 function addReminderElement(reminderStr) {
     upcElem.querySelector(".reminder-area").insertAdjacentHTML('beforeend', reminderStr);
+    const newReminder = upcElem.querySelector('.reminder-area .notification:last-child');  // Select the last inserted notification
+    newReminder.addEventListener('click', () => newReminder.classList.toggle('upcoming-selected'));
 }
 
 function addNotificationElement(reminderStr) {
     upcElem.querySelector(".noti-area").insertAdjacentHTML('beforeend', reminderStr);
+    const newNotification = upcElem.querySelector('.noti-area .notification:last-child');  // Select the last inserted notification
+    newNotification.addEventListener('click', () => newNotification.classList.toggle('upcoming-selected'));
 }
 
 function getActionTags(actions) {
@@ -83,6 +91,8 @@ function addEventListeners() {
     dateTagEL();
     perMonthTagEL();
     timerTagEL();
+    elementEL();
+    collapseReminderEL();
 }
 
 function timerTagEL() {
@@ -190,6 +200,26 @@ function setUpcNotifications(notifications) {
     upcData.notifications = notifications;
 }
 
+function elementEL() {
+    upcElem.querySelectorAll('.notification').forEach(notification => {
+        notification.addEventListener('click', () => notification.classList.toggle('upcoming-selected'));
+    });
+}
+
+function collapseReminderEL() {
+    upcElem.querySelector('.reminder').addEventListener('click', function () {
+        upcElem.querySelector(".reminder-area").classList.toggle('hidden')
+        upcData.collapseReminder = upcElem.querySelector(".reminder-area").classList.contains('hidden');
+    });
+
+}
+
+function deleteEL(deleteNotiFunc, deleteReminderFunc) {
+    upcElem.querySelector('.delete').addEventListener('click', function () {
+        deleteNotiFunc();
+        deleteReminderFunc();
+    });
+}
 
 export {
     newUpc,
@@ -205,5 +235,6 @@ export {
     cadenceTagEL,
     getUpcomingData,
     setUpcReminders,
-    setUpcNotifications
+    setUpcNotifications,
+    deleteEL
 }
