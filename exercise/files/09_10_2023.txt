@@ -1,0 +1,1 @@
+{"date":"09/10/2023","weekday":"Sunday","exercisesCompleted":["back_rows","front_raise","lateral_raise","biceps","quad_leg_raise"]}
