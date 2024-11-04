@@ -3,6 +3,7 @@ import * as actions from './actions.js'
 import * as e from './eventListeners.js'
 import * as c from './component.js'
 import * as um from './upc/main.js'
+import * as fin from './fin/main.js'
 import * as a from './comms/alternate.js'
 import * as t from './comms/talkToDatabase.js'
 import * as test from './upc/testing.js'
@@ -13,7 +14,7 @@ make the collapse function
 add the submit area
 */
 
-if (true) {
+if (false) {
     a.initializeFirebase()
         .then(() => {
             // console.log('We Made It');
@@ -91,9 +92,12 @@ function loadPage(usingDB, userData) {
     for (let [pillarName, pillarData] of Object.entries(userData)) {
 
         if (pillarName == 'Upcoming') {
-            test.addData(userData.Upcoming);
+            // test.addData(userData.Upcoming);
             um.main(userData.Upcoming);
-            test.makeRequests();
+            // test.makeRequests();
+            continue;
+        } else if (pillarName == 'Finances') {
+            fin.main(userData.Finances);
             continue;
         }
 
