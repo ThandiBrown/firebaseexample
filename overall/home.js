@@ -14,7 +14,7 @@ make the collapse function
 add the submit area
 */
 
-if (false) {
+if (true) {
     a.initializeFirebase()
         .then(() => {
             // console.log('We Made It');
@@ -97,7 +97,7 @@ function loadPage(usingDB, userData) {
             // test.makeRequests();
             continue;
         } else if (pillarName == 'Finances') {
-            fin.main(userData.Finances);
+            // fin.main(userData.Finances);
             continue;
         }
 
