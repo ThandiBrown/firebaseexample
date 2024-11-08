@@ -6,6 +6,8 @@ import * as n from './notifications.js'
 
 
 function main(upcData) {
+    console.log("upcData");
+    // console.log(JSON.stringify(upcData, null, 2));
     if (Object.keys(upcData).length === 0) {
         upcData = u.newUpc();
         console.log("newUpc");
@@ -14,10 +16,11 @@ function main(upcData) {
         console.log("setUpc");
     }
 
+
     r.setReminders(upcData.reminders);
     n.setNotifications(upcData.notifications);
 
-    if (u.shouldUpdate()) {
+    if (true || u.shouldUpdate()) {
         console.log('Performing Daily Update');
         let remindersToNotify = r.checkForNotifications();
         n.remindersToNotifications(remindersToNotify);
