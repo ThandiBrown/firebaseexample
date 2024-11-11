@@ -15,6 +15,7 @@ function getData() {
 
 function getSelection() {
     return {
+        // Thandiwe: getBookTitles(),
         Thandiwe: ['Verity',],
         Chinue: ['The Power of Now',],
         Kareem: ['Unwind', 'The Power of Now',],
