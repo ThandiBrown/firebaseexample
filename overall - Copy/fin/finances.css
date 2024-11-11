@@ -1,0 +1,107 @@
+/* 
+justify-content: center;
+align-items: center;
+text-align: center;
+*//* Basic styling for layout */
+* {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    border: none;
+  }
+  
+  /* Hide arrows on number input */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+  
+  input[type="number"] {
+      -moz-appearance: textfield; /* For Firefox */
+  }
+/*   
+  .flexible {
+    display: flex;
+  } */
+  
+  .flexible-column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .budget-container {
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  
+  .budget-container * {
+    outline: 3px solid black;
+  }
+  
+  .remaining-budget {
+    font-size: 24px;
+  }
+  
+  .item-list {
+    gap: 0.5rem;
+    
+    width: 300px;
+    height: 300px;
+    padding: 10px;
+  }
+  
+  .item {
+    max-width: 270px;
+    /* height: 50px; */
+    /* align-items: center; */
+    justify-content: center;
+    text-align: center;  
+  }
+  
+  .item > .select {
+    width: 30px;
+    border: none;
+  }
+  
+  .item > .item-date {
+    width: 80px;
+  }
+  
+  .item > .item-description {
+    width: 200px;
+    /* width: 100%; */
+  }
+  
+  .item > .item-price {
+    width: 100px;
+  }
+  
+  .item > .delete {
+    width: 30px;
+    border: none;
+  }
+  
+  .item.selected {
+    background-color: lightblue;
+  }
+  
+  .item-input {
+    width: 300px;
+  }
+  
+  .item-input > .input-date {
+    width: 70px;
+  }
+  
+  .item-input > .input-description {
+    width: 100%;
+  }
+  
+  .item-input > .input-price {
+    width: 60px;
+  }
+  
+  .item-input > .input-button {
+    min-width: 30px;
+  }

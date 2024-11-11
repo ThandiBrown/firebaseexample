@@ -1,0 +1,91 @@
+.upcoming *{
+    /* border: 3px solid black; */
+}
+
+.noti-area, .reminder-area {
+    flex-direction: column;
+    gap: 0.5rem; 
+}
+
+.reminder-title {
+    /* border: 3px solid black; */
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    
+    width: 90%;
+    background-color: hsl(240, 67%, 94%);
+    margin: auto;
+    padding: 5px 0px;
+}
+ 
+.reminder-area {
+   opacity: 0.5;
+}
+
+.notification {
+    width: 90%;
+    background-color: lavender;
+    margin: auto;
+}
+
+.upcoming-selected {
+    background-color: hsl(240, 67%, 84%);
+}
+
+.upcoming-input-area {
+    max-height: 40px;
+}
+
+.upcoming-tag-area {
+    margin-left: auto;
+    gap: 0.2rem;
+}
+
+#newTask {
+    width: 100%;
+    /* padding: 15px; */
+    min-height: 40px;
+}
+
+#priorReminder {
+    padding: 15px;
+    width: 100px;
+    -moz-appearance: textfield;
+}
+
+#newCadence, #newMonthDate {
+    padding: 15px;
+    width: 50px;
+    -moz-appearance: textfield;
+}
+
+.upcoming-input-btn {
+    width: 50px;
+    background-color: lavender;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.upcoming-action-area {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 10px;
+}
+
+.noti-action-tag
+{
+    border: 3px solid #ccc;
+    border-radius: 5px;
+    padding: 2px 5px;
+    color: hsl(0, 0%, 60%);
+}
+
