@@ -63,25 +63,233 @@ function generateRandomDates(daysBeforeToday) {
 
 
 function getData() {
+
   return {
-    // "Labor": {
+    // "Upcoming": {
+    //   "reminders": [
+    //     {
+    //       "type": "Cadence",
+    //       "title": "Game Night",
+    //       "startDate": "2024-10-08",
+    //       "cadence": "7",
+    //       "nextContactDate": "2024-11-12",
+    //       "tags": [
+    //         "Every 7 days"
+    //       ],
+    //       "displayDate": "10/08"
+    //     },
+    //     {
+    //       "type": "Timer",
+    //       "title": "New Orleans",
+    //       "startDate": "2024-11-21",
+    //       "endDate": "2024-11-24",
+    //       "tags": [
+    //         "11/21",
+    //         "(starts)",
+    //         "11d"
+    //       ],
+    //       "displayDate": "11/21"
+    //     },
+    //     {
+    //       "type": "Date",
+    //       "title": "Thanksgiving",
+    //       "eventDate": "2024-11-28",
+    //       "showRemindersOn": [
+    //         "2024-11-28"
+    //       ],
+    //       "tags": [
+    //         "11/28",
+    //         "18d"
+    //       ],
+    //       "displayDate": "11/28"
+    //     },
+    //     {
+    //       "type": "Per Month",
+    //       "title": "PAY RENT",
+    //       "startDate": "2024-10-01",
+    //       "monthDate": "01",
+    //       "nextContactDate": "2024-12-01",
+    //       "tags": [
+    //         "12/01",
+    //         "21d"
+    //       ],
+    //       "displayDate": "12/01"
+    //     },
+    //     {
+    //       "type": "Date",
+    //       "title": "Insurance open enrollment",
+    //       "eventDate": "2024-12-01",
+    //       "showRemindersOn": [
+    //         "2024-12-01"
+    //       ],
+    //       "tags": [
+    //         "12/01",
+    //         "21d"
+    //       ],
+    //       "displayDate": "12/01"
+    //     },
+    //     {
+    //       "type": "Timer",
+    //       "title": "Parentsgiving",
+    //       "startDate": "2024-11-25",
+    //       "endDate": "2024-12-03",
+    //       "tags": [
+    //         "11/25",
+    //         "(starts)",
+    //         "15d"
+    //       ],
+    //       "displayDate": "11/25"
+    //     },
+    //     {
+    //       "type": "Date",
+    //       "title": "Gynecologist Appointment",
+    //       "eventDate": "2024-12-04",
+    //       "showRemindersOn": [
+    //         "2024-11-27",
+    //         "2024-11-30"
+    //       ],
+    //       "tags": [
+    //         "12/04",
+    //         "24d"
+    //       ],
+    //       "displayDate": "12/04"
+    //     },
+    //     {
+    //       "type": "Date",
+    //       "title": "Christmas",
+    //       "eventDate": "2024-12-25",
+    //       "showRemindersOn": [
+    //         "2024-12-25"
+    //       ],
+    //       "tags": [
+    //         "12/25",
+    //         "45d",
+    //         "1mo"
+    //       ],
+    //       "displayDate": "12/25"
+    //     },
+    //     {
+    //       "type": "Timer",
+    //       "title": "End of the Year",
+    //       "startDate": "2024-01-01",
+    //       "endDate": "2024-12-31",
+    //       "tags": [
+    //         "51d",
+    //         "2mo",
+    //         "86%"
+    //       ],
+    //       "displayDate": "01/01"
+    //     }
+    //   ],
+    //   "notifications": [],
+    //   "lastUpdated": "2024-11-10",
+    //   "collapseReminder": false
+    // },
+    // "Upkeep": {
     //   "status": {
     //     "collapsed": false
     //   },
+    //   "calendar": [
+    //     {
+    //       "type": "exercise",
+    //       "startDate": "2024-10-12",
+    //       "fulfilled": [],
+    //       "progressed": []
+    //     },
+    //     {
+    //       "type": "eating",
+    //       "startDate": "2024-10-12",
+    //       "fulfilled": [],
+    //       "progressed": []
+    //     }
+    //   ],
     //   "lists": {
-    //     "Backlog": {
+    //     "Time Sensitive": {
     //       "items": [
     //         {
-    //           "title": "look into pyenvironment, removing/uninstalling global downloads",
+    //           "title": "Buy Christmas gifts",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "Eye glasses",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "Find Hairstylist",
     //           "tag": ""
     //         }
     //       ],
     //       "selectedTags": []
     //     },
+    //     "Backlog": {
+    //       "items": [
+    //         {
+    //           "title": "Determine non tech things",
+    //           "checked": false,
+    //           "in-progress": false
+    //         },
+    //         {
+    //           "title": "Chinue advice on stainless pans"
+    //         },
+    //         {
+    //           "title": "300 questions social program"
+    //         },
+    //         {
+    //           "title": "Figure out how to recover dragon if hard reset"
+    //         },
+    //         {
+    //           "title": "How to save computer if destroyed"
+    //         },
+    //         {
+    //           "title": "fidelity, change email to: thanbrown22@gmail.com "
+    //         },
+    //         {
+    //           "title": "umb health services, change email to: thanbrown22@gmail.com"
+    //         },
+    //         {
+    //           "title": "same for State Farm ^"
+    //         },
+    //         {
+    //           "title": "All new emails",
+    //           "checked": false,
+    //           "in-progress": true
+    //         },
+    //         {
+    //           "title": "Ask company to mail w2 to chinue address ",
+    //           "tag": "work"
+    //         },
+    //         {
+    //           "title": "think about a money market account",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "get more involved with taxes, talk with company",
+    //           "tag": ""
+    //         }
+    //       ],
+    //       "selectedTags": []
+    //     },
+    //     "Shopping": {
+    //       "items": [
+    //         {
+    //           "title": "Amazon returns",
+    //           "tag": ""
+    //         }
+    //       ],
+    //       "selectedTags": []
+    //     },
+    //     "Notes": {
+    //       "items": [],
+    //       "selectedTags": []
+    //     },
     //     "Theme": {
     //       "items": [
     //         {
-    //           "title": "create and contribute",
+    //           "title": "Do what you gotta do",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "Fitness & Career",
     //           "tag": ""
     //         },
     //         {
@@ -93,267 +301,25 @@ function getData() {
     //     }
     //   }
     // },
-    // "Finances": {
-    //   "monthlyBudget": "675",
-    //   "transactions": [{
-    //     'date': '2024-10-18',
-    //     'description': 'Having Fun',
-    //     'price': '17'
-    //   }]
-    // }
-    // "Happy": {}
-  }
-  return {
-    "Upcoming": {
-      "reminders": [
+
+    "Finances": {
+      remainingBudget: 1000,
+      items: [
         {
-          "type": "Date",
-          "title": "Chinue Day: Common Desk, Penguin",
-          "eventDate": "2024-10-21",
-          "showRemindersOn": [],
-          "tags": [
-            "2024-10-21",
-            "2d"
-          ]
+          date: '2024-11-10',
+          description: 'computer',
+          price: '365.10'
         },
         {
-          "type": "Cadence",
-          "title": "Game Night",
-          "startDate": "2024-10-08",
-          "cadence": "7",
-          "nextContactDate": "2024-10-22",
-          "tags": [
-            "Every 7 days"
-          ]
-        },
-        {
-          "type": "Per Month",
-          "title": "PAY RENT",
-          "startDate": "2024-10-01",
-          "monthDate": "01",
-          "nextContactDate": "2024-11-01",
-          "tags": [
-            "(on 1st)",
-            "13d"
-          ]
-        },
-        {
-          "type": "Timer",
-          "title": "New Orleans",
-          "startDate": "2024-11-21",
-          "endDate": "2024-11-24",
-          "tags": [
-            "(starts)",
-            "33d",
-            "1mo"
-          ]
-        },
-        {
-          "type": "Date",
-          "title": "Thanksgiving",
-          "eventDate": "2024-11-28",
-          "showRemindersOn": [
-            "2024-11-28"
-          ],
-          "tags": [
-            "2024-11-28",
-            "40d",
-            "1mo"
-          ]
-        },
-        {
-          "type": "Date",
-          "title": "Insurance open enrollment",
-          "eventDate": "2024-12-01",
-          "showRemindersOn": [
-            "2024-12-01"
-          ],
-          "tags": [
-            "2024-12-01",
-            "43d",
-            "1mo"
-          ]
-        },
-        {
-          "type": "Timer",
-          "title": "Parentsgiving",
-          "startDate": "2024-11-25",
-          "endDate": "2024-12-03",
-          "tags": [
-            "(starts)",
-            "37d",
-            "1mo"
-          ]
-        },
-        {
-          "type": "Date",
-          "title": "Gynecologist Appointment",
-          "eventDate": "2024-12-04",
-          "showRemindersOn": [
-            "2024-11-27",
-            "2024-11-30"
-          ],
-          "tags": [
-            "2024-12-04",
-            "46d",
-            "2mo"
-          ]
-        },
-        {
-          "type": "Date",
-          "title": "Christmas",
-          "eventDate": "2024-12-25",
-          "showRemindersOn": [
-            "2024-12-25"
-          ],
-          "tags": [
-            "2024-12-25",
-            "67d",
-            "2mo"
-          ]
-        },
-        {
-          "type": "Timer",
-          "title": "End of the Year",
-          "startDate": "2024-01-01",
-          "endDate": "2024-12-31",
-          "tags": [
-            "73d",
-            "2mo",
-            "80%"
-          ]
+          date: '2024-11-10',
+          description: 'pizza',
+          price: '50'
         }
-      ],
-      "notifications": [
-        {
-          "title": "Chinue Day: Common Desk, Penguin Reminder",
-          "tags": [
-            "2024-10-21",
-            "2d"
-          ]
-        }
-      ],
-      "lastUpdated": "2024-10-19",
-      "collapseReminder": true
-    },
-    "Upkeep": {
-      "status": {
-        "collapsed": true
-      },
-      "calendar": [
-        {
-          "type": "exercise",
-          "startDate": "2024-10-12",
-          "fulfilled": [],
-          "progressed": []
-        },
-        {
-          "type": "eating",
-          "startDate": "2024-10-12",
-          "fulfilled": [],
-          "progressed": []
-        }
-      ],
-      "lists": {
-        "Time Sensitive": {
-          "items": [
-            {
-              "title": "DAD BDAY CARD",
-              "tag": ""
-            },
-            {
-              "title": "Christmas flight ✈️"
-            },
-            {
-              "title": "Buy Christmas gifts",
-              "tag": ""
-            },
-            {
-              "title": "By Dad Birthday Gift",
-              "tag": ""
-            },
-            {
-              "title": "Prove college status for YT Premium",
-              "tag": ""
-            }
-          ],
-          "selectedTags": []
-        },
-        "Backlog": {
-          "items": [
-            {
-              "title": "Find happypages site",
-              "checked": false,
-              "in-progress": false
-            },
-            {
-              "title": "Determine non tech things",
-              "checked": false,
-              "in-progress": false
-            },
-            {
-              "title": "Chinue advice on stainless pans"
-            },
-            {
-              "title": "300 questions social program"
-            },
-            {
-              "title": "Figure out how to recover dragon if hard reset"
-            },
-            {
-              "title": "How to save computer if destroyed"
-            },
-            {
-              "title": "fidelity, change email to: thanbrown22@gmail.com "
-            },
-            {
-              "title": "umb health services, change email to: thanbrown22@gmail.com"
-            },
-            {
-              "title": "same for State Farm ^"
-            },
-            {
-              "title": "All new emails",
-              "checked": false,
-              "in-progress": true
-            },
-            {
-              "title": "Ask company to mail w2 to chinue address ",
-              "tag": "work"
-            }
-          ],
-          "selectedTags": []
-        },
-        "Shopping": {
-          "items": [],
-          "selectedTags": []
-        },
-        "Notes": {
-          "items": [],
-          "selectedTags": []
-        },
-        "Theme": {
-          "items": [
-            {
-              "title": "Do what you gotta do",
-              "tag": ""
-            },
-            {
-              "title": "Fitness & Career",
-              "tag": ""
-            },
-            {
-              "title": "PD: physique/health",
-              "tag": ""
-            }
-          ],
-          "selectedTags": []
-        }
-      }
+      ]
     },
     "Entertainment": {
       "status": {
-        "collapsed": true
+        "collapsed": false
       },
       "calendar": [
         {
@@ -383,6 +349,34 @@ function getData() {
             },
             {
               "title": "Penguin hbomax site"
+            },
+            {
+              "title": "Abbot elementary",
+              "tag": ""
+            },
+            {
+              "title": "Solar opposite seasonal",
+              "tag": ""
+            },
+            {
+              "title": "Arcane",
+              "tag": ""
+            },
+            {
+              "title": "Squid games",
+              "tag": ""
+            },
+            {
+              "title": "From",
+              "tag": ""
+            },
+            {
+              "title": "Stars",
+              "tag": ""
+            },
+            {
+              "title": "(To Read) The Last Party",
+              "tag": ""
             }
           ],
           "selectedTags": []
@@ -410,107 +404,106 @@ function getData() {
         }
       }
     },
-    "Relationships": {
-      "status": {
-        "collapsed": true
-      },
-      "lists": {
-        "Calls and Messaging": {
-          "items": [
-            {
-              "title": "Contact Roberts 1/3-4mo",
-              "tag": ""
-            },
-            {
-              "title": "Contact Auntie every 2wk/1mo",
-              "tag": ""
-            }
-          ],
-          "selectedTags": []
-        },
-        "Gifts List": {
-          "items": [
-            {
-              "title": "Her dryer - made slides ",
-              "tag": "Chinue"
-            },
-            {
-              "title": "Chinue friend's walking at desk device",
-              "tag": ""
-            }
-          ],
-          "selectedTags": []
-        },
-        "Activities": {
-          "items": [
-            {
-              "title": "Makeup with chinue ",
-              "tag": "Chinue's house"
-            }
-          ],
-          "selectedTags": []
-        },
-        "Theme": {
-          "items": [
-            {
-              "title": "foster positive relationships",
-              "tag": ""
-            },
-            {
-              "title": "can't force anything but can always create opportunities",
-              "tag": ""
-            },
-            {
-              "title": "make them things you'd want to do so that whether one person or many arrive, you are engaged and ready to connect and enjoy",
-              "tag": ""
-            },
-            {
-              "title": "preparing for loss whether in death or relationship termination",
-              "tag": ""
-            },
-            {
-              "title": "PD:time, money, health",
-              "tag": ""
-            }
-          ],
-          "selectedTags": []
-        }
-      }
-    },
-    "Labor": {
-      "status": {
-        "collapsed": true
-      },
-      "lists": {
-        "Backlog": {
-          "items": [
-            {
-              "title": "look into pyenvironment, removing/uninstalling global downloads",
-              "tag": ""
-            }
-          ],
-          "selectedTags": []
-        },
-        "Theme": {
-          "items": [
-            {
-              "title": "create and contribute",
-              "tag": ""
-            },
-            {
-              "title": "PD: physique/health",
-              "tag": ""
-            }
-          ],
-          "selectedTags": []
-        }
-      }
-    },
-    "Finances": {
-      "status": {
-        "collapsed": false
-      }
-    }
+    // "Relationships": {
+    //   "status": {
+    //     "collapsed": false
+    //   },
+    //   "lists": {
+    //     "Calls and Messaging": {
+    //       "items": [
+    //         {
+    //           "title": "Contact Roberts 1/3-4mo",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "Contact Auntie every 2wk/1mo",
+    //           "tag": ""
+    //         }
+    //       ],
+    //       "selectedTags": []
+    //     },
+    //     "Gifts List": {
+    //       "items": [
+    //         {
+    //           "title": "Her dryer - made slides ",
+    //           "tag": "Chinue"
+    //         },
+    //         {
+    //           "title": "Chinue friend's walking at desk device",
+    //           "tag": ""
+    //         }
+    //       ],
+    //       "selectedTags": []
+    //     },
+    //     "Activities": {
+    //       "items": [
+    //         {
+    //           "title": "Makeup with chinue ",
+    //           "tag": "Chinue's house"
+    //         },
+    //         {
+    //           "title": "Plan a Trip With Dad",
+    //           "tag": ""
+    //         }
+    //       ],
+    //       "selectedTags": []
+    //     },
+    //     "Theme": {
+    //       "items": [
+    //         {
+    //           "title": "foster positive relationships",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "can't force anything but can always create opportunities",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "make them things you'd want to do so that whether one person or many arrive, you are engaged and ready to connect and enjoy",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "preparing for loss whether in death or relationship termination",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "PD:time, money, health",
+    //           "tag": ""
+    //         }
+    //       ],
+    //       "selectedTags": []
+    //     }
+    //   }
+    // },
+    // "Labor": {
+    //   "status": {
+    //     "collapsed": true
+    //   },
+    //   "lists": {
+    //     "Backlog": {
+    //       "items": [
+    //         {
+    //           "title": "look into pyenvironment, removing/uninstalling global downloads",
+    //           "tag": ""
+    //         }
+    //       ],
+    //       "selectedTags": []
+    //     },
+    //     "Theme": {
+    //       "items": [
+    //         {
+    //           "title": "create and contribute",
+    //           "tag": ""
+    //         },
+    //         {
+    //           "title": "PD: physique/health",
+    //           "tag": ""
+    //         }
+    //       ],
+    //       "selectedTags": []
+    //     }
+    //   }
+    // }
   }
 }
 
