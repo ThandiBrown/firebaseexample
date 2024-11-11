@@ -34,13 +34,12 @@ async function readDB(method, ...args) {
 
         if (snapshot.exists()) {
             method(
-                true,
                 snapshot.val(),
                 [...args]
             );
             // return JSON.parse(snapshot.val()); // Access the data
         } else {
-            method(false, {}, [...args]);
+            method({}, [...args]);
             // No data available at the path
             console.log('No data available');
             alert('no data to retrieve')

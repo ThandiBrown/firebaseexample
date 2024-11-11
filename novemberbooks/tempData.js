@@ -13,6 +13,21 @@ function getData() {
     }
 }
 
+function getSelection() {
+    return {
+        Thandiwe: ['Verity',],
+        Chinue: ['The Power of Now',],
+        Kareem: ['Unwind', 'The Power of Now',],
+        Ty: ['Honey and Spice',],
+        Jovan: ['When no one is watching',],
+        Shonnie: ['First Lie Wins',],
+        Tharisa: ['The Nightingale', 'Blood at the root',],
+        Ben: ['Blood at the root',],
+        RaShunda: ['When Christmas Comes', 'Enders Game', 'Unwind',],
+        Chinasa: ['Enders Game',]
+    }
+}
+
 function getReaderChoices() {
     return {
         Placeholder1: [],
@@ -40,6 +55,7 @@ function getBookTitles() {
 
 export {
     getData,
+    getSelection,
     getReaderChoices,
     getBookTitles
 }
