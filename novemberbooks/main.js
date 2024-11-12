@@ -37,17 +37,20 @@ function reset() {
 function analysis() {
     let number = 0;
     for (let [name, selection] of Object.entries(globalBookData)) {
-        if (selection.includes('The Power of Now')) {
-            const valueToRemove = 'The Power of Now';
+        // if (selection.includes('The Power of Now')) {
+        //     const valueToRemove = 'The Power of Now';
 
-            const index = selection.indexOf(valueToRemove);
-            if (index !== -1) {
-                selection.splice(index, 1);
-            }
-            number++;
+        //     const index = selection.indexOf(valueToRemove);
+        //     if (index !== -1) {
+        //         selection.splice(index, 1);
+        //     }
+        //     number++;
+        // }
+        if (name.includes('Chinue', 'Thandiwe')) {
+            selection.push('The Lies You Wrote');
         }
-        if (name == 'Shonnie') {
-            // selection.push('The Lies You Wrote');
+        if (name.includes('Kareem')) {
+            selection.push('Unwind');
         }
     }
     console.log(number);
@@ -79,6 +82,7 @@ function loadPage(userData) {
             break;
         }
     }
+    // delete globalBookData.assignments;
     if (allSelections) {
         let assignments;
         if (!('assignments' in globalBookData)) {
