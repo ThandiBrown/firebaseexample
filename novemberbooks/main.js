@@ -71,11 +71,13 @@ function loadPage(userData) {
     }
 
     globalBookData = userData;
+    // globalBookData.assignments = d.getSelection();
     // analysis();
     // reset();
+    // t.writeDB(globalBookData);
     // return;
     // t.writeDBHistory(globalBookData);
-    // console.log(JSON.stringify(globalBookData, null, 2));
+    console.log(JSON.stringify(globalBookData.assignments, null, 2));
     // console.log(globalBookData);
     // return;
 
@@ -86,7 +88,7 @@ function loadPage(userData) {
             break;
         }
     }
-    delete globalBookData.assignments;
+    // delete globalBookData.assignments;
     if (allSelections) {
         let assignments;
         if (!('assignments' in globalBookData)) {
@@ -109,7 +111,7 @@ function loadPage(userData) {
             );
             i++;
         }
-        analysis();
+        // analysis();
 
     } else {
         displayNameArea(globalBookData);
