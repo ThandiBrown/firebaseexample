@@ -30,8 +30,27 @@ if (true) {
 }
 
 function reset() {
-    globalBookData['Henry'] = [''];
+    globalBookData['Ben'] = [''];
     t.writeDB(globalBookData);
+}
+
+function analysis() {
+    let number = 0;
+    for (let [name, selection] of Object.entries(globalBookData)) {
+        if (selection.includes('The Power of Now')) {
+            const valueToRemove = 'The Power of Now';
+
+            const index = selection.indexOf(valueToRemove);
+            if (index !== -1) {
+                selection.splice(index, 1);
+            }
+            number++;
+        }
+        if (name == 'Shonnie') {
+            // selection.push('The Lies You Wrote');
+        }
+    }
+    console.log(number);
 }
 
 function loadPage(userData) {
@@ -45,7 +64,10 @@ function loadPage(userData) {
     }
 
     globalBookData = userData;
-    t.writeDBHistory(globalBookData);
+    // analysis();
+    // reset();
+    // return;
+    // t.writeDBHistory(globalBookData);
     // console.log(JSON.stringify(globalBookData, null, 2));
     // console.log(globalBookData);
     // return;

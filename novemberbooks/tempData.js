@@ -17,8 +17,8 @@ function getSelection() {
     return {
         // Thandiwe: getBookTitles(),
         Thandiwe: ['Verity',],
-        Chinue: ['The Power of Now',],
-        Kareem: ['Unwind', 'The Power of Now',],
+        Chinue: ['The Lies You Wrote',],
+        Kareem: ['Unwind', 'The Lies You Wrote',],
         Ty: ['Honey and Spice',],
         Jovan: ['When no one is watching',],
         Shonnie: ['First Lie Wins',],
@@ -42,7 +42,7 @@ function getReaderChoices() {
 function getBookTitles() {
     return [
         'Verity',
-        'The Power of Now',
+        'The Lies You Wrote',
         'Unwind',
         'Honey and Spice',
         'When no one is watching',
