@@ -30,16 +30,17 @@ if (true) {
 }
 
 function reset() {
-    globalBookData['Ben'] = [''];
+    console.log('reset');
+    globalBookData['Chinasa'] = [''];
     t.writeDB(globalBookData);
 }
 
-function analysis() {
+function valid(assignments) {
     console.log(27);
     let number = 0;
-    for (let [name, selection] of Object.entries(globalBookData.assignments)) {
+    for (let [name, selection] of Object.entries(assignments)) {
         if (globalBookData[name].includes(selection)) {
-            console.log(name);
+            return false;
         }
         // if (selection.includes('The Power of Now')) {
         //     const valueToRemove = 'The Power of Now';
@@ -57,7 +58,7 @@ function analysis() {
         //     selection.push('Unwind');
         // }
     }
-    console.log(number);
+    return true;
 }
 
 function loadPage(userData) {
@@ -71,13 +72,15 @@ function loadPage(userData) {
     }
 
     globalBookData = userData;
+    // console.log("globalBookData"); console.log(globalBookData);
+    // console.log('Honey and Spice' == globalBookData['Chinasa']);
     // globalBookData.assignments = d.getSelection();
+    // t.writeDB(globalBookData);
     // analysis();
     // reset();
-    // t.writeDB(globalBookData);
     // return;
     // t.writeDBHistory(globalBookData);
-    console.log(JSON.stringify(globalBookData.assignments, null, 2));
+    // console.log(JSON.stringify(globalBookData.assignments, null, 2));
     // console.log(globalBookData);
     // return;
 
@@ -93,7 +96,12 @@ function loadPage(userData) {
         let assignments;
         if (!('assignments' in globalBookData)) {
             assignments = getRandomBookAssignments(globalBookData);
-            console.log("new assignments"); console.log(assignments);
+            while (!valid(assignments)) {
+                assignments = getRandomBookAssignments(globalBookData);
+            }
+            console.log("new assignments");
+            console.log(JSON.stringify(globalBookData.assignments, null, 2));
+            t.writeDB(globalBookData);
         } else {
             assignments = globalBookData.assignments;
         }
@@ -221,7 +229,6 @@ function getRandomBookAssignments() {
     }
 
     globalBookData.assignments = assignments;
-    t.writeDB(globalBookData);
 
     // console.log(JSON.stringify(assignments, null, 2));
     return assignments;
