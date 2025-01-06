@@ -1349,8 +1349,7 @@ Constraints:
 
 """,
 "code":
-""" 
-def topKFrequent(nums, nums_needed):
+"""def topKFrequent(nums, nums_needed):
     num_count = {}
     freq_as_idx = [[] for i in range(len(nums) + 1)]
 
