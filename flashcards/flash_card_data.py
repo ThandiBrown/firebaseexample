@@ -205,13 +205,20 @@ class Solution:
 """ 
 Generate Parentheses
 """,
+'hint':
+""" 
+when forming the string, you will only ever have to decide between two possibilities: adding open parenthesis, adding close parenthesis
+""",
 'note':
 """ 
-use recursion because there'll be two possibilities for most spots: added open parenthesis, added close parenthesis
+use recursion because there'll be two possibilities for most spots: adding open parenthesis, adding close parenthesis
 However there are some conditions that will dictate this
 you won't add a close condition for that spot if you don't already have a valid open parenthesis
 you won't add in open/close parenthesis if you've exceeded the number of them you can have
 Add the parentheses to a stack (or string) and when you reached your basecase, which is reaching the valid number of open/close parenthesis, save the result as you have found a valid combination
+
+Lesson:
+when thinking about forming combinations or forming recursion, always just think about what step you take at any current moment and whatever base cases to tell you to stop
 """,
 'problem': 
 """
@@ -1289,11 +1296,28 @@ user frequency hash map and frequency array
 """,
 'note':
 """ 
-save the frequency in hash map
-then save each number in a list under an index (of a new array) that represents its frequency
-loop backwards through the list because that will cause us to see numbers with the highest frequency first ( at the highest indices first) and then loop through each list of numbers at that index until you reach "k" top elements
+nums: [1,2,2,2,2,4,4]
+Step One: 
+ - keep count of the frequency. Every time you see a number, up the count
+num_count: {1: 1, 2: 4, 4: 2}
 
-Lesson: when you have a fixed frequency/set of numbers/when your result is going to be within the fixative numbers, and you have a changing variable such as the amount of numbers you need to return in this case, you can use the indices of an array as a way to store results in a sorted manner. If were looking at frequency and our array is six length, we know that we cannot have a frequency over six. therefore we can make a new array of a length of six/seven(1-indexed) and use its indices as a way to store frequency and a sorted manner
+Next: 
+ - convert into a frequency array
+ - the frequency array is the length of original array because you cannot have a single number that occurs more than all the numbers that exist
+ - the frequency array should be a length + 1 because if you have a frequency of 7, you need to use the 8th index which we know is "7"
+
+freq_as_idx: [[], [1], [4], [], [2], [], [], []]
+(1 has a frequency of 1, 4 has a frequency of 2, 2 has a frequency of 4)
+
+Next:
+ - loop backwards through the array
+ - you'll see the highest frequency number first
+ - keep collecting until you see the number needed
+
+result.append(2) 
+result.append(4)
+if len(result) == nums_needed: (T)
+return [2, 4]
 """,
 'problem': 
 """
@@ -1326,36 +1350,30 @@ Constraints:
 """,
 "code":
 """ 
-# Bucket Sort
+def topKFrequent(nums, nums_needed):
+    num_count = {}
+    freq_as_idx = [[] for i in range(len(nums) + 1)]
 
-class Solution:
-	def topKFrequent(self, nums, top_num):
-		freq_hash = {}
-		freq_arr = [[] for i in range(len(nums) + 1)]
+    
+    for num in nums:
+        num_count[num] = 1 + num_count.get(num, 0)
+            
 
-		for num in nums:
-			freq_hash[num] = 1 + freq_hash.get(num, 0)
-				
-		for num, freq in freq_hash.items():
-			freq_arr[freq].append(num)
+    for num, freq in num_count.items():
+        freq_as_idx[freq].append(num)
 
-		res = []
-		for i in range(len(freq_arr) - 1, 0, -1):
-			for num in freq_arr[i]:
-				res.append(num)
-				if len(res) == top_num:
-					return res
+    
+    result = []
+    for i in range(len(freq_as_idx) - 1, 0, -1):
+        for num in freq_as_idx[i]:
+            result.append(num)
+            if len(result) == nums_needed:
+                return result
 
 
-Solution().topKFrequent([1,2,2,2,2,4,4], 2)
-
-Example: topKFrequent([1, 2, 2, 2, 2, 4, 4], 2)
-count = {1: 1, 2: 4, 4: 2}
-freq = [[], [1], [4], [], [2], [], [], []]
-if len([2]) == 2: (X)
-if len([2, 4]) == 2:
-    return [2, 4]
-
+f = topKFrequent([1,2,2,2,2,4,4], 2)
+# f = topKFrequent([2,2,2,2,2,2,2], 2)
+print(f)
 """
 },
 

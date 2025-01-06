@@ -44,9 +44,6 @@ def print_all_titles(flashcard_data):
 
 
 
-
-
-
 if __name__ == '__main__':
 
 	ensure_keys(flashcard_data)
