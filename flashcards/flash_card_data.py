@@ -1472,22 +1472,22 @@ three hashmaps
 """,
 'note':
 """ 
-you're basically going to have a hashmap for the rows
-rows[0] = [1, 2, 7, 8] ---> represents the values in the first row of the sudoku board
-when you see a coordinate (r, c), get its value (board[r][c]), check the row and col hashmaps to see if that value already exists
-board[0][3] = 6
-rows[0] = [1, 2, 7, 8]
-col[3] = [3, 5, 9]
+we are going to 2d loop through each value (of the board input) and evaluate all three conditions at one time
 
-is 6 already in rows[0]? ---> No
-is 6 already in col[3]? ---> No
-update these hashmaps and continue the search
+One thing we need to check is that a certain number (based on how the board is written) does not appear in a row more than once
 
-in order to check the 3 x 3 grid in the sudoku, will have another hashmap representing that area
-we know that (0, 1, 2), (3, 4, 5), (6, 7, 8) all produce the same quotient with integer division by three so that's how we segment out an area
-we know that coordinate (2, 5) points to the same box as (0, 4) because when they integer divide, it will all point to box (0, 1) which is the second box in the first row
+There are nine rows so we need to have a way to be able to track the information in all nine rows
 
-Lesson: the trick here is mostly getting creative in trying to find out how the coordinates in each box can be grouped together/related to each other.in this case it was that they all share the same quotients when they were divided by three
+We can have a dictionary with nine indices and each index will hold information on what number we've already seen in the row (you can use a set or a list to hold the numbers seen already)
+
+If at any point we see a number that is already in that particular index-row then we know that the matrix is invalid
+
+We will also apply this same logic to the other two cases (checking columns and checking the 3x3 box)
+
+based on the first example shown the dictionaries would look as such:
+rows[0] = [1, 2, 3]
+col[0] = [1, 4, 5, 7]
+
 """,
 'problem': 
 """
@@ -1545,28 +1545,33 @@ Constraints:
 """,
 "code":
 """ 
-class Solution:
-    def isValidSudoku(self, board: List[List[str]]) -> bool:
-        cols = defaultdict(set)
-        rows = defaultdict(set)
-        squares = defaultdict(set)  # key = (r /3, c /3)
 
-        for r in range(9):
-            for c in range(9):
-                if board[r][c] == ".":
-                    continue
-                if (
-                    board[r][c] in rows[r]
-                    or board[r][c] in cols[c]
-                    or board[r][c] in squares[(r // 3, c // 3)]
-                ):
-                    return False
-                cols[c].add(board[r][c])
-                rows[r].add(board[r][c])
-                squares[(r // 3, c // 3)].add(board[r][c])
+from collections import defaultdict
 
-        return True
 
+def isValidSudoku(board):
+    cols = defaultdict(set)
+    rows = defaultdict(set)
+    # key = (r /3, c /3)
+    squares = defaultdict(set)
+
+    for r in range(9):
+        for c in range(9):
+            if board[r][c] == ".":
+                continue
+            num_already_used = board[r][c] in rows[r] or board[r][c] in cols[c] or board[r][c] in squares[(r // 3, c // 3)]
+            if num_already_used:
+                return False
+            cols[c].add(board[r][c])
+            rows[r].add(board[r][c])
+            squares[(r // 3, c // 3)].add(board[r][c])
+
+    return True
+    
+    
+board = [["1","2",".",".","3",".",".",".","."],["4",".",".","5",".",".",".",".","."],[".","9","8",".",".",".",".",".","3"],["5",".",".",".","6",".",".",".","4"],[".",".",".","8",".","3",".",".","5"],["7",".",".",".","2",".",".",".","6"],[".",".",".",".",".",".","2",".","."],[".",".",".","4","1","9",".",".","8"],[".",".",".",".","8",".",".","7","9"]]
+
+isValidSudoku(board)
 """
 },
 
