@@ -284,7 +284,9 @@ function getLine(exerciseDict, exerciseKey, dayDisplay = "") {
 function getBoldClass(exerciseName) {
     let classColor = ''
     if ([
-        "Biceps", "Triceps", "External Rotation", "Shoulder Shrugs", "Planks", "Core Lifts", "Side Leg Raises", "Quad Sets", "Clamshells", "Calf Raises"].includes(exerciseName)) {
+        // "Biceps", "Triceps", "External Rotation", "Shoulder Shrugs", "Planks", "Core Lifts", "Side Leg Raises", "Quad Sets", "Clamshells", "Calf Raises"
+        "Posture", "Lower Body", "Night Exercises", "Daily Stretches", "Other"
+    ].includes(exerciseName)) {
         classColor = 'performance-easy';
     }
     return classColor;

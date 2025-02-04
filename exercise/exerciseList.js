@@ -21,7 +21,7 @@ function returnExercises() {
         "Lower Leg Stretches",
         "Hand Stretches",
         "Nerve Gliding",
-        
+        "Other",
         "Biceps",
         "Triceps",
         "External Rotation",
