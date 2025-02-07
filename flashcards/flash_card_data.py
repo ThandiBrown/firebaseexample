@@ -1834,15 +1834,19 @@ Constraints:
 """,
 "code":
 """ 
-class Solution:
-    def removeDuplicates(self, nums: List[int]) -> int:
-        next_elem = 1
-        for i in range(1, len(nums)):
-            # if there is a change in number
-            if nums[i] != nums[i - 1]:
-                nums[next_elem] = nums[i]
-                next_elem += 1
-        return next_elem
+
+def removeDuplicates(nums):
+    next_elem = 1
+    for i in range(1, len(nums)):
+        
+        
+        if nums[i] != nums[i - 1]:
+            nums[next_elem] = nums[i]
+            next_elem += 1
+    
+    return next_elem
+
+
 """
 },
 
@@ -1965,7 +1969,7 @@ only the minimum matters
 'problem': 
 """
 
-You are given an integer array heights where heights[i] represents the height of the ithith bar.
+You are given an integer array heights where heights[i] represents the height of the ith bar.
 
 You may choose any two bars to form a container. Return the maximum amount of water a container can store.
 

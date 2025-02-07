@@ -4,7 +4,7 @@ import { RandomNumberGenerator } from './randomTracker.js';
 
 
 
-let i = 10;
+let i = 0;
 
 let flashCardData = fc_data();
 let problemNumbers = Object.keys(flashCardData);

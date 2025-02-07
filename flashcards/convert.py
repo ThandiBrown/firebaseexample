@@ -1,5 +1,5 @@
 import json
-from flash_card_data import flashcard_data
+from flash_card_data2 import flashcard_data
 
 		
 def print_to_file(information = "This is information", filename = "title", extension = "txt", append = False):
@@ -17,10 +17,11 @@ def ensure_keys(dict_list):
 		for key in required_keys:
 			if key not in value or (key in value and value[key].strip() == ''):
 				value[key] = None        
-			elif key in value:
+			elif key in value and key != 'code':
 				value[key] = value[key].strip()
 
 def assign_to_js_file(flashcard_data):
+	# flashcard_data['code'] = '\n' + flashcard_data['code']
 	fc_file = """ 
 	function fc_data() {
 		return """ + json.dumps(flashcard_data, indent=4, default=vars) + """

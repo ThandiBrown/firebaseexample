@@ -28,6 +28,7 @@
 
 .note {
     background-color: lightblue;
+    white-space: pre-wrap;
 }
 
 .code {
