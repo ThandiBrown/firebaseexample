@@ -50,6 +50,66 @@
         "note": "a binary search tree is such that all values to the right are greater than the root, in all values to the left are less than\nfind where the \"split\" is\nwhen one value is greater than the root while the other value is less than or equal to the root, you have found the LCA\n\"they have split at this ancestor\"",
         "problem": "<a href='https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/\"'target=\"_blank\">Problem</a>",
         "code": " \ndef lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':\n\tif (p.val <= root.val and q.val >= root.val) or (p.val >= root.val and q.val <= root.val):\n\t\treturn root\n\n\tif p.val < root.val:\n\t\treturn self.lowestCommonAncestor(root.left, p, q)\n\tif p.val > root.val:\n\t\treturn self.lowestCommonAncestor(root.right, p, q)\n\t\n"
+    },
+    "6": {
+        "tag": [
+            ""
+        ],
+        "title": "Binary Tree Level Order Traversal",
+        "hint": null,
+        "note": "DFS\n- nested function, result at top\n- pass the level depth down\n- add value to the result at the expected level, considering indexing\n\nBFS\n- while queue, for loop inside which\n- for whatever on the Q, pop it off and add its children to the queue- by the time you're done with the for loop, you have handled every node at that level\n[3, 9, 20, 8, 12, 15, 17]\nwhile [3], for loop [3]\nwhile [9, 20], for loop [9, 20]\n9 ---> [20, 8, 12]\n20 ---> [8, 12, 15, 17]\nby the time you're done with this for loop, you have handled all of level two, so increment to level three, and you know the remaining four is for level three and so on",
+        "problem": "<a href=\"https://leetcode.com/problems/binary-tree-level-order-traversal/description/\" target=\"_blank\">Problem</a>",
+        "code": " \ndef levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n\tres = []\n\n\tdef dfs(node, depth):\n\t\tif not node:\n\t\t\treturn None\n\t\tif len(res) == depth:\n\t\t\tres.append([])\n\t\t\n\t\tres[depth].append(node.val)\n\t\tdfs(node.left, depth + 1)\n\t\tdfs(node.right, depth + 1)\n\t\n\tdfs(root, 0)\n\treturn res\n\ndef levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n\tres = []\n\n\tq = collections.deque()\n\tq.append(root)\n\n\twhile q:\n\t\tqLen = len(q)\n\t\tlevel = []\n\t\tfor i in range(qLen):\n\t\t\tnode = q.popleft()\n\t\t\tif node:\n\t\t\t\tlevel.append(node.val)\n\t\t\t\tq.append(node.left)\n\t\t\t\tq.append(node.right)\n\t\tif level:\n\t\t\tres.append(level)\n\t\t\t\n\treturn res\n"
+    },
+    "7": {
+        "tag": [
+            ""
+        ],
+        "title": "Binary Tree Right Side View",
+        "hint": null,
+        "note": "utilize level order traversal answer\nDFS\nwhen you first reach a new depth, save that value as the result\nthe trick is however to dfs to the right node first\n\nBFS\nas you pop from your for loop save (via variable assignment) all non-null values. the last value you save, will be the most right value on that tree for that level",
+        "problem": "<a href=\"https://leetcode.com/problems/binary-tree-right-side-view/description/\" target=\"_blank\">Problem</a>",
+        "code": " \ndef rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n\tres = []\n\n\tdef dfs(node, depth):\n\t\tif not node:\n\t\t\treturn None\n\t\tif depth == len(res):\n\t\t\tres.append(node.val)\n\t\t\n\t\tdfs(node.right, depth + 1)\n\t\tdfs(node.left, depth + 1)\n\t\n\tdfs(root, 0)\n\treturn res\n\t\ndef rightSideView(self, root: Optional[TreeNode]) -> List[int]:\n\tres = []\n\tq = deque([root])\n\n\twhile q:\n\t\trightSide = None\n\t\tqLen = len(q)\n\n\t\tfor i in range(qLen):\n\t\t\tnode = q.popleft()\n\t\t\tif node:\n\t\t\t\trightSide = node\n\t\t\t\tq.append(node.left)\n\t\t\t\tq.append(node.right)\n\t\tif rightSide:\n\t\t\tres.append(rightSide.val)\n\treturn res\n"
+    },
+    "8": {
+        "tag": [
+            ""
+        ],
+        "title": "Count Good Nodes in Binary Tree",
+        "hint": null,
+        "note": "track the maximum value you seen so far at each level\nif the current node is greater than or equal to any node you seen so far on this path, it is a good node\nmake sure to update the maximum",
+        "problem": "<a href=\"https://leetcode.com/problems/count-good-nodes-in-binary-tree/description/\" target=\"_blank\">Problem</a>",
+        "code": " \ndef goodNodes(self, root: TreeNode) -> int:\n\t\n\tdef dfs(root, maxSeen):\n\n\t\tif not root: return 0\n\n\t\tgoodCount = int(root.val >= maxSeen)\n\n\t\tmaxSeen = max(maxSeen, root.val)\n\t\t\n\t\treturn dfs(root.left, maxSeen) + dfs(root.right, maxSeen) + goodCount\n\n\treturn dfs(root, float(\"-inf\"))\n"
+    },
+    "9": {
+        "tag": [
+            ""
+        ],
+        "title": "Valid Binary Search Tree",
+        "hint": null,
+        "note": "<a href=\"https://www.youtube.com/watch?v=s6ATEkipzow&ab_channel=NeetCode\" target=\"_blank\">6:15 visual</a>\n\nyou need to keep track of (1)what value must be greater than and (2)what value it must be less than\nyou also pass what those left and right/lower and upper boundaries are from the parent depending on which direction you are moving down the tree",
+        "problem": "<a href=\"https://leetcode.com/problems/validate-binary-search-tree/description/\" target=\"_blank\">Problem</a>",
+        "code": " \ndef valid(node, left, right):\n\tif not node:\n\t\treturn True\n\t\n\tif not (left < node.val < right):\n\t\treturn False\n\n\treturn valid(node.left, left, node.val) and valid(node.right, node.val, right)\n\nreturn valid(root, float(\"-inf\"), float(\"inf\"))\n"
+    },
+    "10": {
+        "tag": [
+            ""
+        ],
+        "title": "Kth Smallest Integer in BST",
+        "hint": null,
+        "note": "if you want to print/visit a BST in sorted order, you doing an inorder traversal:\n\tdfs(node.left)\n\tnode.val\n\tdfs(node.right)\nreverse order would be:\n\tdfs(node.right)\n\tnode.val\n\tdfs(node.left)\nuse a BST with values [3,1,4,null,2,null,null] to see\n\nvisit through the tree in order, save the value along the way, index the value that you want\nor for more constant space, every time you come back from visiting the leftmost note, decrease the overall count until you reach count == 0",
+        "problem": "<a href=\"https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/\" target=\"_blank\">Problem</a>",
+        "code": " \ndef kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n\tarr = []\n\n\tdef dfs(node):\n\t\tif not node:\n\t\t\treturn\n\t\t\n\t\tdfs(node.left)\n\t\tarr.append(node.val)\n\t\tdfs(node.right)\n\t\n\tdfs(root)\n\treturn arr[k - 1]\n\ndef kthSmallest(self, root: Optional[TreeNode], k: int) -> int:\n\tcnt = k\n\tres = root.val\n\n\tdef dfs(node):\n\t\tnonlocal cnt, res\n\t\tif not node:\n\t\t\treturn\n\t\t\n\t\tdfs(node.left)\n\t\tcnt -= 1\n\t\tif cnt == 0:\n\t\t\tres = node.val\n\t\t\treturn\n\t\tdfs(node.right)\n\t\n\tdfs(root)\n\treturn res\n"
+    },
+    "11": {
+        "tag": [
+            ""
+        ],
+        "title": null,
+        "hint": null,
+        "note": null,
+        "problem": null,
+        "code": null
     }
 }
 	}
