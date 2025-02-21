@@ -3,7 +3,7 @@ function returnExercises() {
     return [
         "Posture",
         "Swan Hold",
-        "Serratus Band",
+        "Shoulder Pinches",
         "Neck Wall Lean",
         "Neck Side Stretch",
         "Levator Scapula Stretch",
@@ -27,7 +27,7 @@ function returnExercises() {
         "External Rotation",
         "Scapular Raise",
         "Shoulder Shrugs",
-        "Shoulder Pinches",
+        "Core Video",
         "Planks",
         "Core Lifts",
         "Quad Sets",
@@ -40,6 +40,7 @@ function returnExercises() {
         // "Dynamic Arm Movement",
 
         // "Four Way Neck Lifts",
+        // "Serratus Band",
 
         // "Front Raise",
         // "Lateral Raise",
