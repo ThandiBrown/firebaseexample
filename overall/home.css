@@ -35,7 +35,7 @@ body * {
 .saving:active {
     /* transform: translateY(2px); */
     /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); */
-    background-color: lightblue;
+    background-color: rgb(173, 216, 230);
 }
 
 .sticky-button {

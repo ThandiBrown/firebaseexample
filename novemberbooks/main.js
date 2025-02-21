@@ -42,6 +42,13 @@ function valid(assignments) {
         if (globalBookData[name].includes(selection)) {
             return false;
         }
+    }
+    return true;
+}
+
+function analysis() {
+    for (let [name, selection] of Object.entries(globalBookData)) {
+
         // if (selection.includes('The Power of Now')) {
         //     const valueToRemove = 'The Power of Now';
 
@@ -51,14 +58,10 @@ function valid(assignments) {
         //     }
         //     number++;
         // }
-        // if (name.includes('Chinue', 'Thandiwe')) {
-        //     selection.push('The Lies You Wrote');
-        // }
-        // if (name.includes('Kareem')) {
-        //     selection.push('Unwind');
-        // }
+        if (name.includes('Kareem')) {
+            selection.push('Unwind');
+        }
     }
-    return true;
 }
 
 function loadPage(userData) {
@@ -72,16 +75,22 @@ function loadPage(userData) {
     }
 
     globalBookData = userData;
+    // delete globalBookData.assignments;
     // console.log("globalBookData"); console.log(globalBookData);
-    // console.log('Honey and Spice' == globalBookData['Chinasa']);
+    // console.log(globalBookData['Ty'].includes('Honey and Spice'));
+    // console.log(globalBookData['Jovan'].includes('The Nightingale'));
     // globalBookData.assignments = d.getSelection();
-    // t.writeDB(globalBookData);
+    // globalBookData.assignments['Ty'] = 'Honey and Spice';
+    // globalBookData.assignments['Jovan'] = 'The Nightingale';
     // analysis();
     // reset();
-    // return;
+
     // t.writeDBHistory(globalBookData);
     // console.log(JSON.stringify(globalBookData.assignments, null, 2));
-    // console.log(globalBookData);
+    // delete globalBookData.assignments;
+    // t.writeDB(globalBookData);
+    // return;
+    // console.log('assignments' in globalBookData);
     // return;
 
     let allSelections = true;
@@ -91,7 +100,7 @@ function loadPage(userData) {
             break;
         }
     }
-    // delete globalBookData.assignments;
+
     if (allSelections) {
         let assignments;
         if (!('assignments' in globalBookData)) {
@@ -99,8 +108,10 @@ function loadPage(userData) {
             while (!valid(assignments)) {
                 assignments = getRandomBookAssignments(globalBookData);
             }
+            globalBookData.assignments = assignments;
             console.log("new assignments");
             console.log(JSON.stringify(globalBookData.assignments, null, 2));
+            // console.log(globalBookData);
             t.writeDB(globalBookData);
         } else {
             assignments = globalBookData.assignments;
@@ -189,7 +200,8 @@ function submitEventListener() {
 
 function getRandomBookAssignments() {
     const allBooks = d.getBookTitles();
-    const peopleSelections = globalBookData;
+    const peopleSelections = structuredClone(globalBookData);
+    delete peopleSelections['Chinasa'];
     // const peopleSelections = d.getSelection();
 
     // Create a deep copy of all books for random assignment
@@ -228,7 +240,7 @@ function getRandomBookAssignments() {
         }
     }
 
-    globalBookData.assignments = assignments;
+    assignments['Chinasa'] = 'When Christmas Comes';
 
     // console.log(JSON.stringify(assignments, null, 2));
     return assignments;

@@ -509,12 +509,12 @@ def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
 """
 },
 
-'0':{
+'12':{
 'tag':
 [''],
 'title':
 """ 
-
+Last Stone Weight
 """,
 'hint':
 """ 
@@ -522,11 +522,20 @@ def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
 """,
 'note':
 """ 
+<a href="https://www.youtube.com/shorts/V8QD98eONCw" target="_blank">About Heaps</a>
+why use a heap?
+we basically always need to have access to the top largest values, well continuously editing and inputting into the array
+so instead of sorting every single time, we use a heap which can basically do and insert into a sorted list at log(n) time
+heapify also can sort the array in O(n) time
+accessing the highest or lowest value is o(1) operation
 
+Python only has access to a min heap function
+so to treat it like a max heap, you have to negate all the values
 """,
 'problem': 
 """
-
+<a href="https://leetcode.com/problems/last-stone-weight/description/" target="_blank">Problem</a>
+<a href="https://neetcode.io/problems/last-stone-weight" target="_blank">Solution</a>
 """,
 "code":
 """ 

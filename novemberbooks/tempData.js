@@ -17,15 +17,15 @@ function getSelection() {
     return {
         // Thandiwe: getBookTitles(),
         Thandiwe: ['When no one is watching',],
-        Chinue: ['When Christmas Comes',],
-        Kareem: ['First Lie Wins',],
+        Chinue: ['First Lie Wins',],
+        Kareem: ['Honey and Spice',],
         Ty: ['The Nightingale',],
         Jovan: ['Enders Game',],
         Shonnie: ['Blood at the root',],
         Tharisa: ['Unwind',],
         Ben: ['Verity',],
         RaShunda: ['The Lies You Wrote',],
-        Chinasa: ['Honey and Spice',]
+        Chinasa: ['When Christmas Comes',]
     }
 }
 
@@ -49,7 +49,7 @@ function getBookTitles() {
         'First Lie Wins',
         'The Nightingale',
         'Blood at the root',
-        'When Christmas Comes',
+        // 'When Christmas Comes',
         'Enders Game',
     ]
 }

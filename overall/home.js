@@ -14,7 +14,7 @@ make the collapse function
 add the submit area
 */
 
-if (false) {
+if (true) {
     a.initializeFirebase()
         .then(() => {
             // console.log('We Made It');
