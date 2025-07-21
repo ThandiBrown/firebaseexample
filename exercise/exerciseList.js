@@ -12,6 +12,7 @@ function returnExercises() {
         "Straight Leg Raise",
         "Weighted Hip Thrust",
         "Single Leg Glute Bridges",
+        "Inner Leg Raises",
         "Side Leg Raises",
         "Calf Raises",
         "Night Exercises",
