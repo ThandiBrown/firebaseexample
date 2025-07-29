@@ -28,6 +28,7 @@ function returnExercises() {
         "Triceps",
         "External Rotation",
         "Scapular Raise",
+        "Chest Exercise",
         "Shoulder Shrugs",
         "Core Video",
         "Planks",
