@@ -2,12 +2,13 @@
 function returnExercises() {
     return [
         "Posture",
-        "Swan Hold",
-        "Shoulder Pinches",
-        "Neck Wall Lean",
         "Neck Side Stretch",
         "Levator Scapula Stretch",
         "Chest Stretch",
+        "Swan Hold",
+        "Neck Wall Lean",
+        "Shoulder Pinches",
+        
         "Lower Body",
         "Straight Leg Raise",
         "Weighted Hip Thrust",
