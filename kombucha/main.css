@@ -1,0 +1,48 @@
+
+* {
+    outline: 1px solid black;
+}
+
+.box {
+  
+  padding: 10px;
+  margin: 10px;
+    
+}
+
+.box-container {
+    display: flex;
+    flex-direction: row;   /* main axis is horizontal */
+    flex-wrap: wrap;       /* allow columns to wrap onto next row if needed */
+    gap: 1rem;
+    
+}
+
+.flavor-column, .availability-column {
+
+    flex: 1;          /* columns share available width */
+    min-width: 200px;      /* prevents them from shrinking too small */
+    border: 1px solid #333;
+    padding: 1rem;
+    text-align: center;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.quantity-selected, .flavor-selected {
+    display: none;
+}
+
+.quantity-selected {
+    width:  50px;
+    text-align: center;
+}
+
+
+
+
+
+
