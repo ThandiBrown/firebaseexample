@@ -27,7 +27,7 @@
                 <div class="flavor-column">
                     <div class="title">Flavor</div>
                     <div class="flavor" id="mango" >Mango</div>
-                    <div class="flavor">Peach</div>
+                    <div class="flavor" id="peach">Peach</div>
                 </div>
                 <div class="availability-column">
                     <div class="title">Availability</div>
@@ -35,9 +35,8 @@
                     <div class="quantity">9</div>
                 </div>
                     
-                </div>
             </div>
-        </div>
+        </div>        
         
         <div class="box">
             <div class="box-title">Selected</div>
@@ -45,17 +44,29 @@
                 <div class="flavor-column">
                     <div class="title">Flavor</div>
                     <div class="flavor-selected" id="mango-selected">Mango</div>
-                    <div class="flavor-selected">Peach</div>
+                    <div class="flavor-selected" id="peach-selected">Peach</div>
                 </div>
                 <div class="availability-column">
                     <div class="title">Amount</div>
                     <input type="number" id="mango-quantity" class="quantity-selected" min="1" step="1" placeholder="1">
-                    <input type="number" class="quantity-selected" min="1" step="1" placeholder="1">
+                    <input type="number" id="peach-quantity" class="quantity-selected" min="1" step="1" placeholder="1">
                 </div>
                     
-                </div>
             </div>
         </div>
+        
+        <div class="button" id="button">Submit Order via SMS</div>
+        
+        
+        <div id="confirm" class="confirm-overlay">
+  <div class="confirm-box">
+    <p id="confirm-message"></p>
+    <div class="confirm-buttons">
+      <button id="confirm-yes">Send</button>
+      <button id="confirm-no">Don't Send</button>
+    </div>
+  </div>
+</div>
 
     </div>
 
