@@ -103,21 +103,23 @@
 	/* render \n as line breaks */
 }
 
-/* Remove ability to type/click in the text box */
+/* Hide typing caret */
 .arrow-only {
-	caret-color: transparent;
-	/* hide caret */
-	user-select: none;
-	/* prevent text selection */
+  caret-color: transparent;
+  user-select: none;
 }
 
-/* Prevent keyboard focus */
+/* Prevent focus outline */
 .arrow-only:focus {
-	outline: none;
+  outline: none;
 }
 
-/* Block typing via keyboard */
-.arrow-only {
-	ime-mode: disabled;
-	/* extra safeguard */
+/* Disable mobile keyboard */
+input[type=number].arrow-only::-webkit-outer-spin-button,
+input[type=number].arrow-only::-webkit-inner-spin-button {
+  opacity: 1; /* keep arrows visible */
+}
+
+input[type=number].arrow-only {
+  -moz-appearance: textfield; /* Firefox */
 }
