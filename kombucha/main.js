@@ -6,11 +6,12 @@ let inventory = {
 	"apple": 2,
 	"passionfruit": 3
 };
+let readyNow = inventory;
 
 // loadingSettings();
 loadingPage([{
 	"inventory": inventory,
-	"readyNow": inventory
+	"readyNow": readyNow
 }]);
 
 function loadingSettings() {
@@ -36,7 +37,7 @@ function loadingPage(response) {
 	
 	let storage = response[0];
 	inventory = storage["inventory"] || {};
-	let readyNow = storage["readyNow"] || {};
+	readyNow = storage["readyNow"] || {};
 	console.log("inventory:" + JSON.stringify(inventory));
 	console.log("readyNow:" + JSON.stringify(readyNow));
 	// writeDB("", {
@@ -152,9 +153,8 @@ function submitOrder() {
 	console.log("order:" + JSON.stringify(order));
 	console.log("readyNow:" + JSON.stringify(readyNow));
 
-	// saveData();
 	let message = formMessage(order, readyNow);
-	confirmOrder(message, order);
+	confirmOrder(message, order, readyNow);
 	// refresh the page
 }
 
@@ -193,35 +193,38 @@ function returnReadyNow() {
 	return result;
 }
 
-function saveData() {
-	writeDB("", inventory);
-}
 
 function formMessage(order, readyNow) {
 	const orderString = Object.entries(order).map(([flavor, qty]) => `${flavor}: ${qty}`).join('\n');
 	const readyNowString = Object.entries(readyNow).map(([flavor, qty]) => `${flavor}: ${qty}`).join('\n');
 	let message = "";
-	if (orderString.trim()) {
-		message += `Next Kombucha Order\n` + orderString;
-	}
 	
 	if (orderString.trim() && readyNowString.trim()) {
+		message += `Ready Now Order\n` + readyNowString;
 		message += "\n\n";
+		message += `Next Kombucha Order\n` + orderString;
+	} else if (orderString.trim()) {
+		message += `Kombucha Order\n` + orderString;
 	}
-	
-	if (readyNowString.trim()) {
+	else if (readyNowString.trim()) {
 		message += `Ready Now Order\n` + readyNowString;
 	}
+	
 	
 	console.log(message);
 	return message;
 }
 
-function confirmOrder(message, order) {
+function confirmOrder(message, order, readyNow) {
 	customConfirm(`Please confirm this is your order.\n${message}`).then((result) => {
 		if (result) {
-			// writeDB("", updateInventory(inventory, order));
-			sendMessage(message);
+			let update = {
+				"inventory": updateInventory(inventory, order),
+				"readyNow": updateInventory(inventory, readyNow)
+			}	
+			// writeDB("", update);
+			console.log(update);
+			// sendMessage(message);
 		} else
 			console.log("User cancelled the action.");
 	});
