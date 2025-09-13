@@ -1,92 +1,123 @@
-
 * {
-    outline: 1px solid black;
+	outline: 1px solid black;
 }
 
 .page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
 }
 
 .box {
-  
-  padding: 10px;
-  margin: 10px;
-    
+	width: 95%;
 }
 
 .box-container {
-    display: flex;
-    flex-direction: row;   /* main axis is horizontal */
-    flex-wrap: wrap;       /* allow columns to wrap onto next row if needed */
-    gap: 1rem;
-    
+	display: flex;
+	flex-direction: row;
+	/* main axis is horizontal */
+	flex-wrap: nowrap;
+	/* allow columns to wrap onto next row if needed */
+	gap: 1rem;
+
 }
 
-.flavor-column, .availability-column {
+.flavor-column,
+.availability-column {
 
-    flex: 1;          /* columns share available width */
-    min-width: 200px;      /* prevents them from shrinking too small */
-    border: 1px solid #333;
-    padding: 1rem;
-    text-align: center;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+	flex: 1;
+	/* columns share available width */
+	/* min-width: 200px; */
+	/* width: 200px; */
+	border: 1px solid #333;
+	padding: 1rem;
+	text-align: center;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
 }
 
-.quantity-selected, .flavor-selected {
-    display: none;
+.quantity-selected,
+.quantity-selected-rn,
+.flavor-selected,
+.flavor-selected-rn
+
+{
+	display: none;
 }
 
-.quantity-selected {
-    width:  50px;
-    text-align: center;
+.quantity-selected,
+.quantity-selected-rn
+{
+	width: 50px;
+	text-align: center;
 }
 
 .button {
-    background-color: #3d8eb6; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    width: 60%;
-    max-width: 200px;
-    margin-bottom: 1rem;
-    cursor: pointer;
+	background-color: #3d8eb6;
+	/* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	width: 60%;
+	max-width: 200px;
+	margin-bottom: 1rem;
+	cursor: pointer;
 }
 
 .confirm-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-  }
-  .confirm-box {
-    background: white;
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-    max-width: 300px;
-  }
-  .confirm-buttons button {
-    margin: 0.5rem;
-    padding: 0.5rem 1rem;
-  }
-  #confirm-message {
-  white-space: pre-line; /* render \n as line breaks */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	justify-content: center;
+	align-items: center;
 }
 
+.confirm-box {
+	background: white;
+	padding: 1rem 1.5rem;
+	border-radius: 10px;
+	text-align: center;
+	max-width: 300px;
+}
 
+.confirm-buttons button {
+	margin: 0.5rem;
+	padding: 0.5rem 1rem;
+}
 
+#confirm-message {
+	white-space: pre-line;
+	/* render \n as line breaks */
+}
+
+/* Remove ability to type/click in the text box */
+.arrow-only {
+	caret-color: transparent;
+	/* hide caret */
+	user-select: none;
+	/* prevent text selection */
+}
+
+/* Prevent keyboard focus */
+.arrow-only:focus {
+	outline: none;
+}
+
+/* Block typing via keyboard */
+.arrow-only {
+	ime-mode: disabled;
+	/* extra safeguard */
+}

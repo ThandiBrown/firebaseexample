@@ -1,33 +1,138 @@
 import { readDB, writeDB } from './data/talkToDatabase.js'
 
 
-
+let inventory = {
+	"mango": 3,
+	"apple": 2,
+	"passionfruit": 3
+};
 
 // loadingSettings();
+loadingPage([{
+	"inventory": inventory,
+	"readyNow": inventory
+}]);
 
 function loadingSettings() {
-		
-		quantity = {
-				"mango": 3,
-				"apple": 2,
-				"passionfruit": 3
-		}
-		
-		// writeDB({'info':JSON.stringify({})});
-		readDB("", loadingPage);
+	// readDB("", loadingPage);
+	writeDB("", {
+		"inventory": inventory,
+		"readyNow": {}
+	});
+	
 }
 
 function loadingPage(response) {
-		console.log("response")
-		console.log(response[0])
+	// let inventory = {
+	// 	"mango": 3,
+	// 	"apple": 2,
+	// 	"passionfruit": 3
+	// }
 
+	
+	console.log(3);
+	console.log("response");
+	console.log(response[0]);
+	
+	let storage = response[0];
+	inventory = storage["inventory"] || {};
+	let readyNow = storage["readyNow"] || {};
+	console.log("inventory:" + JSON.stringify(inventory));
+	console.log("readyNow:" + JSON.stringify(readyNow));
+	// writeDB("", {
+	// 	"inventory": inventory,
+	// 	"readyNow": inventory
+	// }); // initialize the database if empty
+
+	let flavors = "";
+	let quantities = "";
+	let flavorsRN = "";
+	let quantitiesRN = "";
+	let selectedFlavors = "";
+	let selectedQuantities = "";
+	let selectedFlavorsRN = "";
+	let selectedQuantitiesRN = "";
+	for (let [flavor, quantity] of Object.entries(inventory)) {
+		flavors += `<div class="flavor" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
+
+		quantities += `<div class="quantity">${quantity}</div>`;
+
+		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected" style="display:none;">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
+
+		selectedQuantities += `<input type="number" id="${flavor}-quantity" class="quantity-selected arrow-only" onkeydown="return false;" min="1" max="${quantity}" step="1" value="1" style="display:none;">`;
+	}
+	for (let [flavor, quantity] of Object.entries(readyNow)) {
+		flavorsRN += `<div class="flavor" id="${flavor}-rn">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
+
+		quantitiesRN += `<div class="quantity">${quantity}</div>`;
+
+		selectedFlavorsRN += `<div class="flavor-selected-rn" id="${flavor}-rn-selected" style="display:none;" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>`;
+
+		selectedQuantitiesRN += `<input type="number" id="${flavor}-rn-quantity" class="quantity-selected-rn arrow-only" onkeydown="return false;" min="1" max="${quantity}" step="1" value="1" style="display:none;">`;
+	}
+
+	console.log(document.getElementsByClassName("page")[0]);
+	let page = document.getElementsByClassName("page")[0];
+	page.innerHTML = `
+		<h2>Homepage</h2>
+		<div class="box">
+            <div class="box-title">Ready Now</div>
+            <div class="box-container">
+                <div class="flavor-column">
+                    <div class="title">Flavor</div>
+                    ${flavorsRN}
+                </div>
+                <div class="availability-column">
+                    <div class="title">Availability</div>
+                    ${quantitiesRN}
+                </div>
+                    
+            </div>
+        </div>
+		<div class="box">
+            <div class="box-title">Build Order</div>
+            <div class="box-container">
+                <div class="flavor-column">
+                    <div class="title">Flavor</div>
+                    ${flavors}
+                </div>
+                <div class="availability-column">
+                    <div class="title">Availability</div>
+                    ${quantities}
+                </div>
+                    
+            </div>
+        </div>
+		<div class="box">
+            <div class="box-title">Selected</div>
+            <div class="box-container">
+                <div class="flavor-column">
+                    <div class="title">Flavor</div>
+                    ${selectedFlavors}
+					${selectedFlavorsRN}
+                </div>
+                <div class="availability-column">
+                    <div class="title">Amount</div>
+                    ${selectedQuantities}
+					${selectedQuantitiesRN}
+                </div>
+                    
+            </div>
+        </div>
+	` + page.innerHTML;
+	
+	document.querySelectorAll('.flavor').forEach(el => {
+	el.addEventListener('click', (e) => process(e));
+});
+
+document.getElementById("button").addEventListener("click", () => submitOrder());
 }
 
 
 function process(e) {
-		console.log(e.target.id);
-		toggleDisplay(e.target.id + "-selected");
-		toggleDisplay(e.target.id + "-quantity");
+	console.log(e.target.id);
+	toggleDisplay(e.target.id + "-selected");
+	toggleDisplay(e.target.id + "-quantity");
 }
 
 function toggleDisplay(id) {
@@ -42,14 +147,18 @@ function toggleDisplay(id) {
 }
 
 function submitOrder() {
-	const order = returnDictionary();
-	
+	const order = returnOrder();
+	const readyNow = returnReadyNow();
+	console.log("order:" + JSON.stringify(order));
+	console.log("readyNow:" + JSON.stringify(readyNow));
+
 	// saveData();
-	let message = formMessage(order);
-	confirmOrder(message);
+	let message = formMessage(order, readyNow);
+	confirmOrder(message, order);
+	// refresh the page
 }
 
-function returnDictionary() {
+function returnOrder() {
 	const result = {};
 	const flavors = document.querySelectorAll('.flavor-selected');
 	const quantities = document.querySelectorAll('.quantity-selected');
@@ -63,34 +172,60 @@ function returnDictionary() {
 		}
 	});
 
-	console.log(result);
+	return result;
+}
+
+function returnReadyNow() {
+	const result = {};
+	const flavors = document.querySelectorAll('.flavor-selected-rn');
+	const quantities = document.querySelectorAll('.quantity-selected-rn');
+
+	flavors.forEach((flavor, index) => {
+		const style = window.getComputedStyle(flavor);
+		if (style.display === "block") {
+			const quantityInput = quantities[index];
+			const quantity = quantityInput.value || quantityInput.placeholder || "0";
+			
+			result[flavor.dataset.name.trim()] = quantity;
+		}
+	});
+
 	return result;
 }
 
 function saveData() {
-	
+	writeDB("", inventory);
 }
 
-function formMessage(order) {
+function formMessage(order, readyNow) {
 	const orderString = Object.entries(order).map(([flavor, qty]) => `${flavor}: ${qty}`).join('\n');
-	if (!orderString.trim()) {
-		return ;
+	const readyNowString = Object.entries(readyNow).map(([flavor, qty]) => `${flavor}: ${qty}`).join('\n');
+	let message = "";
+	if (orderString.trim()) {
+		message += `Next Kombucha Order\n` + orderString;
 	}
-	const message = `Kombucha Order\n` + orderString;
+	
+	if (orderString.trim() && readyNowString.trim()) {
+		message += "\n\n";
+	}
+	
+	if (readyNowString.trim()) {
+		message += `Ready Now Order\n` + readyNowString;
+	}
+	
 	console.log(message);
 	return message;
 }
 
-function sendMessage(message) {
-	const url = `sms:$+17067508106?&body=${encodeURIComponent(message)}`;
-	window.location.href = url;
+function confirmOrder(message, order) {
+	customConfirm(`Please confirm this is your order.\n${message}`).then((result) => {
+		if (result) {
+			// writeDB("", updateInventory(inventory, order));
+			sendMessage(message);
+		} else
+			console.log("User cancelled the action.");
+	});
 }
-
-document.querySelectorAll('.flavor').forEach(el => {
-	el.addEventListener('click', (e) => process(e));
-});
-
-document.getElementById("button").addEventListener("click", () => submitOrder());
 
 function customConfirm(message) {
 	return new Promise((resolve) => {
@@ -118,14 +253,30 @@ function customConfirm(message) {
 	});
 }
 
-  // Example usage
-  
-function confirmOrder(message) {
-	customConfirm(`Please confirm this is your order.\n${message}`).then((result) => {
-		if (result) 
-			sendMessage(message);
-		else 
-			console.log("User cancelled the action.");
-	});
+
+function sendMessage(message) {
+	const url = `sms:$+17067508106?&body=${encodeURIComponent(message)}`;
+	window.location.href = url;
 }
-  
+
+function updateInventory(inventory, order) {
+  // Make a copy so the original inventory is not mutated
+  let updatedInventory = { ...inventory };
+
+  for (let item in order) {
+    let normalizedItem = item.toLowerCase(); // normalize casing
+    let quantitySold = parseInt(order[item], 10); // ensure number
+
+    if (updatedInventory.hasOwnProperty(normalizedItem)) {
+      updatedInventory[normalizedItem] -= quantitySold;
+
+      // prevent negative stock
+      if (updatedInventory[normalizedItem] < 0) {
+        updatedInventory[normalizedItem] = 0;
+      }
+    }
+  }
+
+  return updatedInventory;
+}
+
