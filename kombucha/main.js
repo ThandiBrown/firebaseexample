@@ -60,7 +60,7 @@ function loadingPage(response) {
 
 		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected" style="display:none;">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
 
-		selectedQuantities += `<input type="number" id="${flavor}-quantity" class="quantity-selected arrow-only" readonly onkeydown="return false;" min="1" max="${quantity}" step="1" value="1" style="display:none;">`;
+		selectedQuantities += `<input type="number" id="${flavor}-quantity" class="quantity-selected arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:none;">`;
 	}
 	for (let [flavor, quantity] of Object.entries(readyNow)) {
 		flavorsRN += `<div class="flavor" id="${flavor}-rn">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
@@ -69,7 +69,7 @@ function loadingPage(response) {
 
 		selectedFlavorsRN += `<div class="flavor-selected-rn" id="${flavor}-rn-selected" style="display:none;" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>`;
 
-		selectedQuantitiesRN += `<input type="number" id="${flavor}-rn-quantity" class="quantity-selected-rn arrow-only" readonly min="1" max="${quantity}" step="1" value="1" style="display:none;">`;
+		selectedQuantitiesRN += `<input type="number" id="${flavor}-rn-quantity" class="quantity-selected-rn arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:none;">`;
 	}
 
 	console.log(document.getElementsByClassName("page")[0]);
