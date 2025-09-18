@@ -65,100 +65,27 @@
 	padding: 5px;
 }
 
-.quantity-selected,
-.quantity-selected-rn,
+.input,
 .flavor-selected,
 .flavor-selected-rn
 {
 	display: none;
+	text-align: center;
 }
 
-.flavor-selected ,
+.flavor-selected,
 .flavor-selected-rn
 {
-	display: flex;
+	/* display: flex; */
 	width: 100%;
 	justify-content: center;
 	align-items: center;
 	height: 50px;
 }
 
-.quantity-selected,
-.quantity-selected-rn
-{
-	text-align: center;
-}
-
-.button {
-	background-color: #3d8eb6;
-	/* Green */
-	border: none;
-	color: white;
-	padding: 15px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	width: 60%;
-	max-width: 200px;
-	margin-bottom: 1rem;
-	cursor: pointer;
-}
-
-.confirm-overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	display: none;
-	justify-content: center;
-	align-items: center;
-}
-
-.confirm-box {
-	background: white;
-	padding: 1rem 1.5rem;
-	border-radius: 10px;
-	text-align: center;
-	max-width: 300px;
-}
-
-.confirm-buttons button {
-	margin: 0.5rem;
-	padding: 0.5rem 1rem;
-}
-
-#confirm-message {
-	white-space: pre-line;
-	/* render \n as line breaks */
-}
-
-/* Remove ability to type/click in the text box */
-.arrow-only {
-	caret-color: transparent;
-	/* hide caret */
-	user-select: none;
-	/* prevent text selection */
-}
-
-/* Prevent keyboard focus */
-.arrow-only:focus {
-	outline: none;
-}
-
-/* Block typing via keyboard */
-.arrow-only {
-	ime-mode: disabled;
-	/* extra safeguard */
-}
-
 .input {
   width: 80px;
   height: 50px;
-  display: flex;
-  /* border: 1px solid #aaa; */
   border-radius: 4px;
   overflow: hidden;
   font-family: sans-serif;
@@ -212,4 +139,51 @@
 
 .down::before {
   border-top: 8px solid black;
+}
+
+
+
+.button {
+	background-color: #3d8eb6;
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	width: 60%;
+	max-width: 200px;
+	margin-bottom: 1rem;
+	cursor: pointer;
+}
+
+.confirm-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.confirm-box {
+	background: white;
+	padding: 1rem 1.5rem;
+	border-radius: 10px;
+	text-align: center;
+	max-width: 300px;
+}
+
+.confirm-buttons button {
+	margin: 0.5rem;
+	padding: 0.5rem 1rem;
+}
+
+#confirm-message {
+	white-space: pre-line;
+	/* render \n as line breaks */
 }

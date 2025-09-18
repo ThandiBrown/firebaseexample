@@ -37,8 +37,8 @@ function loadingPage(response) {
 
 	let storage = response[0];
 	inventory = storage["inventory"] || {};
-	// readyNow = storage["readyNow"] || {};
-	readyNow = {};
+	readyNow = storage["readyNow"] || {};
+	// readyNow = {};
 	console.log("inventory:" + JSON.stringify(inventory));
 	console.log("readyNow:" + JSON.stringify(readyNow));
 	// writeDB("", {
@@ -61,8 +61,6 @@ function loadingPage(response) {
 
 		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected" i>${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
 
-		// selectedQuantities += `<input type="number" id="${flavor}-quantity" class="quantity-selected arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:flex;">`;
-
 		selectedQuantities += `
 			<div class="input" id="${flavor}-quantity">
 				<div class="number quantity-selected">1</div>
@@ -78,13 +76,11 @@ function loadingPage(response) {
 
 		quantitiesRN += `<div class="quantity">${quantity}</div>`;
 
-		selectedFlavorsRN += `<div class="flavor-selected-rn" id="${flavor}-rn-selected" style="display:flex;" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>`;
-
-		// selectedQuantitiesRN += `<input type="number" id="${flavor}-rn-quantity" class="quantity-selected-rn arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:flex;">`;
+		selectedFlavorsRN += `<div class="flavor-selected-rn" id="${flavor}-rn-selected" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>`;
 		
 		selectedQuantitiesRN += `
-			<div class="input">
-				<div class="number" id="${flavor}-rn-quantity">1</div>
+			<div class="input" id="${flavor}-rn-quantity">
+				<div class="number quantity-selected-rn">1</div>
 				<div class="arrows">
 					<div class="up" data-min="1" data-max="${quantity}"></div>
 					<div class="down" data-min="1" data-max="${quantity}"></div>
@@ -175,8 +171,8 @@ function toggleBackgroundColor(element, color1, color2) {
 }
 
 function submitOrder() {
-	const order = returnOrder();
-	const readyNow = returnReadyNow();
+	const order = returnOrder(0);
+	const readyNow = returnOrder(1);
 	console.log("order:" + JSON.stringify(order));
 	console.log("readyNow:" + JSON.stringify(readyNow));
 
@@ -185,10 +181,18 @@ function submitOrder() {
 	// refresh the page
 }
 
-function returnOrder() {
+function returnOrder(readyNow) {
 	const result = {};
-	const flavors = document.querySelectorAll('.flavor-selected');
-	const quantities = document.querySelectorAll('.quantity-selected');
+	let flavors;
+	let quantities;
+	if (readyNow) {
+		flavors = document.querySelectorAll('.flavor-selected-rn');
+		quantities = document.querySelectorAll('.quantity-selected-rn');
+	} else {
+		flavors = document.querySelectorAll('.flavor-selected');
+		quantities = document.querySelectorAll('.quantity-selected');
+	}
+	
 
 	flavors.forEach((flavor, index) => {
 		const style = window.getComputedStyle(flavor);
@@ -196,24 +200,6 @@ function returnOrder() {
 			const quantityInput = quantities[index];
 			const quantity = quantityInput.innerText || quantityInput.placeholder || "0";
 			result[flavor.textContent.trim()] = quantity;
-		}
-	});
-
-	return result;
-}
-
-function returnReadyNow() {
-	const result = {};
-	const flavors = document.querySelectorAll('.flavor-selected-rn');
-	const quantities = document.querySelectorAll('.quantity-selected-rn');
-
-	flavors.forEach((flavor, index) => {
-		const style = window.getComputedStyle(flavor);
-		if (style.display === "flex") {
-			const quantityInput = quantities[index];
-			const quantity = quantityInput.value || quantityInput.placeholder || "0";
-
-			result[flavor.dataset.name.trim()] = quantity;
 		}
 	});
 
@@ -229,9 +215,9 @@ function formMessage(order, readyNow) {
 	if (orderString.trim() && readyNowString.trim()) {
 		message += `Ready Now Order\n` + readyNowString;
 		message += "\n\n";
-		message += `Next Kombucha Order\n` + orderString;
+		message += `Next Order\n` + orderString;
 	} else if (orderString.trim()) {
-		message += `Kombucha Order\n` + orderString;
+		message += `Next Order\n` + orderString;
 	}
 	else if (readyNowString.trim()) {
 		message += `Ready Now Order\n` + readyNowString;
