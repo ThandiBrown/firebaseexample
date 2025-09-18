@@ -20,7 +20,7 @@ function loadingSettings() {
 		"inventory": inventory,
 		"readyNow": {}
 	});
-	
+
 }
 
 function loadingPage(response) {
@@ -30,14 +30,15 @@ function loadingPage(response) {
 	// 	"passionfruit": 3
 	// }
 
-	
+
 	console.log(3);
 	console.log("response");
 	console.log(response[0]);
-	
+
 	let storage = response[0];
 	inventory = storage["inventory"] || {};
-	readyNow = storage["readyNow"] || {};
+	// readyNow = storage["readyNow"] || {};
+	readyNow = {};
 	console.log("inventory:" + JSON.stringify(inventory));
 	console.log("readyNow:" + JSON.stringify(readyNow));
 	// writeDB("", {
@@ -58,16 +59,16 @@ function loadingPage(response) {
 
 		quantities += `<div class="quantity">${quantity}</div>`;
 
-		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected" style="display:flex;">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
+		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected" i>${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
 
 		// selectedQuantities += `<input type="number" id="${flavor}-quantity" class="quantity-selected arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:flex;">`;
-		
+
 		selectedQuantities += `
-			<div class="input">
-				<div class="number">${quantity}</div>
+			<div class="input" id="${flavor}-quantity">
+				<div class="number quantity-selected">1</div>
 				<div class="arrows">
-					<div class="up"></div>
-					<div class="down"></div>
+					<div class="up" data-min="1" data-max="${quantity}"></div>
+					<div class="down" data-min="1" data-max="${quantity}"></div>
 				</div>
         	</div>
 		`;
@@ -79,7 +80,17 @@ function loadingPage(response) {
 
 		selectedFlavorsRN += `<div class="flavor-selected-rn" id="${flavor}-rn-selected" style="display:flex;" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>`;
 
-		selectedQuantitiesRN += `<input type="number" id="${flavor}-rn-quantity" class="quantity-selected-rn arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:flex;">`;
+		// selectedQuantitiesRN += `<input type="number" id="${flavor}-rn-quantity" class="quantity-selected-rn arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:flex;">`;
+		
+		selectedQuantitiesRN += `
+			<div class="input">
+				<div class="number" id="${flavor}-rn-quantity">1</div>
+				<div class="arrows">
+					<div class="up" data-min="1" data-max="${quantity}"></div>
+					<div class="down" data-min="1" data-max="${quantity}"></div>
+				</div>
+        	</div>
+		`;
 	}
 
 	console.log(document.getElementsByClassName("page")[0]);
@@ -131,14 +142,11 @@ function loadingPage(response) {
             </div>
         </div>
 	` + page.innerHTML;
-	
+
 	document.querySelectorAll('.flavor').forEach(el => {
-	el.addEventListener('click', (e) => process(e));
-});
-
-document.getElementById("button").addEventListener("click", () => submitOrder());
+		el.addEventListener('click', (e) => process(e));
+	});
 }
-
 
 function process(e) {
 	console.log(e.target.id);
@@ -160,7 +168,7 @@ function toggleDisplay(id) {
 
 function toggleBackgroundColor(element, color1, color2) {
 	if (element.style.backgroundColor == color1 || element.style.backgroundColor == "") {
-        element.style.backgroundColor = color2;
+		element.style.backgroundColor = color2;
 	} else {
 		element.style.backgroundColor = color1;
 	}
@@ -186,7 +194,7 @@ function returnOrder() {
 		const style = window.getComputedStyle(flavor);
 		if (style.display === "flex") {
 			const quantityInput = quantities[index];
-			const quantity = quantityInput.value || quantityInput.placeholder || "0";
+			const quantity = quantityInput.innerText || quantityInput.placeholder || "0";
 			result[flavor.textContent.trim()] = quantity;
 		}
 	});
@@ -204,7 +212,7 @@ function returnReadyNow() {
 		if (style.display === "flex") {
 			const quantityInput = quantities[index];
 			const quantity = quantityInput.value || quantityInput.placeholder || "0";
-			
+
 			result[flavor.dataset.name.trim()] = quantity;
 		}
 	});
@@ -217,7 +225,7 @@ function formMessage(order, readyNow) {
 	const orderString = Object.entries(order).map(([flavor, qty]) => `${flavor}: ${qty}`).join('\n');
 	const readyNowString = Object.entries(readyNow).map(([flavor, qty]) => `${flavor}: ${qty}`).join('\n');
 	let message = "";
-	
+
 	if (orderString.trim() && readyNowString.trim()) {
 		message += `Ready Now Order\n` + readyNowString;
 		message += "\n\n";
@@ -228,8 +236,8 @@ function formMessage(order, readyNow) {
 	else if (readyNowString.trim()) {
 		message += `Ready Now Order\n` + readyNowString;
 	}
-	
-	
+
+
 	console.log(message);
 	return message;
 }
@@ -240,7 +248,7 @@ function confirmOrder(message, order, readyNow) {
 			let update = {
 				"inventory": updateInventory(inventory, order),
 				"readyNow": updateInventory(inventory, readyNow)
-			}	
+			}
 			// writeDB("", update);
 			console.log(update);
 			// sendMessage(message);
@@ -282,23 +290,54 @@ function sendMessage(message) {
 }
 
 function updateInventory(inventory, order) {
-  // Make a copy so the original inventory is not mutated
-  let updatedInventory = { ...inventory };
+	// Make a copy so the original inventory is not mutated
+	let updatedInventory = { ...inventory };
 
-  for (let item in order) {
-    let normalizedItem = item.toLowerCase(); // normalize casing
-    let quantitySold = parseInt(order[item], 10); // ensure number
+	for (let item in order) {
+		let normalizedItem = item.toLowerCase(); // normalize casing
+		let quantitySold = parseInt(order[item], 10); // ensure number
 
-    if (updatedInventory.hasOwnProperty(normalizedItem)) {
-      updatedInventory[normalizedItem] -= quantitySold;
+		if (updatedInventory.hasOwnProperty(normalizedItem)) {
+			updatedInventory[normalizedItem] -= quantitySold;
 
-      // prevent negative stock
-      if (updatedInventory[normalizedItem] < 0) {
-        updatedInventory[normalizedItem] = 0;
-      }
-    }
-  }
+			// prevent negative stock
+			if (updatedInventory[normalizedItem] < 0) {
+				updatedInventory[normalizedItem] = 0;
+			}
+		}
+	}
 
-  return updatedInventory;
+	return updatedInventory;
 }
+
+function changeQuantity(e) {
+	const arrow = e.currentTarget;
+	const input = arrow.closest(".input");
+	const numberDiv = input.querySelector(".number");
+
+	let value = parseInt(numberDiv.textContent, 10);
+	console.log("value:" + JSON.stringify(value));
+	const min = parseInt(arrow.dataset.min, 10);
+	const max = parseInt(arrow.dataset.max, 10);
+
+	if (arrow.classList.contains("up") && value < max) {
+		value++;
+		numberDiv.textContent = value;
+	} else if (arrow.classList.contains("down") && value > min) {
+		value--;
+		numberDiv.textContent = value;
+	}
+}
+
+
+function runEventListeners() {
+	document.getElementById("button").addEventListener("click", () => submitOrder());
+	
+	document.querySelectorAll(".up, .down").forEach(arrow => {
+		arrow.addEventListener("click", changeQuantity);
+	});
+
+}
+
+runEventListeners();
 
