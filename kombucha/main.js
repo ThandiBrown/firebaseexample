@@ -58,18 +58,28 @@ function loadingPage(response) {
 
 		quantities += `<div class="quantity">${quantity}</div>`;
 
-		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected" style="display:none;">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
+		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected" style="display:flex;">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
 
-		selectedQuantities += `<input type="number" id="${flavor}-quantity" class="quantity-selected arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:none;">`;
+		// selectedQuantities += `<input type="number" id="${flavor}-quantity" class="quantity-selected arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:flex;">`;
+		
+		selectedQuantities += `
+			<div class="input">
+				<div class="number">${quantity}</div>
+				<div class="arrows">
+					<div class="up"></div>
+					<div class="down"></div>
+				</div>
+        	</div>
+		`;
 	}
 	for (let [flavor, quantity] of Object.entries(readyNow)) {
 		flavorsRN += `<div class="flavor" id="${flavor}-rn">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
 
 		quantitiesRN += `<div class="quantity">${quantity}</div>`;
 
-		selectedFlavorsRN += `<div class="flavor-selected-rn" id="${flavor}-rn-selected" style="display:none;" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>`;
+		selectedFlavorsRN += `<div class="flavor-selected-rn" id="${flavor}-rn-selected" style="display:flex;" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>`;
 
-		selectedQuantitiesRN += `<input type="number" id="${flavor}-rn-quantity" class="quantity-selected-rn arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:none;">`;
+		selectedQuantitiesRN += `<input type="number" id="${flavor}-rn-quantity" class="quantity-selected-rn arrow-only" min="1" max="${quantity}" step="1" value="1" style="display:flex;">`;
 	}
 
 	console.log(document.getElementsByClassName("page")[0]);
@@ -134,16 +144,25 @@ function process(e) {
 	console.log(e.target.id);
 	toggleDisplay(e.target.id + "-selected");
 	toggleDisplay(e.target.id + "-quantity");
+	toggleBackgroundColor(e.target, "lightblue", "rgb(116, 189, 213)");
 }
 
 function toggleDisplay(id) {
 	const el = document.getElementById(id);
 	if (!el) return; // safety check
 
-	if (el.style.display != "block") {
-		el.style.display = "block"; // show it
+	if (el.style.display != "flex") {
+		el.style.display = "flex"; // show it
 	} else {
 		el.style.display = "none"; // hide it
+	}
+}
+
+function toggleBackgroundColor(element, color1, color2) {
+	if (element.style.backgroundColor == color1 || element.style.backgroundColor == "") {
+        element.style.backgroundColor = color2;
+	} else {
+		element.style.backgroundColor = color1;
 	}
 }
 
@@ -165,7 +184,7 @@ function returnOrder() {
 
 	flavors.forEach((flavor, index) => {
 		const style = window.getComputedStyle(flavor);
-		if (style.display === "block") {
+		if (style.display === "flex") {
 			const quantityInput = quantities[index];
 			const quantity = quantityInput.value || quantityInput.placeholder || "0";
 			result[flavor.textContent.trim()] = quantity;
@@ -182,7 +201,7 @@ function returnReadyNow() {
 
 	flavors.forEach((flavor, index) => {
 		const style = window.getComputedStyle(flavor);
-		if (style.display === "block") {
+		if (style.display === "flex") {
 			const quantityInput = quantities[index];
 			const quantity = quantityInput.value || quantityInput.placeholder || "0";
 			

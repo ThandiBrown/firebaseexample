@@ -1,5 +1,5 @@
 * {
-	
+	/* outline: 1px solid black; */
 }
 
 .page {
@@ -59,19 +59,33 @@
 	gap: 0.5rem;
 }
 
+.flavor {
+	background-color: lightblue;
+	border-radius: 5px;
+	padding: 5px;
+}
+
 .quantity-selected,
 .quantity-selected-rn,
 .flavor-selected,
 .flavor-selected-rn
-
 {
 	display: none;
+}
+
+.flavor-selected ,
+.flavor-selected-rn
+{
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	height: 50px;
 }
 
 .quantity-selected,
 .quantity-selected-rn
 {
-	width: 50px;
 	text-align: center;
 }
 
@@ -119,4 +133,83 @@
 #confirm-message {
 	white-space: pre-line;
 	/* render \n as line breaks */
+}
+
+/* Remove ability to type/click in the text box */
+.arrow-only {
+	caret-color: transparent;
+	/* hide caret */
+	user-select: none;
+	/* prevent text selection */
+}
+
+/* Prevent keyboard focus */
+.arrow-only:focus {
+	outline: none;
+}
+
+/* Block typing via keyboard */
+.arrow-only {
+	ime-mode: disabled;
+	/* extra safeguard */
+}
+
+.input {
+  width: 80px;
+  height: 50px;
+  display: flex;
+  /* border: 1px solid #aaa; */
+  border-radius: 4px;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+.number {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: lightblue;
+  font-size: 18px;
+  /* font-weight: bold; */
+}
+
+.arrows {
+  display: flex;
+  flex-direction: column;
+  background-color: #74bdd5;
+  width: 40px;
+}
+
+.up,
+.down {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.up:hover,
+.down:hover {
+  background-color: #5aa8c0;
+}
+
+/* Draw the arrow triangles */
+.up::before,
+.down::before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+}
+
+.up::before {
+  border-bottom: 8px solid black;
+}
+
+.down::before {
+  border-top: 8px solid black;
 }
