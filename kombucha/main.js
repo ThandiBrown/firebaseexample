@@ -23,7 +23,7 @@ let priority = [
 	"tart cherry"
 ];
 
-loadingSettings();
+
 
 function loadingSettings() {
 
@@ -350,5 +350,7 @@ function runEventListeners() {
 
 }
 
-
+export {
+    loadingSettings
+}
 

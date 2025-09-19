@@ -7,11 +7,10 @@ import {
 	setPersistence, browserLocalPersistence, onAuthStateChanged, signOut,
 	getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-
+import { loadingSettings } from '../main.js'
 
 
 async function initializeFirebase() {
-	// Firebase configuration
 	const firebaseConfig = {
 		apiKey: "AIzaSyB_VetYgcatX096x78XWbWycpqnoxDPnTU",
 		authDomain: "thandihome-5cd92.firebaseapp.com",
@@ -26,43 +25,41 @@ async function initializeFirebase() {
 	const app = initializeApp(firebaseConfig);
 	const auth = getAuth(app);
 
-	// Set persistence to browser local storage
-	await setPersistence(auth, browserLocalPersistence)
-		.then(() => {
-			return new Promise((resolve, reject) => {
-				// Listen for authentication state changes
-				onAuthStateChanged(auth, async (user) => {
-					if (user) {
-						console.log("User is signed in:", user.email);
-						resolve(); // Resolve the promise if the user is signed in
-					} else {
-						console.log("No user is signed in");
+	// Set persistence
+	await setPersistence(auth, browserLocalPersistence);
 
-						// Prompt for password
-						const userInput = prompt("Please enter your password:");
-						if (userInput !== null) {
-							console.log("User entered: " + userInput);
-							try {
-								// Sign in the user
-								await signInWithEmailAndPassword(auth, 'tigaco6170@craftapk.com', userInput);
-								resolve(); // Resolve the promise if sign-in is successful
-							} catch (error) {
-								console.error("Error during sign-in:", error);
-								reject(error); // Reject the promise if there is an error
-							}
-						} else {
-							console.log("User canceled the prompt");
-							reject(new Error("User canceled the prompt"));
-						}
+	return new Promise((resolve, reject) => {
+		onAuthStateChanged(auth, async (user) => {
+			if (user) {
+				console.log("User is signed in:", user.email);
+				loadingSettings();   // ✅ always run after login
+				resolve();
+			} else {
+				console.log("No user is signed in");
+				const userInput = prompt("Please enter your password:");
+				if (userInput !== null) {
+					try {
+						await signInWithEmailAndPassword(
+							auth,
+							"tifemon954@bitfami.com",
+							userInput
+						);
+						console.log("Sign-in successful");
+						// loadingSettings();   // ✅ also run here
+						resolve();
+					} catch (error) {
+						console.error("Error during sign-in:", error);
+						reject(error);
 					}
-				});
-			});
-		})
-		.catch((error) => {
-			console.error("Error setting persistence:", error);
-			throw error; // Rethrow the error if persistence setup fails
+				} else {
+					console.log("User canceled the prompt");
+					reject(new Error("User canceled the prompt"));
+				}
+			}
 		});
+	});
 }
+
 
 
 

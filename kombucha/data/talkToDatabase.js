@@ -3,11 +3,12 @@ import { getDatabase, set, ref, get, child, update, remove }
     from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"
 
 let folderName = "kombucha"
-const db = getDatabase();
+
 
 function writeDB(subfolder, value, method) {
-    console.log("write");
-    console.log(folderName + subfolder);
+    const db = getDatabase();
+    // console.log("write");
+    // console.log(folderName + subfolder);
     let divider = "/";
     set(ref(db, folderName + divider + subfolder), value)
         .then(() => {
@@ -21,6 +22,7 @@ function writeDB(subfolder, value, method) {
 }
 
 function readDB(subfolder, method, ...args) {
+    const db = getDatabase();
     // console.log("subfolder:" + JSON.stringify(subfolder));
     let divider = "/";
     if (subfolder == "") {
