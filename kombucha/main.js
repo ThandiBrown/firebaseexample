@@ -1,50 +1,58 @@
 import { readDB, writeDB } from './data/talkToDatabase.js'
 
 
-let inventory = {
-	"mango": 3,
-	"apple": 2,
-	"passionfruit": 3
+let fullInventory = {
+	"mango": 6,
+	"guava": 6,
+	"guava ras": 3,
+	"orange guava": 24,
+	"pineapple": 6,
+	"pineapple ras": 12,
+	"spicy pineapple": 0,
+	"tart cherry": 0,
+	"peach": 6,
+	"peach basil": 0,
+	"apple": 0,
+	"pear": 24,
+	"passionfruit": 3,
 };
-let readyNow = inventory;
+let inventory = fullInventory;
+let readyNow = {};
+let priority = [
+	"mango", "guava", "guava ras", "orange guava", "pineapple", "pineapple ras",
+	"tart cherry"
+];
 
-// loadingSettings();
-loadingPage([{
-	"inventory": inventory,
-	"readyNow": readyNow
-}]);
+loadingSettings();
 
 function loadingSettings() {
-	// readDB("", loadingPage);
-	writeDB("", {
-		"inventory": inventory,
-		"readyNow": {}
-	});
 
+	if (true) {
+		readDB("", loadingPage);
+	} else if (false) {
+		loadingPage([{
+			"inventory": fullInventory,
+			"readyNow": readyNow
+		}]);
+	} else {
+		writeDB("", {
+			"inventory": fullInventory,
+			"readyNow": {}
+		}, () => readDB("", loadingPage));
+	}
 }
 
+
 function loadingPage(response) {
-	// let inventory = {
-	// 	"mango": 3,
-	// 	"apple": 2,
-	// 	"passionfruit": 3
-	// }
 
-
-	console.log(3);
-	console.log("response");
+	console.log("loaded data");
 	console.log(response[0]);
 
 	let storage = response[0];
-	inventory = storage["inventory"] || {};
+	fullInventory = storage["inventory"];
+	inventory = getTopInventory(fullInventory, priority) || {};
+	// inventory = storage["inventory"] || {};
 	readyNow = storage["readyNow"] || {};
-	// readyNow = {};
-	console.log("inventory:" + JSON.stringify(inventory));
-	console.log("readyNow:" + JSON.stringify(readyNow));
-	// writeDB("", {
-	// 	"inventory": inventory,
-	// 	"readyNow": inventory
-	// }); // initialize the database if empty
 
 	let flavors = "";
 	let quantities = "";
@@ -77,7 +85,7 @@ function loadingPage(response) {
 		quantitiesRN += `<div class="quantity">${quantity}</div>`;
 
 		selectedFlavorsRN += `<div class="flavor-selected-rn" id="${flavor}-rn-selected" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>`;
-		
+
 		selectedQuantitiesRN += `
 			<div class="input" id="${flavor}-rn-quantity">
 				<div class="number quantity-selected-rn">1</div>
@@ -89,7 +97,6 @@ function loadingPage(response) {
 		`;
 	}
 
-	console.log(document.getElementsByClassName("page")[0]);
 	let page = document.getElementsByClassName("page")[0];
 	page.innerHTML = `
 		<h2>Homepage</h2>
@@ -139,13 +146,26 @@ function loadingPage(response) {
         </div>
 	` + page.innerHTML;
 
-	document.querySelectorAll('.flavor').forEach(el => {
-		el.addEventListener('click', (e) => process(e));
-	});
+
+	runEventListeners();
+}
+
+function getTopInventory(inventory, priority, count = 3) {
+	let result = {};
+	let added = 0;
+
+	for (let item of priority) {
+		if (inventory[item] && inventory[item] > 0) {
+			result[item] = inventory[item];
+			added++;
+			if (added === count) break;
+		}
+	}
+
+	return result;
 }
 
 function process(e) {
-	console.log(e.target.id);
 	toggleDisplay(e.target.id + "-selected");
 	toggleDisplay(e.target.id + "-quantity");
 	toggleBackgroundColor(e.target, "lightblue", "rgb(116, 189, 213)");
@@ -172,27 +192,27 @@ function toggleBackgroundColor(element, color1, color2) {
 
 function submitOrder() {
 	const order = returnOrder(0);
-	const readyNow = returnOrder(1);
-	console.log("order:" + JSON.stringify(order));
-	console.log("readyNow:" + JSON.stringify(readyNow));
+	const orderRn = returnOrder(1);
+	// console.log("order:" + JSON.stringify(order));
+	// console.log("orderRn:" + JSON.stringify(orderRn));
 
-	let message = formMessage(order, readyNow);
-	confirmOrder(message, order, readyNow);
+	let message = formMessage(order, orderRn);
+	confirmOrder(message, order, orderRn);
 	// refresh the page
 }
 
-function returnOrder(readyNow) {
+function returnOrder(orderRn) {
 	const result = {};
 	let flavors;
 	let quantities;
-	if (readyNow) {
+	if (orderRn) {
 		flavors = document.querySelectorAll('.flavor-selected-rn');
 		quantities = document.querySelectorAll('.quantity-selected-rn');
 	} else {
 		flavors = document.querySelectorAll('.flavor-selected');
 		quantities = document.querySelectorAll('.quantity-selected');
 	}
-	
+
 
 	flavors.forEach((flavor, index) => {
 		const style = window.getComputedStyle(flavor);
@@ -207,37 +227,34 @@ function returnOrder(readyNow) {
 }
 
 
-function formMessage(order, readyNow) {
+function formMessage(order, orderRn) {
 	const orderString = Object.entries(order).map(([flavor, qty]) => `${flavor}: ${qty}`).join('\n');
-	const readyNowString = Object.entries(readyNow).map(([flavor, qty]) => `${flavor}: ${qty}`).join('\n');
+	const orderRnString = Object.entries(orderRn).map(([flavor, qty]) => `${flavor}: ${qty}`).join('\n');
 	let message = "";
 
-	if (orderString.trim() && readyNowString.trim()) {
-		message += `Ready Now Order\n` + readyNowString;
+	if (orderString.trim() && orderRnString.trim()) {
+		message += `Ready Now Order\n` + orderRnString;
 		message += "\n\n";
 		message += `Next Order\n` + orderString;
 	} else if (orderString.trim()) {
 		message += `Next Order\n` + orderString;
 	}
-	else if (readyNowString.trim()) {
-		message += `Ready Now Order\n` + readyNowString;
+	else if (orderRnString.trim()) {
+		message += `Ready Now Order\n` + orderRnString;
 	}
 
-
-	console.log(message);
 	return message;
 }
 
-function confirmOrder(message, order, readyNow) {
+function confirmOrder(message, order, orderRn) {
 	customConfirm(`Please confirm this is your order.\n${message}`).then((result) => {
 		if (result) {
 			let update = {
-				"inventory": updateInventory(inventory, order),
-				"readyNow": updateInventory(inventory, readyNow)
+				"inventory": updateInventory(fullInventory, order),
+				"readyNow": updateInventory(readyNow, orderRn)
 			}
-			// writeDB("", update);
-			console.log(update);
-			// sendMessage(message);
+			// console.log(update);
+			writeDB("", update, () => sendMessage(message));
 		} else
 			console.log("User cancelled the action.");
 	});
@@ -271,8 +288,14 @@ function customConfirm(message) {
 
 
 function sendMessage(message) {
-	const url = `sms:$+17067508106?&body=${encodeURIComponent(message)}`;
-	window.location.href = url;
+	if (true) {
+		const url = `sms:$+17067508106?&body=${encodeURIComponent(message)}`;
+		window.location.href = url;
+	} else {
+		console.log("Sending Message...");
+		location.reload(true);
+
+	}
 }
 
 function updateInventory(inventory, order) {
@@ -302,7 +325,6 @@ function changeQuantity(e) {
 	const numberDiv = input.querySelector(".number");
 
 	let value = parseInt(numberDiv.textContent, 10);
-	console.log("value:" + JSON.stringify(value));
 	const min = parseInt(arrow.dataset.min, 10);
 	const max = parseInt(arrow.dataset.max, 10);
 
@@ -318,12 +340,15 @@ function changeQuantity(e) {
 
 function runEventListeners() {
 	document.getElementById("button").addEventListener("click", () => submitOrder());
-	
+	document.querySelectorAll('.flavor').forEach(el => {
+		el.addEventListener('click', (e) => process(e));
+	});
+
 	document.querySelectorAll(".up, .down").forEach(arrow => {
 		arrow.addEventListener("click", changeQuantity);
 	});
 
 }
 
-runEventListeners();
+
 

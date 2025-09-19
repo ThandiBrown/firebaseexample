@@ -5,13 +5,14 @@ import { getDatabase, set, ref, get, child, update, remove }
 let folderName = "kombucha"
 const db = getDatabase();
 
-function writeDB(subfolder, value) {
+function writeDB(subfolder, value, method) {
     console.log("write");
     console.log(folderName + subfolder);
     let divider = "/";
     set(ref(db, folderName + divider + subfolder), value)
         .then(() => {
-            // alert("data stored successfully");
+            // console.log(typeof(method));
+            method();
         })
         .catch((error) => {
             alert('unsuccessful, error ' + error);
