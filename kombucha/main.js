@@ -19,7 +19,7 @@ let fullInventory = {
 let inventory = fullInventory;
 let readyNow = {};
 let priority = [
-	"mango", "guava", "guava ras", "orange guava", "pineapple", "pineapple ras",
+	"mango", "guava", "guava ras", "orange guava", "pineapple", "pineapple ras", "peach",
 	"tart cherry"
 ];
 
