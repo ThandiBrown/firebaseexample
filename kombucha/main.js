@@ -198,7 +198,6 @@ function submitOrder() {
 
 	let message = formMessage(order, orderRn);
 	confirmOrder(message, order, orderRn);
-	// refresh the page
 }
 
 function returnOrder(orderRn) {
@@ -286,14 +285,36 @@ function customConfirm(message) {
 	});
 }
 
+function customRefresh() {
+	return new Promise((resolve) => {
+		const overlay = document.getElementById("refresh");
+
+		overlay.style.display = "flex";
+
+		const yes = document.getElementById("refresh-yes");
+
+		function cleanup(result) {
+			overlay.style.display = "none";
+			yes.removeEventListener("click", yesHandler);
+			location.reload(true);
+		}
+
+		function yesHandler() { cleanup(true); }
+
+		yes.addEventListener("click", yesHandler);
+	});
+}
+
 
 function sendMessage(message) {
 	if (true) {
+		customRefresh();
 		const url = `sms:7067508106?&body=${encodeURIComponent(message)}`;
 		window.location.href = url;
 	} else {
+		customRefresh();
 		console.log("Sending Message...");
-		location.reload(true);
+		// location.reload(true);
 
 	}
 }
