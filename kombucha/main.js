@@ -234,7 +234,7 @@ function formMessage(order, orderRn) {
 	if (orderString.trim() && orderRnString.trim()) {
 		message += `Ready Now Order\n` + orderRnString;
 		message += "\n\n";
-		message += `Next Order\n` + orderString;
+		message += `Next Kombucha Order\n` + orderString;
 	} else if (orderString.trim()) {
 		message += `Next Order\n` + orderString;
 	}
