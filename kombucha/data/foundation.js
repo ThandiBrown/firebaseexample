@@ -42,7 +42,7 @@ async function initializeFirebase() {
 						await signInWithEmailAndPassword(
 							auth,
 							"tifemon954@bitfami.com",
-							userInput
+							userInput.toLowerCase()
 						);
 						console.log("Sign-in successful");
 						// loadingSettings();   // ✅ also run here
