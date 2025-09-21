@@ -289,7 +289,7 @@ function customConfirm(message) {
 
 function sendMessage(message) {
 	if (true) {
-		const url = `sms:$+17067508106?&body=${encodeURIComponent(message)}`;
+		const url = `sms:7067508106?&body=${encodeURIComponent(message)}`;
 		window.location.href = url;
 	} else {
 		console.log("Sending Message...");
