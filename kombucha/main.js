@@ -10,16 +10,16 @@ let fullInventory = {
 	"pineapple ras": 12,
 	"spicy pineapple": 0,
 	"tart cherry": 0,
-	"peach": 6,
-	"peach basil": 0,
+	// "peach": 6,
+	// "peach basil": 0,
 	"apple": 0,
 	"pear": 24,
-	"passionfruit": 3,
+	// "passionfruit": 3,
 };
 let inventory = fullInventory;
 let readyNow = {};
 let priority = [
-	"mango", "guava", "guava ras", "orange guava", "pineapple", "tart cherry", "pineapple ras", "peach",
+	"mango", "guava", "guava ras", "pineapple", "orange guava",  "tart cherry", 
 	
 ];
 
