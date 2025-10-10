@@ -26,7 +26,7 @@ let priority = [
 
 function loadingSettings() {
 
-	if (false) {
+	if (true) {
 		readDB("", loadingPage);
 	} else if (false) {
 		loadingPage([{
