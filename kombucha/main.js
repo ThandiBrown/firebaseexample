@@ -2,24 +2,23 @@ import { readDB, writeDB } from './data/talkToDatabase.js'
 
 
 let fullInventory = {
-	"mango": 6,
-	"guava": 6,
-	"guava ras": 3,
+	"mango": 0,
+	"guava": 0,
+	"guava ras": 0,
 	"orange guava": 24,
-	"pineapple": 6,
-	"pineapple ras": 12,
+	"pineapple basil": 6,
 	"spicy pineapple": 0,
-	"tart cherry": 0,
+	"tart cherry": 12,
 	// "peach": 6,
 	// "peach basil": 0,
 	"apple": 0,
-	"pear": 24,
+	"pear": 0,
 	// "passionfruit": 3,
 };
 let inventory = fullInventory;
 let readyNow = {};
 let priority = [
-	"mango", "guava", "guava ras", "pineapple", "orange guava",  "tart cherry", 
+	"mango", "guava", "guava ras", "pineapple basil", "orange guava",  "tart cherry", 
 	
 ];
 
@@ -27,7 +26,7 @@ let priority = [
 
 function loadingSettings() {
 
-	if (true) {
+	if (false) {
 		readDB("", loadingPage);
 	} else if (false) {
 		loadingPage([{
