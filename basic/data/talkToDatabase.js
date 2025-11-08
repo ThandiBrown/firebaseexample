@@ -2,7 +2,7 @@
 import { getDatabase, set, ref, get, child, update, remove }
     from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"
 
-let folderName = "kombucha"
+let folderName = "bookclub"
 const db = getDatabase();
 
 function writeDB(subfolder, value) {

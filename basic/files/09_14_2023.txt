@@ -1,0 +1,1 @@
+{"date":"09/14/2023","weekday":"Thursday","exercisesCompleted":["straight_leg_raise","glute_bridges","single_leg_glute_bridges","chest_stretches"]}

@@ -1,0 +1,1 @@
+{"date":"09/16/2023","weekday":"Saturday","exercisesCompleted":["banded_joint_isolation","dynamic_arm_movement","itwys","extensors","finger_bands"]}

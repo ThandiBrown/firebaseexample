@@ -26,6 +26,7 @@ async function initializeFirebase() {
 	const app = initializeApp(firebaseConfig);
 	const auth = getAuth(app);
 
+	console.log(5);
 	// Set persistence to browser local storage
 	await setPersistence(auth, browserLocalPersistence)
 		.then(() => {

@@ -543,51 +543,155 @@ so to treat it like a max heap, you have to negate all the values
 """
 },
 
-'0':{
+'13':{
 'tag':
 [''],
 'title':
 """ 
-
+K Closest Points to Origin
 """,
 'hint':
 """ 
-
+heap
 """,
 'note':
 """ 
+***You can approach this by sorting by distance***:
+points.sort(key=lambda p: p[0]**2 + p[1]**2)
+lambda is an anonymous function
+what this is saying is for "p" in points, sort by "p[0]**2 + p[1]**2"
+
+EQUIVALENT --
+def distance_squared(p):
+    return p[0]**2 + p[1]**2
+
+points.sort(key=distance_squared)
+
+square = lambda x: x ** 2
+print(square(4))  # 16
+
+--- lambda is just a shortcut when you don’t want to define a full function.
+
+numbers = [10, 2, 33, 4]
+numbers.sort()  
+print(numbers)  # [2, 4, 10, 33]  # Sorted by the numbers themselves
+
+words = ["apple", "banana", "fig", "kiwi"]
+words.sort(key=len)  # Uses the length of each word to sort
+print(words)  # ['fig', 'kiwi', 'apple', 'banana']
+
+--- reverse sorting
+# Sort from largest distance to smallest
+points.sort(key=lambda p: p[0]**2 + p[1]**2, reverse=True)
+
+points.sort(key=lambda p: -(p[0]**2 + p[1]**2))
+
+*** n * O(logn) for sorting
+
+*** but we can get it to k * O(logn) using heaps
+to make a heap in Python you just make a list and call heapq.heapify(array)
+--- this is O(n)
+to continuously get the topmost of the heap (the minimum) call heapq.heappop(array)
+--- this is O(logn)
+
+*** the overall solution will be k * O(logn) be because we call heappop() k times
 
 """,
 'problem': 
 """
-
+<a href="https://leetcode.com/problems/k-closest-points-to-origin/description/" target="_blank">Problem</a>
+<a href="https://neetcode.io/problems/k-closest-points-to-origin" target="_blank">Solution</a>
 """,
 "code":
 """ 
 
 """
 },
-'0':{
+
+'14':{
 'tag':
 [''],
 'title':
 """ 
-
+Kth Largest Element in an Array
 """,
 'hint':
 """ 
-
+Quick Select
 """,
 'note':
 """ 
-
+the simple answer is to just sort and grab the index but we can find a better average time complexity using quick select
+pick the pivot as your last element
+evaluate all of your elements before the pivot, organizing them so that every value less than or equal to the pivot is all to the left
+after that you will swap your pivot with the first value that is greater than it ( your pointer should be naturally pointing at this value)
+at this point whatever spot your pivot is at, you have found the kth largest value of the array
+if you are looking for a kth spot that is lower, use your pointers so that you only look to the left half of the array (partitioning)
+only look to the right of the pivot if you're looking for a kth spot that's larger
+whenever your pivot is equal to the spot that you're looking for, you have found what you're looking for
 """,
 'problem': 
 """
-
+<a href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank">Problem</a>
+<a href="https://neetcode.io/problems/kth-largest-element-in-an-array" target="_blank">Solution</a>
 """,
 "code":
 """ 
+def findKthLargest(nums, kth_position):
+	target_idx = len(nums) - kth_position
+	
+	def quickSelect(start_idx, pivot_idx):
+		'''
+		(1) Order the pivot so that everything to the left is less than and everything to the right is greater than
+		(2) See if the location of the pivot is thhe location that were looking for
+		(3) if not, partition to the left or the right depending on whether we're looking for a smaller or larger location
+		'''
+		pivot_idx = pivot_idx
+		pivot_num = nums[pivot_idx]
+		split_idx = start_idx
+		
+		# move all values less than the pivot to the left of the split
+		for curr in range(start_idx, pivot_idx):
+			curr = curr
+			# don't move the split forward if you see a value greater than pivot
+			if nums[curr] <= pivot_num:
+				# split is stuck at a greater number
+				if curr != split_idx:
+					temporary = nums[split_idx]
+					nums[split_idx] = nums[curr]
+					nums[curr] = temporary
+				split_idx += 1
+		
+		# Place the pivot at the split
+		temporary = nums[split_idx]
+		nums[split_idx] = nums[pivot_idx]
+		nums[pivot_idx] = temporary
+
+		if split_idx < target_idx: 
+			return quickSelect(split_idx + 1, pivot_idx)
+		elif split_idx > target_idx: 
+			return quickSelect(start_idx, split_idx - 1)
+		else:
+			return nums[split_idx]
+
+	return quickSelect(0, len(nums) - 1)
+
+'''
+test_cases = [
+    ([3, 2, 1, 5, 6, 4], 2, 5),
+    ([2, 3, 1, 1, 5, 5, 4], 3, 4),
+    ([10], 1, 10),
+    ([7, 7, 7, 7, 7], 4, 7),
+    ([-1, 2, 0, 3, -5, 2], 2, 2),
+    ([9, 1, 2, 3, 4], 1, 9),
+    ([4, 3, 2, 1], 4, 1)
+]
+'''
+test_cases = ([1, 2, 3, 4, 12, 13, 14, 5, 15, 6, 10], 7, 2)
+
+nums = test_cases[0]
+target_idx = test_cases[1]
+result = findKthLargest(nums.copy(), target_idx)
 
 """
 },
