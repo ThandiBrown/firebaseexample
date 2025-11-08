@@ -2,31 +2,30 @@ import { readDB, writeDB } from './data/talkToDatabase.js'
 
 
 let fullInventory = {
-	"mango": 36,
-	"guava": 12,
-	"guava ras": 0,
-	"orange guava": 24,
-	"pineapple": 12,
-	"spicy pineapple": 0,
-	"tart cherry": 12,
+	"mango": 24,
+	"guava": 5,
+	// "guava ras": 0,
+	"orange guava": 15,
+	// "pineapple basil": 0,
+	// "spicy pineapple": 0,
+	// "tart cherry": 0,
 	// "peach": 6,
 	// "peach basil": 0,
-	"apple": 0,
-	"pear": 0,
-	// "passionfruit": 3,
+	// "apple": 0,
+	"pear": 12
 };
 let inventory = fullInventory;
 let readyNow = {};
 let priority = [
-	"mango", "guava", "orange guava", "guava ras", "pineapple",  "tart cherry", 
-	
+	"mango", "guava", "orange guava", "pear"
+
 ];
 
 
 
 function loadingSettings() {
 
-	if (false) {
+	if (true) {
 		readDB("", loadingPage);
 	} else if (false) {
 		loadingPage([{
@@ -66,7 +65,7 @@ function loadingPage(response) {
 
 		quantities += `<div class="quantity">${quantity}</div>`;
 
-		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected" i>${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
+		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
 
 		selectedQuantities += `
 			<div class="input" id="${flavor}-quantity">
@@ -114,7 +113,7 @@ function loadingPage(response) {
             </div>
         </div>
 		<div class="box">
-            <div class="box-title">Build Order</div>
+            <div class="box-title">Build Order<span id="quantity-warning" style="color: red;display: none;">&nbsp;&nbsp;&nbsp;Please only select up to 3 unique flavors</span></div>
             <div class="box-container">
                 <div class="flavor-column">
                     <div class="title">Flavor</div>
@@ -150,6 +149,7 @@ function loadingPage(response) {
 }
 
 function getTopInventory(inventory, priority, count = 3) {
+	return inventory;
 	let result = {};
 	let added = 0;
 
@@ -165,6 +165,10 @@ function getTopInventory(inventory, priority, count = 3) {
 }
 
 function process(e) {
+	if (countFlexFlavors() >= 3 && e.target.style.backgroundColor != "rgb(116, 189, 213)") {
+		toggleDisplay("quantity-warning");
+		return;
+	}
 	toggleDisplay(e.target.id + "-selected");
 	toggleDisplay(e.target.id + "-quantity");
 	toggleBackgroundColor(e.target, "lightblue", "rgb(116, 189, 213)");
@@ -357,6 +361,20 @@ function changeQuantity(e) {
 	}
 }
 
+function countFlexFlavors() {
+	const elements = document.querySelectorAll('.flavor-selected');
+	let count = 0;
+
+	elements.forEach(el => {
+		const display = window.getComputedStyle(el).display;
+		if (display === 'flex') {
+			count++;
+		}
+	});
+
+	return count;
+}
+
 
 function runEventListeners() {
 	document.getElementById("button").addEventListener("click", () => submitOrder());
@@ -371,6 +389,6 @@ function runEventListeners() {
 }
 
 export {
-    loadingSettings
+	loadingSettings
 }
 
