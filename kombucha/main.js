@@ -5,8 +5,8 @@ let fullInventory = {
 	"mango": 24,
 	"guava": 5,
 	// "guava ras": 0,
-	"orange guava": 15,
-	// "pineapple basil": 0,
+	"orange guava": 10,
+	"pineapple": 10,
 	// "spicy pineapple": 0,
 	// "tart cherry": 0,
 	// "peach": 6,
@@ -17,7 +17,7 @@ let fullInventory = {
 let inventory = fullInventory;
 let readyNow = {};
 let priority = [
-	"mango", "guava", "orange guava", "pear"
+	"mango", "guava", "orange guava", "pear", "pineapple"
 
 ];
 
@@ -328,6 +328,9 @@ function updateInventory(inventory, order) {
 
 	for (let item in order) {
 		let normalizedItem = item.toLowerCase(); // normalize casing
+		if (["pineapple", "orange guava"].includes(normalizedItem)) {
+			continue;
+		}
 		let quantitySold = parseInt(order[item], 10); // ensure number
 
 		if (updatedInventory.hasOwnProperty(normalizedItem)) {
