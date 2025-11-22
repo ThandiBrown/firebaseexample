@@ -2,12 +2,12 @@ import { readDB, writeDB } from './data/talkToDatabase.js'
 
 
 let fullInventory = {
-	"mango": 24,
-	"guava": 5,
+	"mango": 12,
+	"guava": 2,
 	// "guava ras": 0,
 	"orange guava": 10,
 	"pineapple": 10,
-	// "spicy pineapple": 0,
+	"ginger": 6,
 	// "tart cherry": 0,
 	// "peach": 6,
 	// "peach basil": 0,
@@ -16,12 +16,6 @@ let fullInventory = {
 };
 let inventory = fullInventory;
 let readyNow = {};
-let priority = [
-	"mango", "guava", "orange guava", "pear", "pineapple"
-
-];
-
-
 
 function loadingSettings() {
 
@@ -48,7 +42,7 @@ function loadingPage(response) {
 
 	let storage = response[0];
 	fullInventory = storage["inventory"];
-	inventory = getTopInventory(fullInventory, priority) || {};
+	inventory = fullInventory || {};
 	// inventory = storage["inventory"] || {};
 	readyNow = storage["readyNow"] || {};
 
@@ -146,22 +140,6 @@ function loadingPage(response) {
 
 
 	runEventListeners();
-}
-
-function getTopInventory(inventory, priority, count = 3) {
-	return inventory;
-	let result = {};
-	let added = 0;
-
-	for (let item of priority) {
-		if (inventory[item] && inventory[item] > 0) {
-			result[item] = inventory[item];
-			added++;
-			if (added === count) break;
-		}
-	}
-
-	return result;
 }
 
 function process(e) {
