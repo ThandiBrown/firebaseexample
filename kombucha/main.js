@@ -2,18 +2,18 @@ import { readDB, writeDB } from './data/talkToDatabase.js'
 
 
 let fullInventory = {
-	"mango": 12,
 	"guava": 2,
-	// "guava ras": 0,
-	"orange guava": 10,
-	"pineapple": 10,
-	"ginger": 6,
-	// "tart cherry": 0,
-	// "peach": 6,
-	// "peach basil": 0,
-	// "apple": 0,
-	"pear": 12
+	"lemon verbena": 12,
+	"mango": 12,
+	"orange guava": 1,
+	"pear": 1,
+	"pineapple": 3,
+	// "tropic guava": 0,
+	"watermelon": 10,
+	"spearmint": 10
+	// "*Temporarily Closed*": 0
 };
+
 let inventory = fullInventory;
 let readyNow = {};
 
@@ -107,7 +107,7 @@ function loadingPage(response) {
             </div>
         </div>
 		<div class="box">
-            <div class="box-title">Build Order<span id="quantity-warning" style="color: red;display: none;">&nbsp;&nbsp;&nbsp;Please only select up to 3 unique flavors</span></div>
+            <div class="box-title">Build Order<span id="quantity-warning" style="color: red;display: none;">&nbsp;&nbsp;&nbsp;Please only select up to 6 unique flavors</span></div>
             <div class="box-container">
                 <div class="flavor-column">
                     <div class="title">Flavor</div>
@@ -143,7 +143,7 @@ function loadingPage(response) {
 }
 
 function process(e) {
-	if (countFlexFlavors() >= 3 && e.target.style.backgroundColor != "rgb(116, 189, 213)") {
+	if (countFlexFlavors() >= 6 && e.target.style.backgroundColor != "rgb(116, 189, 213)") {
 		toggleDisplay("quantity-warning");
 		return;
 	}
