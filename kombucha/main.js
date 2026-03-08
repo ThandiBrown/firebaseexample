@@ -1,14 +1,9 @@
 import { readDB, writeDB } from './data/talkToDatabase.js'
 
 
-let fullInventory = {
-	"lemon verbena": 10,
-	"lemon verbena lavender": 10,
+let fruitSeries = {
 	"orange guava": 10,
 	"pineapple": 10,
-	"chamomile lavender": 10,
-	"spearmint": 10,
-	"tumeric ginger": 10,
 
 	// "guava": 0,
 	"mango": 2,
@@ -20,14 +15,38 @@ let fullInventory = {
 	// "*Temporarily Closed*": 0
 };
 
+let teaSeries = {
+	"lemon verbena": 10,
+	"lemon verbena lavender": 10,
+	"chamomile lavender": 10,
+	"chamomile lavender 2x": 10,
+	"spearmint": 10,
+	"tumeric ginger": 10
+};
+
+let descriptions = {
+	// "lemon verbena": "Bright and citrusy herbal tea",
+	// "lemon verbena lavender": "Floral blend with calming lavender",
+	// "orange guava": "Tropical sweet citrus",
+	// "pineapple": "Tropical pineapple burst",
+	// "mango": "Smooth mango flavor",
+	"watermelon": "Quantity of 1 recommended for first time",
+	"chamomile lavender": "Greater emphasis on the chamomile flavor",
+	"chamomile lavender 2x": "Greater balance of the two flavors",
+	"spearmint": "Quantity of 1 recommended for first time"
+	// "tumeric ginger": "Spicy anti-inflammatory blend"
+};
+
+let fullInventory = {...fruitSeries, ...teaSeries};
+
 let inventory = fullInventory;
 let readyNow = {};
 
 function loadingSettings() {
 
-	if (false) {
+	if (true) {
 		readDB("", loadingPage);
-	} else if (false) {
+	} else if (true) {
 		loadingPage([{
 			"inventory": fullInventory,
 			"readyNow": readyNow
@@ -52,94 +71,144 @@ function loadingPage(response) {
 	// inventory = storage["inventory"] || {};
 	readyNow = storage["readyNow"] || {};
 
-	let flavors = "";
-	let quantities = "";
-	let flavorsRN = "";
-	let quantitiesRN = "";
-	let selectedFlavors = "";
-	let selectedQuantities = "";
-	let selectedFlavorsRN = "";
-	let selectedQuantitiesRN = "";
+	let fruitItems = "";
+	let fruitSelectedItems = "";
+	let teaItems = "";
+	let teaSelectedItems = "";
+	let readyItems = "";
+	let readySelectedItems = "";
 	for (let [flavor, quantity] of Object.entries(inventory)) {
-		flavors += `<div class="flavor" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
-
-		quantities += `<div class="quantity">${quantity}</div>`;
-
-		selectedFlavors += `<div class="flavor-selected" id="${flavor}-selected">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
-
-		selectedQuantities += `
-			<div class="input" id="${flavor}-quantity">
-				<div class="number quantity-selected">1</div>
-				<div class="arrows">
-					<div class="up" data-min="1" data-max="${quantity}"></div>
-					<div class="down" data-min="1" data-max="${quantity}"></div>
+		// separate tea series flavors
+		if (flavor in teaSeries) {
+			teaItems += `<div class="item-row">
+				<div class="flavor-item-wrapper">
+					<div class="flavor" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+					<div style="font-size: 0.85em; color: #666;">${descriptions[flavor] || ""}</div>
 				</div>
-        	</div>
-		`;
+				<div class="quantity-item-wrapper">
+					<div class="quantity">${quantity}</div>
+				</div>
+			</div>`;
+			teaSelectedItems += `<div class="item-row selected-row" id="${flavor}-selected-row">
+				<div class="flavor-item-wrapper">
+					<div class="flavor-selected" id="${flavor}-selected">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+				</div>
+				<div class="quantity-item-wrapper">
+					<div class="input" id="${flavor}-quantity">
+						<div class="number quantity-selected">1</div>
+						<div class="arrows">
+							<div class="up" data-min="1" data-max="${quantity}"></div>
+							<div class="down" data-min="1" data-max="${quantity}"></div>
+						</div>
+					</div>
+				</div>
+			</div>`;
+			continue;
+		}
+
+		fruitItems += `<div class="item-row">
+			<div class="flavor-item-wrapper">
+				<div class="flavor" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+				<div style="font-size: 0.85em; color: #666;">${descriptions[flavor] || ""}</div>
+			</div>
+			<div class="quantity-item-wrapper">
+				<div class="quantity">${quantity}</div>
+			</div>
+		</div>`;
+
+		fruitSelectedItems += `<div class="item-row selected-row" id="${flavor}-selected-row">
+			<div class="flavor-item-wrapper">
+				<div class="flavor-selected" id="${flavor}-selected">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+			</div>
+			<div class="quantity-item-wrapper">
+				<div class="input" id="${flavor}-quantity">
+					<div class="number quantity-selected">1</div>
+					<div class="arrows">
+						<div class="up" data-min="1" data-max="${quantity}"></div>
+						<div class="down" data-min="1" data-max="${quantity}"></div>
+					</div>
+				</div>
+			</div>
+		</div>`;
 	}
 	for (let [flavor, quantity] of Object.entries(readyNow)) {
-		flavorsRN += `<div class="flavor" id="${flavor}-rn">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
+		readyItems += `<div class="item-row">
+			<div class="flavor-item-wrapper">
+				<div class="flavor" id="${flavor}-rn">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+			</div>
+			<div class="quantity-item-wrapper">
+				<div class="quantity">${quantity}</div>
+			</div>
+		</div>`;
 
-		quantitiesRN += `<div class="quantity">${quantity}</div>`;
-
-		selectedFlavorsRN += `<div class="flavor-selected-rn" id="${flavor}-rn-selected" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>`;
-
-		selectedQuantitiesRN += `
-			<div class="input" id="${flavor}-rn-quantity">
-				<div class="number quantity-selected-rn">1</div>
-				<div class="arrows">
-					<div class="up" data-min="1" data-max="${quantity}"></div>
-					<div class="down" data-min="1" data-max="${quantity}"></div>
+		readySelectedItems += `<div class="item-row selected-row" id="${flavor}-rn-selected-row">
+			<div class="flavor-item-wrapper">
+				<div class="flavor-selected-rn" id="${flavor}-rn-selected" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>
+			</div>
+			<div class="quantity-item-wrapper">
+				<div class="input" id="${flavor}-rn-quantity">
+					<div class="number quantity-selected-rn">1</div>
+					<div class="arrows">
+						<div class="up" data-min="1" data-max="${quantity}"></div>
+						<div class="down" data-min="1" data-max="${quantity}"></div>
+					</div>
 				</div>
-        	</div>
-		`;
+			</div>
+		</div>`;
 	}
 
 	let page = document.getElementsByClassName("page")[0];
-	page.innerHTML = `
-		<h2>Homepage</h2>
+
+	// only render "Ready Now" box if there's at least one item
+	let readySection = "";
+	if (readyItems) {
+		readySection = `
 		<div class="box">
             <div class="box-title">Ready Now</div>
-            <div class="box-container">
-                <div class="flavor-column">
-                    <div class="title">Flavor</div>
-                    ${flavorsRN}
-                </div>
-                <div class="availability-column">
-                    <div class="title">Availability</div>
-                    ${quantitiesRN}
-                </div>
-                    
+            <div class="items-container">
+				<div class="item-row header-row">
+					<div class="flavor-item-wrapper"><div class="title">Flavor</div></div>
+					<div class="quantity-item-wrapper"><div class="title">Availability</div></div>
+				</div>
+                ${readyItems}
+            </div>
+        </div>`;
+	}
+
+	page.innerHTML = `
+		<h2>Homepage</h2>
+		${readySection}
+		<div class="box">
+            <div class="box-title">Fruit Series<span id="quantity-warning" style="color: red;display: none;">&nbsp;&nbsp;&nbsp;Please only select up to 6 unique flavors</span></div>
+            <div class="items-container">
+				<div class="item-row header-row">
+					<div class="flavor-item-wrapper"><div class="title">Flavor</div></div>
+					<div class="quantity-item-wrapper"><div class="title">Availability</div></div>
+				</div>
+                ${fruitItems}
             </div>
         </div>
 		<div class="box">
-            <div class="box-title">Build Order<span id="quantity-warning" style="color: red;display: none;">&nbsp;&nbsp;&nbsp;Please only select up to 6 unique flavors</span></div>
-            <div class="box-container">
-                <div class="flavor-column">
-                    <div class="title">Flavor</div>
-                    ${flavors}
-                </div>
-                <div class="availability-column">
-                    <div class="title">Availability</div>
-                    ${quantities}
-                </div>
-                    
+            <div class="box-title">Tea Series</div>
+            <div class="items-container">
+				<div class="item-row header-row">
+					<div class="flavor-item-wrapper"><div class="title">Flavor</div></div>
+					<div class="quantity-item-wrapper"><div class="title">Availability</div></div>
+				</div>
+                ${teaItems}
             </div>
         </div>
 		<div class="box">
             <div class="box-title">Selected</div>
-            <div class="box-container">
-                <div class="flavor-column">
-                    <div class="title">Flavor</div>
-                    ${selectedFlavors}
-					${selectedFlavorsRN}
-                </div>
-                <div class="availability-column">
-                    <div class="title">Amount</div>
-                    ${selectedQuantities}
-					${selectedQuantitiesRN}
-                </div>
-                    
+            <div class="items-container">
+				<div class="item-row header-row">
+					<div class="flavor-item-wrapper"><div class="title">Flavor</div></div>
+					<div class="quantity-item-wrapper"><div class="title">Amount</div></div>
+				</div>
+                ${fruitSelectedItems}
+				${teaSelectedItems}
+				${readySelectedItems}
+            </div>
             </div>
         </div>
 	` + page.innerHTML;
@@ -153,8 +222,13 @@ function process(e) {
 		toggleDisplay("quantity-warning");
 		return;
 	}
-	toggleDisplay(e.target.id + "-selected");
-	toggleDisplay(e.target.id + "-quantity");
+	let selectedId = e.target.id + "-selected-row";
+	if (e.target.id.endsWith("-rn")) {
+		selectedId = e.target.id + "-selected-row";
+	} else {
+		selectedId = e.target.id + "-selected-row";
+	}
+	toggleDisplay(selectedId);
 	toggleBackgroundColor(e.target, "lightblue", "rgb(116, 189, 213)");
 }
 
@@ -201,8 +275,8 @@ function returnOrder(orderRn) {
 
 
 	flavors.forEach((flavor, index) => {
-		const style = window.getComputedStyle(flavor);
-		if (style.display === "flex") {
+		const row = flavor.closest('.selected-row');
+		if (row && window.getComputedStyle(row).display === 'flex') {
 			const quantityInput = quantities[index];
 			const quantity = quantityInput.innerText || quantityInput.placeholder || "0";
 			result[flavor.textContent.trim()] = quantity;
@@ -357,7 +431,7 @@ function changeQuantity(e) {
 }
 
 function countFlexFlavors() {
-	const elements = document.querySelectorAll('.flavor-selected');
+	const elements = document.querySelectorAll('.selected-row');
 	let count = 0;
 
 	elements.forEach(el => {
