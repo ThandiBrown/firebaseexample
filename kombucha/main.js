@@ -2,15 +2,21 @@ import { readDB, writeDB } from './data/talkToDatabase.js'
 
 
 let fullInventory = {
-	"guava": 2,
-	"lemon verbena": 12,
-	"mango": 12,
-	"orange guava": 1,
-	"pear": 1,
-	"pineapple": 3,
-	// "tropic guava": 0,
+	"lemon verbena": 10,
+	"lemon verbena lavender": 10,
+	"orange guava": 10,
+	"pineapple": 10,
+	"chamomile lavender": 10,
+	"spearmint": 10,
+	"tumeric ginger": 10,
+
+	// "guava": 0,
+	"mango": 2,
 	"watermelon": 10,
-	"spearmint": 10
+
+	// "pear": 1,
+	// "tropic guava": 0,	
+	// "ginger tea": 10,
 	// "*Temporarily Closed*": 0
 };
 
@@ -19,7 +25,7 @@ let readyNow = {};
 
 function loadingSettings() {
 
-	if (true) {
+	if (false) {
 		readDB("", loadingPage);
 	} else if (false) {
 		loadingPage([{
@@ -306,7 +312,15 @@ function updateInventory(inventory, order) {
 
 	for (let item in order) {
 		let normalizedItem = item.toLowerCase(); // normalize casing
-		if (["pineapple", "orange guava"].includes(normalizedItem)) {
+		if ([
+			"pineapple",
+			"orange guava",
+			"lemon verbena",
+			"lemon verbena lavender",
+			"chamomile lavender",
+			"spearmint",
+			"tumeric ginger"
+		].includes(normalizedItem)) {
 			continue;
 		}
 		let quantitySold = parseInt(order[item], 10); // ensure number
