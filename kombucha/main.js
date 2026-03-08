@@ -24,16 +24,18 @@ let teaSeries = {
 	"tumeric ginger": 10
 };
 
+let workshop = ["Hibiscus", "Ginger"];
+
 let descriptions = {
 	// "lemon verbena": "Bright and citrusy herbal tea",
 	// "lemon verbena lavender": "Floral blend with calming lavender",
 	// "orange guava": "Tropical sweet citrus",
 	// "pineapple": "Tropical pineapple burst",
 	// "mango": "Smooth mango flavor",
-	"watermelon": "Quantity of 1 recommended for first time",
+	"watermelon": "Unique: quantity of 1 recommended for first time",
 	"chamomile lavender": "Greater emphasis on the chamomile flavor",
 	"chamomile lavender 2x": "Greater balance of the two flavors",
-	"spearmint": "Quantity of 1 recommended for first time"
+	"spearmint": "Unique: quantity of 1 recommended for first time"
 	// "tumeric ginger": "Spicy anti-inflammatory blend"
 };
 
@@ -82,7 +84,7 @@ function loadingPage(response) {
 		if (flavor in teaSeries) {
 			teaItems += `<div class="item-row">
 				<div class="flavor-item-wrapper">
-					<div class="flavor" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+					<div class="flavor selectable" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
 					<div style="font-size: 0.85em; color: #666;">${descriptions[flavor] || ""}</div>
 				</div>
 				<div class="quantity-item-wrapper">
@@ -108,7 +110,7 @@ function loadingPage(response) {
 
 		fruitItems += `<div class="item-row">
 			<div class="flavor-item-wrapper">
-				<div class="flavor" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+				<div class="flavor selectable" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
 				<div style="font-size: 0.85em; color: #666;">${descriptions[flavor] || ""}</div>
 			</div>
 			<div class="quantity-item-wrapper">
@@ -134,7 +136,7 @@ function loadingPage(response) {
 	for (let [flavor, quantity] of Object.entries(readyNow)) {
 		readyItems += `<div class="item-row">
 			<div class="flavor-item-wrapper">
-				<div class="flavor" id="${flavor}-rn">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+				<div class="flavor selectable" id="${flavor}-rn">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
 			</div>
 			<div class="quantity-item-wrapper">
 				<div class="quantity">${quantity}</div>
@@ -155,6 +157,11 @@ function loadingPage(response) {
 				</div>
 			</div>
 		</div>`;
+	}
+
+	let workshopItems = "";
+	for (let flavor of workshop) {
+		workshopItems += `<div class="flavor workshop-flavor">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>`;
 	}
 
 	let page = document.getElementsByClassName("page")[0];
@@ -196,6 +203,12 @@ function loadingPage(response) {
 					<div class="quantity-item-wrapper"><div class="title">Availability</div></div>
 				</div>
                 ${teaItems}
+            </div>
+        </div>
+		<div class="box workshop-box">
+            <div class="box-title">Flavors in the Workshop</div>
+            <div class="items-container workshop-container">
+                ${workshopItems}
             </div>
         </div>
 		<div class="box">
@@ -447,7 +460,7 @@ function countFlexFlavors() {
 
 function runEventListeners() {
 	document.getElementById("button").addEventListener("click", () => submitOrder());
-	document.querySelectorAll('.flavor').forEach(el => {
+	document.querySelectorAll('.selectable').forEach(el => {
 		el.addEventListener('click', (e) => process(e));
 	});
 
