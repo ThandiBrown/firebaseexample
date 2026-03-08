@@ -82,7 +82,36 @@ function loadingPage(response) {
 	for (let [flavor, quantity] of Object.entries(inventory)) {
 		// separate tea series flavors
 		if (flavor in teaSeries) {
-			teaItems += `<div class="item-row">
+			if (quantity > 0) {
+				teaItems += `<div class="item-row">
+					<div class="flavor-item-wrapper">
+						<div class="flavor selectable" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+						<div style="font-size: 0.85em; color: #666;">${descriptions[flavor] || ""}</div>
+					</div>
+					<div class="quantity-item-wrapper">
+						<div class="quantity">${quantity}</div>
+					</div>
+				</div>`;
+				teaSelectedItems += `<div class="item-row selected-row" id="${flavor}-selected-row">
+					<div class="flavor-item-wrapper">
+						<div class="flavor-selected" id="${flavor}-selected">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+					</div>
+					<div class="quantity-item-wrapper">
+						<div class="input" id="${flavor}-quantity">
+							<div class="number quantity-selected">1</div>
+							<div class="arrows">
+								<div class="up" data-min="1" data-max="${quantity}"></div>
+								<div class="down" data-min="1" data-max="${quantity}"></div>
+							</div>
+						</div>
+					</div>
+				</div>`;
+			}
+			continue;
+		}
+
+		if (quantity > 0) {
+			fruitItems += `<div class="item-row">
 				<div class="flavor-item-wrapper">
 					<div class="flavor selectable" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
 					<div style="font-size: 0.85em; color: #666;">${descriptions[flavor] || ""}</div>
@@ -91,7 +120,8 @@ function loadingPage(response) {
 					<div class="quantity">${quantity}</div>
 				</div>
 			</div>`;
-			teaSelectedItems += `<div class="item-row selected-row" id="${flavor}-selected-row">
+
+			fruitSelectedItems += `<div class="item-row selected-row" id="${flavor}-selected-row">
 				<div class="flavor-item-wrapper">
 					<div class="flavor-selected" id="${flavor}-selected">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
 				</div>
@@ -105,58 +135,34 @@ function loadingPage(response) {
 					</div>
 				</div>
 			</div>`;
-			continue;
 		}
-
-		fruitItems += `<div class="item-row">
-			<div class="flavor-item-wrapper">
-				<div class="flavor selectable" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
-				<div style="font-size: 0.85em; color: #666;">${descriptions[flavor] || ""}</div>
-			</div>
-			<div class="quantity-item-wrapper">
-				<div class="quantity">${quantity}</div>
-			</div>
-		</div>`;
-
-		fruitSelectedItems += `<div class="item-row selected-row" id="${flavor}-selected-row">
-			<div class="flavor-item-wrapper">
-				<div class="flavor-selected" id="${flavor}-selected">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
-			</div>
-			<div class="quantity-item-wrapper">
-				<div class="input" id="${flavor}-quantity">
-					<div class="number quantity-selected">1</div>
-					<div class="arrows">
-						<div class="up" data-min="1" data-max="${quantity}"></div>
-						<div class="down" data-min="1" data-max="${quantity}"></div>
-					</div>
-				</div>
-			</div>
-		</div>`;
 	}
 	for (let [flavor, quantity] of Object.entries(readyNow)) {
-		readyItems += `<div class="item-row">
-			<div class="flavor-item-wrapper">
-				<div class="flavor selectable" id="${flavor}-rn">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
-			</div>
-			<div class="quantity-item-wrapper">
-				<div class="quantity">${quantity}</div>
-			</div>
-		</div>`;
+		if (quantity > 0) {
+			readyItems += `<div class="item-row">
+				<div class="flavor-item-wrapper">
+					<div class="flavor selectable" id="${flavor}-rn">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
+				</div>
+				<div class="quantity-item-wrapper">
+					<div class="quantity">${quantity}</div>
+				</div>
+			</div>`;
 
-		readySelectedItems += `<div class="item-row selected-row" id="${flavor}-rn-selected-row">
-			<div class="flavor-item-wrapper">
-				<div class="flavor-selected-rn" id="${flavor}-rn-selected" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>
-			</div>
-			<div class="quantity-item-wrapper">
-				<div class="input" id="${flavor}-rn-quantity">
-					<div class="number quantity-selected-rn">1</div>
-					<div class="arrows">
-						<div class="up" data-min="1" data-max="${quantity}"></div>
-						<div class="down" data-min="1" data-max="${quantity}"></div>
+			readySelectedItems += `<div class="item-row selected-row" id="${flavor}-rn-selected-row">
+				<div class="flavor-item-wrapper">
+					<div class="flavor-selected-rn" id="${flavor}-rn-selected" data-name="${flavor.charAt(0).toUpperCase() + flavor.slice(1)}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)} (RN)</div>
+				</div>
+				<div class="quantity-item-wrapper">
+					<div class="input" id="${flavor}-rn-quantity">
+						<div class="number quantity-selected-rn">1</div>
+						<div class="arrows">
+							<div class="up" data-min="1" data-max="${quantity}"></div>
+							<div class="down" data-min="1" data-max="${quantity}"></div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>`;
+			</div>`;
+		}
 	}
 
 	let workshopItems = "";
