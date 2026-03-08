@@ -66,6 +66,8 @@
 	flex-direction: column;
 	gap: 0.5rem;
 	padding-bottom: 10px;
+	padding-left: 10px;
+	
 }
 
 .item-row {
@@ -86,6 +88,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	text-align: center;
 }
 
 .quantity-item-wrapper {
