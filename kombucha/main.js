@@ -2,12 +2,12 @@ import { readDB, writeDB } from './data/talkToDatabase.js'
 
 
 let fruitSeries = {
-	"orange guava": 10,
-	"pineapple": 10,
+	"orange guava": 8,
+	// "pineapple": 10,
 
 	// "guava": 0,
-	"mango": 2,
-	"watermelon": 10,
+	// "mango": 2,
+	"watermelon": 8,
 
 	// "pear": 1,
 	// "tropic guava": 0,	
@@ -16,15 +16,32 @@ let fruitSeries = {
 };
 
 let teaSeries = {
-	"lemon verbena": 10,
-	"lemon verbena lavender": 10,
-	"chamomile lavender": 10,
-	"chamomile lavender 2x": 10,
-	"spearmint": 10,
-	"tumeric ginger": 10
+	"lemon verbena": 12,
+	"lemon verbena lavender": 0,
+	"chamomile lavender": 12,
+	"chamomile lavender 2x": 0,
+	"spearmint": 12,
+	"tumeric ginger": 12,
+	"ginseng blend": 12
 };
 
-let workshop = ["Hibiscus", "Ginger"];
+// Define flavor groups that share quantities
+let flavorGroups = {
+	"chamomile group": ["chamomile lavender", "chamomile lavender 2x"],
+	"lemon verbena group": ["lemon verbena", "lemon verbena lavender"]
+};
+
+// Create a map for quick lookup of which items share quantities
+let flavorGroupMap = {};
+for (let [group, flavors] of Object.entries(flavorGroups)) {
+	flavors.forEach((flavor, index) => {
+		if (index > 0) {
+			flavorGroupMap[flavor] = flavors[0]; // map variants to primary
+		}
+	});
+}
+
+let workshop = ["Hibiscus", "Ginger", "Pineapple"];
 
 let descriptions = {
 	// "lemon verbena": "Bright and citrusy herbal tea",
@@ -32,23 +49,23 @@ let descriptions = {
 	// "orange guava": "Tropical sweet citrus",
 	// "pineapple": "Tropical pineapple burst",
 	// "mango": "Smooth mango flavor",
-	"watermelon": "Unique: quantity of 1 recommended for first time",
+	"watermelon": "Unique. Quantity of 1 recommended for first time",
 	"chamomile lavender": "Greater emphasis on the chamomile flavor",
 	"chamomile lavender 2x": "Greater balance of the two flavors",
-	"spearmint": "Unique: quantity of 1 recommended for first time"
+	"spearmint": "Unique. Quantity of 1 recommended for first time"
 	// "tumeric ginger": "Spicy anti-inflammatory blend"
 };
 
-let fullInventory = {...fruitSeries, ...teaSeries};
+let fullInventory = { ...fruitSeries, ...teaSeries };
 
 let inventory = fullInventory;
 let readyNow = {};
 
 function loadingSettings() {
 
-	if (true) {
+	if (false) {
 		readDB("", loadingPage);
-	} else if (true) {
+	} else if (false) {
 		loadingPage([{
 			"inventory": fullInventory,
 			"readyNow": readyNow
@@ -82,14 +99,19 @@ function loadingPage(response) {
 	for (let [flavor, quantity] of Object.entries(inventory)) {
 		// separate tea series flavors
 		if (flavor in teaSeries) {
-			if (quantity > 0) {
+			// Get the display quantity (use primary flavor if this is grouped)
+			let displayQuantity = quantity;
+			if (flavorGroupMap[flavor]) {
+				displayQuantity = inventory[flavorGroupMap[flavor]] || 0;
+			}
+			if (displayQuantity > 0) {
 				teaItems += `<div class="item-row">
 					<div class="flavor-item-wrapper">
 						<div class="flavor selectable" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
 						<div style="font-size: 0.85em; color: #666;">${descriptions[flavor] || ""}</div>
 					</div>
 					<div class="quantity-item-wrapper">
-						<div class="quantity">${quantity}</div>
+						<div class="quantity">${displayQuantity}</div>
 					</div>
 				</div>`;
 				teaSelectedItems += `<div class="item-row selected-row" id="${flavor}-selected-row">
@@ -100,8 +122,8 @@ function loadingPage(response) {
 						<div class="input" id="${flavor}-quantity">
 							<div class="number quantity-selected">1</div>
 							<div class="arrows">
-								<div class="up" data-min="1" data-max="${quantity}"></div>
-								<div class="down" data-min="1" data-max="${quantity}"></div>
+								<div class="up" data-min="1" data-max="${displayQuantity}"></div>
+								<div class="down" data-min="1" data-max="${displayQuantity}"></div>
 							</div>
 						</div>
 					</div>
@@ -110,14 +132,20 @@ function loadingPage(response) {
 			continue;
 		}
 
-		if (quantity > 0) {
+		// Get the display quantity (use primary flavor if this is grouped)
+		let displayQuantity = quantity;
+		if (flavorGroupMap[flavor]) {
+			displayQuantity = inventory[flavorGroupMap[flavor]] || 0;
+		}
+
+		if (displayQuantity > 0) {
 			fruitItems += `<div class="item-row">
 				<div class="flavor-item-wrapper">
 					<div class="flavor selectable" id="${flavor}">${flavor.charAt(0).toUpperCase() + flavor.slice(1)}</div>
 					<div style="font-size: 0.85em; color: #666;">${descriptions[flavor] || ""}</div>
 				</div>
 				<div class="quantity-item-wrapper">
-					<div class="quantity">${quantity}</div>
+					<div class="quantity">${displayQuantity}</div>
 				</div>
 			</div>`;
 
@@ -129,8 +157,8 @@ function loadingPage(response) {
 					<div class="input" id="${flavor}-quantity">
 						<div class="number quantity-selected">1</div>
 						<div class="arrows">
-							<div class="up" data-min="1" data-max="${quantity}"></div>
-							<div class="down" data-min="1" data-max="${quantity}"></div>
+							<div class="up" data-min="1" data-max="${displayQuantity}"></div>
+							<div class="down" data-min="1" data-max="${displayQuantity}"></div>
 						</div>
 					</div>
 				</div>
@@ -408,9 +436,9 @@ function updateInventory(inventory, order) {
 		if ([
 			"pineapple",
 			"orange guava",
-			"lemon verbena",
-			"lemon verbena lavender",
-			"chamomile lavender",
+			// "lemon verbena",
+			// "lemon verbena lavender",
+			// "chamomile lavender",
 			"spearmint",
 			"tumeric ginger"
 		].includes(normalizedItem)) {
@@ -418,12 +446,18 @@ function updateInventory(inventory, order) {
 		}
 		let quantitySold = parseInt(order[item], 10); // ensure number
 
-		if (updatedInventory.hasOwnProperty(normalizedItem)) {
-			updatedInventory[normalizedItem] -= quantitySold;
+		// Check if this item is part of a flavor group
+		let masterFlavor = normalizedItem;
+		if (flavorGroupMap[normalizedItem]) {
+			masterFlavor = flavorGroupMap[normalizedItem];
+		}
+
+		if (updatedInventory.hasOwnProperty(masterFlavor)) {
+			updatedInventory[masterFlavor] -= quantitySold;
 
 			// prevent negative stock
-			if (updatedInventory[normalizedItem] < 0) {
-				updatedInventory[normalizedItem] = 0;
+			if (updatedInventory[masterFlavor] < 0) {
+				updatedInventory[masterFlavor] = 0;
 			}
 		}
 	}
@@ -435,12 +469,50 @@ function changeQuantity(e) {
 	const arrow = e.currentTarget;
 	const input = arrow.closest(".input");
 	const numberDiv = input.querySelector(".number");
+	const selectedRow = input.closest(".selected-row");
+	const flavorElement = selectedRow.querySelector(".flavor-selected, .flavor-selected-rn");
+
+	let flavorName = flavorElement.textContent.trim().replace(" (RN)", "").toLowerCase();
 
 	let value = parseInt(numberDiv.textContent, 10);
 	const min = parseInt(arrow.dataset.min, 10);
-	const max = parseInt(arrow.dataset.max, 10);
+	let maxAllowed = parseInt(arrow.dataset.max, 10);
 
-	if (arrow.classList.contains("up") && value < max) {
+	// Handle both primary and variant flavors in a shared group
+	const groupFlavors = Object.values(flavorGroups).find(group =>
+		group.some(groupFlavor => groupFlavor.toLowerCase() === flavorName)
+	);
+
+	if (groupFlavors) {
+		const primaryFlavor = groupFlavors[0].toLowerCase();
+		const sharedTotal = inventory[primaryFlavor] || 0;
+
+		let alreadySelectedByOthers = 0;
+		groupFlavors.forEach(groupFlavor => {
+			if (groupFlavor.toLowerCase() === flavorName) {
+				return;
+			}
+
+			// IDs can contain spaces, so prefer getElementById over CSS selectors.
+			const selectedElement =
+				document.getElementById(`${groupFlavor}-selected`) ||
+				document.getElementById(`${groupFlavor}-rn-selected`);
+
+			if (!selectedElement) {
+				return;
+			}
+
+			const groupRow = selectedElement.closest(".selected-row");
+			if (groupRow && window.getComputedStyle(groupRow).display === "flex") {
+				const groupQuantity = groupRow.querySelector(".quantity-selected, .quantity-selected-rn");
+				alreadySelectedByOthers += parseInt(groupQuantity?.textContent || "0", 10) || 0;
+			}
+		});
+
+		maxAllowed = Math.max(min, sharedTotal - alreadySelectedByOthers);
+	}
+
+	if (arrow.classList.contains("up") && value < maxAllowed) {
 		value++;
 		numberDiv.textContent = value;
 	} else if (arrow.classList.contains("down") && value > min) {
